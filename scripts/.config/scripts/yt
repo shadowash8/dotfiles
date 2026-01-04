@@ -29,7 +29,6 @@ CLI_PREVIEW_SCRIPTS_DIR="$CLI_CACHE_DIR/preview_text"
 [ -d "$CLI_PREVIEW_SCRIPTS_DIR" ] || mkdir -p "$CLI_PREVIEW_SCRIPTS_DIR"
 [ -d "$CLI_YT_DLP_ARCHIVE" ] || mkdir -p "$CLI_YT_DLP_ARCHIVE"
 [ -d "$CLI_AUTO_GEN_PLAYLISTS" ] || mkdir -p "$CLI_AUTO_GEN_PLAYLISTS"
-CLI_SUPPORT_PROJECT_URL="https://buymeacoffee.com/benexl"
 
 case "$(uname -a)" in
 *ndroid) PLATFORM="android" ;;
@@ -553,22 +552,9 @@ launcher_with_preview() {
   esac
 
 }
-init_pretty_print() {
-  if [ "$PRETTY_PRINT" = "true" ]; then
-    RED=$(tput setaf 1)
-    MAGENTA="\x1b[38;2;215;0;95m"
-    CYAN=$(tput setaf 6)
-    BOLD=$(tput bold)
-    RESET=$(tput sgr0)
-  fi
-}
 
 welcome() {
-  printf "${CYAN}How are you ${USERNAME:-${USER:-User}} 🙂?
-If you enjoy the project and want to support it, you can buy me a coffee at $CLI_SUPPORT_PROJECT_URL.
-Would you like to open the support page? Select yes to continue — otherwise, enjoy your YouTube-from-the-terminal experience 😁.
-You can disable this message by turning off the WELCOME_SCREEN option in the config. It only appears once a month.${RESET}\n"
-  confirm && xdg-open "$CLI_SUPPORT_PROJECT_URL" || open "$CLI_SUPPORT_PROJECT_URL"
+  printf "${CYAN}How are you ${USERNAME:-${USER:-User}} 🙂?"
 }
 
 byebye() {
@@ -773,7 +759,7 @@ playlist_explorer() {
     [ "$ENABLE_PREVIEW" = "true" ] && [ "$PREFERRED_SELECTOR" = "fzf" ] && [ "$DOWNLOAD_IMAGES" = 0 ] && download_preview_images "$search_results" "" && DOWNLOAD_IMAGES=1
     export search_results SHELL
     if [ "$ENABLE_PREVIEW" = "true" ]; then
-      title="$(printf "%s\nNext\nPrevious\n${CYAN}󰌍${RESET}  Back\n${CYAN}󰍜${RESET}  Main Menu\n${RED}󰈆${RESET}  Exit" "$titles" | launcher_with_preview "select video" "$PREVIEW_SCRIPT_FOR_VIDEOS" | tr -d '\n' | sed 's/^[^0-9]  //g')"
+      title="$(printf "%s\nNext\nPrevious\n󰌍  Back\n󰍜  Main Menu\n󰈆$  Exit" "$titles" | launcher_with_preview "select video" "$PREVIEW_SCRIPT_FOR_VIDEOS" | tr -d '\n' | sed 's/^[^0-9]  //g')"
     else
       title="$(printf "%s\nNext\nPrevious\nBack\nMain Menu\nExit" "$titles" | launcher "select video" | tr -d '\n' | sed 's/^[^0-9]  //g')"
     fi
@@ -812,24 +798,24 @@ playlist_explorer() {
 
     while true; do
       media_action="$(printf "\
-${CYAN}${RESET}  Watch
-${CYAN}${RESET}  Play All
-${CYAN}󰎆${RESET}  Listen
-${CYAN}${RESET}  Listen To All
-${CYAN}${RESET}  Mix
-${CYAN}${RESET}  Save
-${CYAN}󰧎${RESET}  UnSave
-${CYAN}󰐒${RESET}  Save Playlist
-${CYAN}󰵀${RESET}  Subscribe To Channel
-${CYAN}󱑤${RESET}  Download
-${CYAN}󰦗${RESET}  Download All
-${CYAN}󱑤${RESET}  Download (Audio Only)
-${CYAN}󰦗${RESET}  Download All (Audio Only)
-${CYAN}${RESET}  Open in Browser
-${CYAN}${RESET}  Toggle Enumerate Downloads
-${CYAN}${RESET}  Shell
-${CYAN}󰌍${RESET}  Back
-${RED}󰈆${RESET}  Exit" | launcher "Select Media Action" | sed 's/.  //g')"
+  Watch
+  Play All
+󰎆  Listen
+  Listen To All
+  Mix
+  Save
+󰧎  UnSave
+󰐒  Save Playlist
+󰵀  Subscribe To Channel
+󱑤  Download
+󰦗  Download All
+󱑤  Download (Audio Only)
+󰦗  Download All (Audio Only)
+  Open in Browser
+  Toggle Enumerate Downloads
+  Shell
+󰌍  Back 
+󰈆  Exit" | launcher "Select Media Action" | sed 's/.  //g')"
       clear
       case "$media_action" in
       "Play All")
@@ -1282,7 +1268,7 @@ playlists_explorer() {
   while true; do
     if [ "$ENABLE_PREVIEW" = "true" ]; then
 
-      playlist_title="$(printf "%s\n${CYAN}󰌍${RESET}  Back\n${RED}󰈆${RESET}  Exit" "$playlist_video_titles" | launcher_with_preview "select video" "$PREVIEW_SCRIPT_FOR_PLAYLISTS_EXPLORER" | tr -d '\n' | sed 's/^[^0-9]  //g')"
+      playlist_title="$(printf "%s\n󰌍  Back\n󰈆  Exit" "$playlist_video_titles" | launcher_with_preview "select video" "$PREVIEW_SCRIPT_FOR_PLAYLISTS_EXPLORER" | tr -d '\n' | sed 's/^[^0-9]  //g')"
     else
       playlist_title="$(printf "%s\nBack\nExit" "$playlist_video_titles" | launcher "select video" | tr -d '\n' | sed 's/^[^0-9]  //g')"
     fi
@@ -1307,16 +1293,16 @@ playlists_explorer() {
 channels_explorer() {
   while true; do
     channel_action="$(printf "\
-${CYAN}${RESET}  Videos
-${CYAN}󰩉${RESET}  Featured
-${CYAN}${RESET}  Search
-${CYAN}󰐑${RESET}  Playlists
-${CYAN}${RESET}  Shorts
-${CYAN}󰠿${RESET}  Streams
-${CYAN}${RESET}  Podcasts
-${CYAN}󰵀${RESET}  Subscribe
-${CYAN}󰌍${RESET}  Back
-${RED}󰈆${RESET}  Exit
+  Videos
+󰩉  Featured
+  Search
+󰐑  Playlists
+  Shorts
+󰠿  Streams
+  Podcasts
+󰵀  Subscribe
+󰌍  Back
+󰈆  Exit
 " | launcher "Select Action" | sed 's/.  //g')"
     [ "$channel_action" = "Exit" ] && byebye
     [ "$channel_action" = "Back" ] || [ "$channel_action" = "" ] && break
@@ -1395,22 +1381,22 @@ main() {
     ;;
   *)
     action="$(printf "\
-${CYAN}${RESET}  Your Feed
-${CYAN}${RESET}  Trending
-${CYAN}󰐑${RESET}  Playlists
-${CYAN}${RESET}  Search
-${CYAN}${RESET}  Watch Later
-${CYAN}󰵀${RESET}  Subscription Feed
-${CYAN}󰑈${RESET}  Channels
-${CYAN}${RESET}  Custom Playlists
-${CYAN}${RESET}  Liked Videos
-${CYAN}${RESET}  Saved Videos
-${CYAN}${RESET}  Watch History
-${CYAN}${RESET}  Recent
-${CYAN}${RESET}  Clips
-${CYAN}${RESET}  Edit Config
-${CYAN}${RESET}  Miscellaneous
-${RED}󰈆${RESET}  Exit" | launcher "Select Action" | sed 's/.*  //g')"
+  Your Feed
+  Trending
+󰐑  Playlists
+  Search
+  Watch Later
+󰵀  Subscription Feed
+󰑈  Channels
+  Custom Playlists
+  Liked Videos
+  Saved Videos
+  Watch History
+  Recent
+  Clips
+  Edit Config
+  Miscellaneous
+󰈆  Exit" | launcher "Select Action" | sed 's/.*  //g')"
     ;;
   esac
   [ "$action" = "Exit" ] && byebye
@@ -1567,20 +1553,20 @@ ${RED}󰈆${RESET}  Exit" | launcher "Select Action" | sed 's/.*  //g')"
   Miscellaneous)
     while true; do
       action="$(printf "\
-${CYAN}󰵀${RESET}  Explore Channels
-${CYAN}󰐑${RESET}  Explore Playlists
-${CYAN}󱘢${RESET}  Search History
-${CYAN}󰆺${RESET}  New Custom Command
-${CYAN}󰡦${RESET}  Custom Commands
-${CYAN}${RESET}  Edit Search History
-${CYAN}󰤀${RESET}  Edit Custom Playlists
-${CYAN}󱄢${RESET}  Edit MPV Config
-${CYAN}󰮆${RESET}  Edit yt-dlp Config
-${CYAN}󱘫${RESET}  Edit Custom Commands
-${CYAN}󰓦${RESET}  Sync YouTube Subscriptions
-${RED}󰆴${RESET}  Clear Search History
-${RED}${RESET}  Back
-${RED}󰈆${RESET}  Exit
+󰵀  Explore Channels
+󰐑  Explore Playlists
+󱘢  Search History
+󰆺  New Custom Command
+󰡦  Custom Commands
+  Edit Search History
+󰤀  Edit Custom Playlists
+󱄢  Edit MPV Config
+󰮆  Edit yt-dlp Config
+󱘫  Edit Custom Commands
+󰓦  Sync YouTube Subscriptions
+󰆴  Clear Search History
+  Back
+󰈆  Exit
 " | launcher "Select Action" | sed 's/.*  //g')"
       case "$action" in
       Explore\ Channels)
