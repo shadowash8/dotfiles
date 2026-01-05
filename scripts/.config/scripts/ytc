@@ -7,24 +7,9 @@ mkdir -p "$CACHE_DIR"
 play_submenu() {
     local id="$1"
     local title="$2"
-    local duration="$3"
-
-    clear
-    echo -e "\033[1;33mFetching detailed info for:\033[0m $title"
-    
-    # Fast metadata fetch
-    meta=$(yt-dlp --print "%(uploader)s	%(view_count)s" "https://www.youtube.com/watch?v=$id" 2>/dev/null)
-    channel=$(echo "$meta" | cut -f1)
-    views=$(echo "$meta" | cut -f2)
-
-    echo "------------------------------------------------"
-    echo -e "\033[1;32mCHANNEL:\033[0m  ${channel:-Unknown}"
-    echo -e "\033[1;34mVIEWS:\033[0m    ${views:-0}"
-    echo -e "\033[1;34mDURATION:\033[0m $duration"
-    echo "------------------------------------------------"
 
     choice=$(printf "1. Play in MPV\n2. Open in Browser\n3. Back to List" | fzf \
-        --header "Action for: $id" --height 10% --reverse --border)
+        --header "Action for: $title" --height 10% --reverse --border)
 
     case "$choice" in
         *"MPV"*)     mpv "https://www.youtube.com/watch?v=$id" ;;
@@ -36,12 +21,12 @@ play_submenu() {
 fetch_and_play() {
     local feed_url="$1"
     local feed_name="$2"
-    local limit="25" # Reduced limit for speed
+    local limit="50" # Reduced limit for speed
 
     # Use cached list if it exists to show something immediately (optional)
     # If you want it to ALWAYS feel instant, we can load the old file first.
     
-    echo "Loading $feed_name (Top $limit)..."
+    echo "Loading $feed_name..."
     
     # Speed optimized yt-dlp call
     yt-dlp --cookies-from-browser firefox \
