@@ -1,0 +1,100 @@
+#!/bin/bash
+
+# Configuration
+CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/ytc"
+mkdir -p "$CACHE_DIR"
+
+play_submenu() {
+    local id="$1"
+    local title="$2"
+    local duration="$3"
+
+    clear
+    echo -e "\033[1;33mFetching detailed info for:\033[0m $title"
+    
+    # Fast metadata fetch
+    meta=$(yt-dlp --print "%(uploader)s	%(view_count)s" "https://www.youtube.com/watch?v=$id" 2>/dev/null)
+    channel=$(echo "$meta" | cut -f1)
+    views=$(echo "$meta" | cut -f2)
+
+    echo "------------------------------------------------"
+    echo -e "\033[1;32mCHANNEL:\033[0m  ${channel:-Unknown}"
+    echo -e "\033[1;34mVIEWS:\033[0m    ${views:-0}"
+    echo -e "\033[1;34mDURATION:\033[0m $duration"
+    echo "------------------------------------------------"
+
+    choice=$(printf "1. Play in MPV\n2. Open in Browser\n3. Back to List" | fzf \
+        --header "Action for: $id" --height 10% --reverse --border)
+
+    case "$choice" in
+        *"MPV"*)     mpv "https://www.youtube.com/watch?v=$id" ;;
+        *"Browser"*) xdg-open "https://www.youtube.com/watch?v=$id" 2>/dev/null || open "https://www.youtube.com/watch?v=$id" ;;
+        *)           return ;;
+    esac
+}
+
+fetch_and_play() {
+    local feed_url="$1"
+    local feed_name="$2"
+    local limit="25" # Reduced limit for speed
+
+    # Use cached list if it exists to show something immediately (optional)
+    # If you want it to ALWAYS feel instant, we can load the old file first.
+    
+    echo "Loading $feed_name (Top $limit)..."
+    
+    # Speed optimized yt-dlp call
+    yt-dlp --cookies-from-browser firefox \
+           --flat-playlist \
+           --playlist-items 1:$limit \
+           --no-check-certificates \
+           --no-warnings \
+           --print "%(title)s" --print "%(id)s" --print "%(duration_string)s" \
+           "$feed_url" 2>/dev/null | tr -d '\r' | paste - - - > "$CACHE_DIR/list.txt"
+
+    if [ ! -s "$CACHE_DIR/list.txt" ]; then
+        echo "Error: Could not fetch feed. Check if Firefox is logged in."
+        read -n 1 -s -r -p "Press any key to return..."
+        return
+    fi
+
+    while true; do
+        selected=$(cat "$CACHE_DIR/list.txt" | fzf \
+            --delimiter $'\t' \
+            --tabstop=4 \
+            --with-nth 1,3 \
+            --header "[$feed_name] ENTER: Options | ESC: Main Menu" \
+            --preview "
+                id=\$(echo {2})
+                thumb_path=\"$CACHE_DIR/\$id.jpg\"
+                [ ! -f \"\$thumb_path\" ] && curl -s -o \"\$thumb_path\" \"https://img.youtube.com/vi/\$id/hqdefault.jpg\"
+                
+                printf \"\033[1;33mTITLE:\033[0m {1}\n\"
+                printf \"\033[1;34mTIME:\033[0m  {3}\n\"
+                echo \"------------------------------------\"
+                command -v chafa >/dev/null && chafa --size=80x40 \"\$thumb_path\"
+            " \
+            --preview-window=right:60%:wrap)
+
+        [ -z "$selected" ] && break
+
+        v_title=$(echo "$selected" | cut -f1)
+        v_id=$(echo "$selected" | cut -f2)
+        v_dur=$(echo "$selected" | cut -f3)
+
+        play_submenu "$v_id" "$v_title" "$v_dur"
+    done
+}
+
+# --- Main Menu ---
+while true; do
+    choice=$(printf "1. Home\n2. Subscriptions\n3. History\n4. Quit" | fzf \
+        --header "YTC: Select Feed" --height 15% --reverse --border --prompt="> ")
+
+    case "$choice" in
+        *"Home"*)          fetch_and_play "https://www.youtube.com/" "Home" ;;
+        *"Subscriptions"*) fetch_and_play "https://www.youtube.com/feed/subscriptions" "Subscriptions" ;;
+        *"History"*)       fetch_and_play "https://www.youtube.com/feed/history" "History" ;;
+        *"Quit"*|*)        exit 0 ;;
+    esac
+done
