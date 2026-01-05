@@ -45,6 +45,7 @@ alias ls='eza'
 alias ll='eza -la'
 alias g="git"
 alias cls="clear"
+alias cat="bat"
 alias lg="lazygit"
 alias lj="lazyjournal"
 alias em='emacsclient -c -a "emacs"'
@@ -80,6 +81,9 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':completion:*' menu no
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza $realpath'
+
+# opts
+setopt CORRECT
 
 # Edit command buffer
 autoload -Uz edit-command-line

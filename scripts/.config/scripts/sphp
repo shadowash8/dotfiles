@@ -1,0 +1,22 @@
+#!/bin/bash
+
+case "$1" in
+  start)
+    echo "Starting Lab Environment..."
+    sudo systemctl start mariadb
+    echo "MariaDB is now RUNNING."
+    ;;
+  stop)
+    echo "Shutting down Lab Environment..."
+    sudo systemctl stop mariadb
+    echo "MariaDB have STOPPED."
+    ;;
+  status)
+    systemctl status httpd mariadb
+    ;;
+  *)
+    echo "Usage: sphp {start|stop|status}"
+    exit 1
+esac
+
+exit 0
