@@ -21,24 +21,21 @@ play_submenu() {
 fetch_and_play() {
     local feed_url="$1"
     local feed_name="$2"
-    local limit="50" # Reduced limit for speed
+    local limit="50"
 
-    # Use cached list if it exists to show something immediately (optional)
-    # If you want it to ALWAYS feel instant, we can load the old file first.
-    
     echo "Loading $feed_name..."
     
     # Speed optimized yt-dlp call
     yt-dlp --cookies-from-browser firefox \
-           --flat-playlist \
-           --playlist-items 1:$limit \
-           --no-check-certificates \
-           --no-warnings \
-           --print "%(title)s" --print "%(id)s" --print "%(duration_string)s" \
-           "$feed_url" 2>/dev/null | tr -d '\r' | paste - - - > "$CACHE_DIR/list.txt"
+            --flat-playlist \
+            --playlist-items 1:$limit \
+            --no-check-certificates \
+            --no-warnings \
+            --print "%(title)s" --print "%(id)s" --print "%(duration_string)s" \
+            "$feed_url" 2>/dev/null | tr -d '\r' | paste - - - > "$CACHE_DIR/list.txt"
 
     if [ ! -s "$CACHE_DIR/list.txt" ]; then
-        echo "Error: Could not fetch feed. Check if Firefox is logged in."
+        echo "Error: Could not fetch feed. Check login/connection."
         read -n 1 -s -r -p "Press any key to return..."
         return
     fi
@@ -73,12 +70,21 @@ fetch_and_play() {
 
 # --- Main Menu ---
 while true; do
-    choice=$(printf "1. Home\n2. Subscriptions\n3. History\n4. Quit" | fzf \
-        --header "YTC: Select Feed" --height 15% --reverse --border --prompt="> ")
+    choice=$(printf "1. Home\n2. Subscriptions\n3. Watch Later\n4. Search\n5. History\n6. Quit" | fzf \
+        --header "YTC: Select Feed" --height 20% --reverse --border --prompt="> ")
 
     case "$choice" in
         *"Home"*)          fetch_and_play "https://www.youtube.com/" "Home" ;;
         *"Subscriptions"*) fetch_and_play "https://www.youtube.com/feed/subscriptions" "Subscriptions" ;;
+        *"Search"*)
+            read -p "Search Query: " query
+            if [ ! -z "$query" ]; then
+                # ytsearch50: prefix tells yt-dlp to perform a search
+                fetch_and_play "ytsearch50:$query" "Search: $query"
+            fi
+            ;;
+
+        *"Watch Later"*)   fetch_and_play "https://www.youtube.com/playlist?list=WL" "Watch Later" ;;
         *"History"*)       fetch_and_play "https://www.youtube.com/feed/history" "History" ;;
         *"Quit"*|*)        exit 0 ;;
     esac
