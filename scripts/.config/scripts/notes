@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# 1. Ensure this path matches exactly where your .org files live
+folder="$HOME/Documents/org/"
+
+newnote () {
+    # Opens a new Emacs frame and starts the org-roam capture process
+    setsid -f emacsclient -c -e "(org-roam-dailies-capture-today t)" >/dev/null 2>&1
+}
+
+selected () {
+    # Generate the list of files
+    # We use -not -path '*/.*' to hide hidden git or system files
+    files=$(find "$folder" -type f \( -name "*.org" \) -not -path '*/.*' -printf '%T@ %P\n' | sort -nr | cut -d' ' -f2-)
+
+    choice=$(echo -e "Daily\n$files" | dmenu -c -l 10 -s -p "Notes:")
+
+    case "$choice" in
+        "") exit 0 ;;
+        New) 
+            newnote ;;
+        *) 
+            # Open the selected file in a new Emacs frame
+            setsid -f emacsclient -c "$folder/$choice" >/dev/null 2>&1 ;;
+    esac
+}
+
+selected
