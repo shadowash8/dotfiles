@@ -1,19 +1,62 @@
 #!/bin/bash
-WALL_DIR="$HOME/Pictures/Wallpapers"
 
-list_wallpapers() {
+WALL_DIR="$HOME/Pictures/Wallpapers"
+CACHE_FILE="$HOME/.cache/current_wallpaper"
+
+# --- Functions ---
+
+get_wallpaper() {
+    # Queries swww for the current image path
+    local WALL=$(swww query | awk -F ": " '{print $NF}' | head -n 1)
+    if [[ -z "$WALL" || "$WALL" == "no-image" ]]; then
+        echo "No wallpaper set via swww."
+    else
+        echo "$WALL"
+    fi
+}
+
+set_wallpaper() {
+    local IMAGE="$1"
+    if [[ -f "$IMAGE" ]]; then
+        # 1. Generate colors and set wall via matugen
+        matugen image "$IMAGE" -m dark
+        
+        # 2. Update the symlink for hyprlock
+        ln -sf "$(realpath "$IMAGE")" "$CACHE_FILE"
+        
+        notify-send "System Theme" "Applied $(basename "$IMAGE")"
+    else
+        echo "Error: $IMAGE not found."
+    fi
+}
+
+list_wallpapers_for_rofi() {
     find "$WALL_DIR" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) | while read -r wall; do
         echo -en "$(basename "$wall")\0icon\x1f$wall\n"
     done
 }
 
-choice=$(list_wallpapers | rofi -dmenu -i -p "Wallpaper" \
-    -show-icons \
-    -theme-str 'window { height: 530px; } listview { spacing: 10px; layout: horizontal; } element { orientation: vertical; width: 800px; padding: 10px; } element-icon { size: 400px; } element-text { horizontal-align: 0.5; }')
+# --- Main Logic ---
 
-if [ -n "$choice" ]; then
-    # Matugen sets the wallpaper AND generates colors for both files now
-    matugen image "$WALL_DIR/$choice" -m dark
-    
-    notify-send "System Theme" "Applied $choice"
-fi
+case "$1" in
+    get)
+        get_wallpaper
+        ;;
+    set)
+        if [[ -n "$2" ]]; then
+            set_wallpaper "$2"
+        else
+            echo "Usage: wallpaper set <path>"
+        fi
+        ;;
+    *)
+        # Default behavior: Open Rofi picker if no args or invalid args are passed
+        choice=$(list_wallpapers_for_rofi | rofi -dmenu -i -p "Wallpaper" \
+            -show-icons \
+            -theme-str 'window { height: 530px; } listview { spacing: 10px; layout: horizontal; } element { orientation: vertical; width: 800px; padding: 10px; } element-icon { size: 400px; } element-text { horizontal-align: 0.5; }')
+
+        if [[ -n "$choice" ]]; then
+            set_wallpaper "$WALL_DIR/$choice"
+        fi
+        ;;
+esac
