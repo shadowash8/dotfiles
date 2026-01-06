@@ -3,6 +3,29 @@
 # 1. Ensure this path matches exactly where your .org files live
 folder="$HOME/Documents/org/"
 
+# Check for menu flag
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --menu)
+      MENU_TYPE="$2"
+      shift # past argument
+      shift # past value
+      ;;
+    *)
+      MENU_TYPE="rofi"
+      shift
+      ;;
+  esac
+done
+
+if [[ "$MENU_TYPE" == "dmenu" ]]; then
+    menu_cmd="dmenu -c -l 10 -i -p Notes:"
+elif [[ "$MENU_TYPE" == "wmenu" ]]; then
+    menu_cmd="wmenu -i -p Notes:"
+else
+    menu_cmd="rofi -dmenu -i -p Notes: -l 10"
+fi
+
 newnote () {
     # Opens a new Emacs frame and starts the org-roam capture process
     setsid -f emacsclient -c -e "(org-roam-dailies-capture-today t)" >/dev/null 2>&1
@@ -13,7 +36,7 @@ selected () {
     # We use -not -path '*/.*' to hide hidden git or system files
     files=$(find "$folder" -type f \( -name "*.org" \) -not -path '*/.*' -printf '%T@ %P\n' | sort -nr | cut -d' ' -f2-)
 
-    choice=$(echo -e "Daily\n$files" | dmenu -c -l 10 -s -p "Notes:")
+    choice=$(echo -e "Daily\n$files" | $menu_cmd )
 
     case "$choice" in
         "") exit 0 ;;
