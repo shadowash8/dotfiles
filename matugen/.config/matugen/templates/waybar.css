@@ -9,6 +9,7 @@
 @define-color bg_solid {{colors.surface_container_highest.default.rgba | set_alpha: 0.7}};
 @define-color bg_menu {{colors.surface.default.hex}};
 @define-color bg_tooltip {{colors.surface_container_high.default.hex}};
+@define-color border {{colors.primary.default.hex}};
 
 /* High-Visibility Accents */
 @define-color color1 {{colors.primary_fixed.default.hex}};         /* Workspaces */
