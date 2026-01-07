@@ -1,4 +1,27 @@
 #!/bin/bash
+# Check for menu flag
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --menu)
+      MENU_TYPE="$2"
+      shift # past argument
+      shift # past value
+      ;;
+    *)
+      MENU_TYPE="rofi"
+      shift
+      ;;
+  esac
+done
+
+if [[ "$MENU_TYPE" == "dmenu" ]]; then
+    menu_cmd="dmenu -p Phone"
+elif [[ "$MENU_TYPE" == "wmenu" ]]; then
+    menu_cmd="wmenu -i -p Phone"
+else
+    menu_cmd="rofi -dmenu -i -p Phone"
+fi
+
 # Get the first reachable device ID
 device=$(kdeconnect-cli -a --id-only | head -n 1)
 
@@ -7,12 +30,12 @@ if [ -z "$device" ]; then
     exit 1
 fi
 
-# Dmenu options
+# Menu options
 options="Ping\nRing Phone\nSend Clipboard\nShare File\nRefresh Connection"
-choice=$(echo -e "$options" | dmenu -s -p "Phone Action:")
+choice=$(echo -e "$options" | $menu_cmd)
 
 case "$choice" in
-    Ping) kdeconnect-cli -d "$device" --ping-msg "Ping from DWM" ;;
+    Ping) kdeconnect-cli -d "$device" --ping-msg "Ping from Linux" ;;
     "Ring Phone") kdeconnect-cli -d "$device" --ring ;;
     "Send Clipboard") kdeconnect-cli -d "$device" --send-clipboard ;;
     "Share File") 

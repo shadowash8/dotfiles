@@ -1,13 +1,33 @@
 #!/bin/sh
 
-# title: dmenu_websearch 
-# original: Sunur Efe Vural <efe@efe.kim>
-# maintainer: A S H
-# version: 01-01-2025
-
 browser='qutebrowser-profile --menu=dmenu'
 engine='https://duckduckgo.com/?q=%s'
-bookmarks="$HOME/.bookmarks"
+
+# Check for menu flag
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --menu)
+      MENU_TYPE="$2"
+      shift 2
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
+
+# Set default if not specified
+if [[ -z "$MENU_TYPE" ]]; then
+    MENU_TYPE="rofi"
+fi
+
+if [[ "$MENU_TYPE" == "dmenu" ]]; then
+    menu_cmd="dmenu -c -l 10 -s -p Search"
+elif [[ "$MENU_TYPE" == "wmenu" ]]; then
+    menu_cmd="wmenu -i -p Search"
+else
+    menu_cmd="rofi -dmenu -i -p Search -l 10"
+fi
 
 gotourl() {
 	$browser "$choice"
@@ -20,16 +40,17 @@ searchweb() {
 	gotourl
 }
 
-
 tmpfile=$(mktemp /tmp/dmenu_websearch.XXXXXX)
 trap 'rm "$tmpfile"' 0 1 15
+
 printf '%s\n%s\n' "$uricur" "$1" > "$tmpfile"
-cat "$bookmarks" >> "$tmpfile"
 sed -i -E '/^(#|$)/d' "$tmpfile"
-choice=$(dmenu -s -p "Go:" -w "$winid" < "$tmpfile") || exit 1
+
+choice=$(cat "$tmpfile" | $menu_cmd) || exit 1
 
 # Detect links without protocol (This is WIP)
 protocol='^(https?|ftps?|mailto|about|file):///?'
+
 checkurl() {
 	grep -Fx "$choice" "$tmpfile" &&
 		choice=$(echo "$choice" | awk '{ print $1 }') && return 0

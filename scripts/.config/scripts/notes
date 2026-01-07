@@ -19,11 +19,11 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ "$MENU_TYPE" == "dmenu" ]]; then
-    menu_cmd="dmenu -c -l 10 -i -p Notes:"
+    menu_cmd="dmenu -c -l 10 -s -p Notes"
 elif [[ "$MENU_TYPE" == "wmenu" ]]; then
-    menu_cmd="wmenu -i -p Notes:"
+    menu_cmd="wmenu -i -p Notes"
 else
-    menu_cmd="rofi -dmenu -i -p Notes: -l 10"
+    menu_cmd="rofi -dmenu -i -p Notes -l 10"
 fi
 
 newnote () {
