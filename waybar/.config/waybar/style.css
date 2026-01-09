@@ -123,6 +123,7 @@ tooltip {
 
 window#waybar.empty #window {
     background-color: transparent;
+    border: 0;
 }
 
 /* =========================
