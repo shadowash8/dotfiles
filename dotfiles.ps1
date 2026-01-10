@@ -1,5 +1,5 @@
 # Set the root path of your dotfiles repository.
-$dotfilesRoot = "C:\Users\Ashwin\.dotfiles"
+$dotfilesRoot = "$HOME/.dotfiles"
 
 # Set the path to the user's home directory.
 $homePath = $env:USERPROFILE

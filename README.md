@@ -75,10 +75,10 @@ Requires Neovim (>= 0.9)
 
 ```bash
 # Using gh
-gh repo clone ashwinjadhav818/dotfiles ~/.dotfiles
+gh repo clone shadowash8/dotfiles ~/.dotfiles
 
 # ...or use HTTPS and switch remotes later.
-git clone https://github.com/ashwinjadhav818/dotfiles.git ~/.dotfiles
+git clone https://github.com/shadowash8/dotfiles.git ~/.dotfiles
 ```
 
 2. Create symlinks in the Home directory to the real files in the repo.
@@ -93,10 +93,10 @@ stow .
 
 ```pwsh
 # Using gh
-gh repo clone ashwinjadhav818/dotfiles $HOME\.dotfiles
+gh repo clone shadowash8/dotfiles $HOME\.dotfiles
 
 # ...or use HTTPS and switch remotes later.
-git clone https://github.com/ashwinjadhav818/dotfiles.git $HOME\.dotfiles
+git clone https://github.com/shadowash8/dotfiles.git $HOME\.dotfiles
 ```
 
 2. Create symlinks in the Home directory to the real files in the repo.

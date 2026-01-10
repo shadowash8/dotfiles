@@ -60,6 +60,7 @@ alias dns="sudo dnf search"
 alias dwmgen="cd ~/.ashdwm/dwm/ && sudo make clean install"
 alias pdry="patch --dry-run -p1 <"
 alias prun="patch -p1 <"
+alias sx="startx ~/.xinitrc"
 
 # Shell integrations
 eval "$(zoxide init zsh --cmd cd)"
