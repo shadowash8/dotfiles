@@ -10,7 +10,7 @@ c.tabs.show = "multiple"
 c.tabs.title.format = "{audio}{current_title}"
 
 # url
-c.url.default_page = "https://ashwinjadhav818.github.io/minimal-startpage/"
+c.url.default_page = "https://shadowash8.github.io/minimal-startpage/"
 c.url.searchengines = {
         'DEFAULT': 'https://duckduckgo.com/?q={}',
         '!aw': 'https://wiki.archlinux.org/?search={}',
