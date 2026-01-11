@@ -12,12 +12,28 @@ return {
             })
             require("mini.statusline").setup()
             require("mini.tabline").setup()
+            require("mini.files").setup({
+                mappings = {
+                    close       = 'q',
+                    go_in       = 'e',
+                    go_in_plus  = 'E',
+                    go_out      = 'n',
+                    go_out_plus = 'N',
+                    mark_goto   = "'",
+                    mark_set    = 'm',
+                    reset       = '<BS>',
+                    reveal_cwd  = '@',
+                    show_help   = 'g?',
+                    synchronize = '=',
+                    trim_left   = '<',
+                    trim_right  = '>',
+                },
+            })
 
             require("mini.snippets").setup()
             require("mini.comment").setup()
             require("mini.pairs").setup()
 
-            -- Extras
             require("mini.pick").setup()
             require("mini.extra").setup()
 
@@ -63,20 +79,24 @@ return {
             })
         end,
         keys = {
+            {
+                "<leader>e",
+                function()
+                    require("mini.files").open(vim.uv.cwd(), true)
+                end,
+                desc = "Open mini.files",
+            },
+
             -- Picker
             {
                 "<leader>ff",
                 function()
-                    require("mini.pick").builtin.files(nil, { source = { cwd = vim.fn.getcwd() } })
+                    require("mini.pick").builtin.files(
+                        { tool = "git" },
+                        { source = { cwd = vim.fn.getcwd() } }
+                    )
                 end,
-                desc = "Find Files",
-            },
-            {
-                "<leader>fs",
-                function()
-                    require("mini.pick").builtin.files()
-                end,
-                desc = "Smart Find Files",
+                desc = "Find Files (CWD)",
             },
             {
                 "<leader>fb",
@@ -88,9 +108,12 @@ return {
             {
                 "<leader>fg",
                 function()
-                    require("mini.pick").builtin.grep_live()
+                    require("mini.pick").builtin.grep_live(
+                        {},
+                        { source = { cwd = vim.fn.getcwd() } }
+                    )
                 end,
-                desc = "Live Grep",
+                desc = "Live Grep (CWD)",
             },
             {
                 "<leader>fh",
