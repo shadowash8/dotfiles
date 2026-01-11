@@ -54,3 +54,8 @@ post_hook = "swaync-client -R && swaync-client -rs"
 input_path = '~/.config/matugen/templates/kitty.conf'
 output_path = '~/.config/colors/kitty.conf'
 post_hook = "pkill -SIGUSR1 kitty"
+
+[templates.emacs]
+input_path = "~/.config/matugen/templates/minimal-matugen-theme.el"
+output_path = "~/.config/colors/minimal-matugen-theme.el"
+post_hook = "emacsclient -e '(load-theme (quote minimal-matugen) t)'"
