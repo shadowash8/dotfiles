@@ -4,10 +4,6 @@
 CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/ytc"
 mkdir -p "$CACHE_DIR"
 
-# Export colors so every fzf instance inherits the monochrome theme
-# bg: Background, fg: Inactive text, fg+: Active text/Selected, hl: Highlight
-export FZF_DEFAULT_OPTS="--color='bg:#000000,bg+:#000000,fg:#bbbbbb,fg+:#ffffff,hl:#ffffff,hl+:#ffffff,info:#ffffff,marker:#ffffff,pointer:#ffffff,spinner:#ffffff,prompt:#ffffff,header:#ffffff,border:#ffffff'"
-
 play_submenu() {
     local id="$1"
     local title="$2"
