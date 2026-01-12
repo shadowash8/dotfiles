@@ -1,7 +1,7 @@
 @import "../colors/swaync.css";
 
 * {
-    font-family: "Pragmasevka";
+    font-family: "Iosevka";
     color: @fg_main;
 }
 

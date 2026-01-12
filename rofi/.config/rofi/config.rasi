@@ -21,7 +21,7 @@ configuration {
 /*****----- Global Properties -----*****/
 @import "~/.config/colors/rofi.rasi"
 * {
-    font: "Pragmasevka, FiraCode Nerd Font Propo 12";
+    font: "Iosevka, FiraCode Nerd Font Propo 11";
 }
 
 * {
