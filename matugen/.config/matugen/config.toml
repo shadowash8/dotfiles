@@ -28,13 +28,12 @@ output_path = '~/.config/colors/foot.ini'
 
 [templates.gtk3]
 input_path = '~/.config/matugen/templates/gtk.css'
-output_path = '~/.config/gtk-3.0/gtk.css'
+output_path = '~/.config/gtk-3.0/colors.css'
+post_hook = 'gsettings set org.gnome.desktop.interface gtk-theme ""; gsettings set org.gnome.desktop.interface gtk-theme adw-gtk3-{{mode}}'
 
 [templates.gtk4]
 input_path = '~/.config/matugen/templates/gtk.css'
-output_path = '~/.config/gtk-4.0/gtk.css'
-# This hook forces GTK apps to "notice" the color change
-post_hook = "gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'"
+output_path = '~/.config/gtk-4.0/colors.css'
 
 [templates.qutebrowser]
 input_path = '~/.config/matugen/templates/qutebrowser.py'
@@ -67,3 +66,7 @@ post_hook = 'pywalfox update'
 input_path = "~/.config/matugen/templates/xresources.conf"
 output_path = "~/.Xresources"
 post_hook = "xdotool key --clearmodifiers super+control+shift+q"
+
+[templates.qtct]
+input_path = '~/.config/matugen/templates/qtct.conf'
+output_path = '~/.config/colors/qtct.conf'

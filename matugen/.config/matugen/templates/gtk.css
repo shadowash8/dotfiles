@@ -1,9 +1,6 @@
 /*
-
 * GTK Colors
-
 * Generated with Matugen
-
 */
 
 @define-color accent_color {{colors.primary_fixed_dim.default.hex}};
@@ -17,16 +14,9 @@
 @define-color popover_fg_color {{colors.on_surface.default.hex}};
 @define-color view_bg_color {{colors.surface.default.hex}};
 @define-color view_fg_color {{colors.on_surface.default.hex}};
-@define-color card_bg_color {{colors.surface_container.default.hex}};
+@define-color card_bg_color {{colors.surface.default.hex}};
 @define-color card_fg_color {{colors.on_surface.default.hex}};
-
-/* Compatibility aliases */
 @define-color sidebar_bg_color @window_bg_color;
 @define-color sidebar_fg_color @window_fg_color;
 @define-color sidebar_border_color @window_bg_color;
 @define-color sidebar_backdrop_color @window_bg_color;
-
-/* Global UI override */
-* {
-    outline-color: alpha(@accent_color, 0.5);
-}
