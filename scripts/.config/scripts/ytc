@@ -2,23 +2,76 @@
 
 # --- Configuration & Styling ---
 CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/ytc"
+DOWNLOAD_DIR="${HOME}/Videos/ytc"
+DOWNLOAD_AUDIO_DIR="${HOME}/Music/ytc"
+BROWSER="firefox"  # Change this to your browser: firefox, chrome, chromium, edge, brave, opera, safari, vivaldi
+
 mkdir -p "$CACHE_DIR"
+mkdir -p "$DOWNLOAD_DIR"
+mkdir -p "$DOWNLOAD_AUDIO_DIR"
+
+mark_as_watched() {
+    local id="$1"
+    
+    # Mark as watched on YouTube using cookies
+    echo "Marking video as watched on YouTube..."
+    yt-dlp --cookies-from-browser "$BROWSER" \
+        --mark-watched \
+        --skip-download \
+        --no-write-thumbnail \
+        --no-warnings \
+        "https://www.youtube.com/watch?v=$id" 2>/dev/null
+    clear
+}
 
 play_submenu() {
     local id="$1"
     local title="$2"
     
-    choice=$(printf "1. Play in MPV\n2. Open in Browser\n3. Back to List" | fzf \
-        --header "Action for: $title" --height 10% --reverse --border)
+    choice=$(printf "1. Play in MPV\n2. Stream Audio Only\n3. Open in Browser\n4. Download Video\n5. Download Audio\n6. Mark as Watched\n7. Back to List" | fzf \
+        --header "Action for: $title" --height 15% --reverse --border)
     
     case "$choice" in
-        *"MPV"*)
+        *"Play in MPV"*)
             clear
             mpv "https://www.youtube.com/watch?v=$id"
             clear
+            # Auto-mark as watched after playing
+            mark_as_watched "$id"
             ;;
-        *"Browser"*)
+        *"Stream Audio Only"*)
+            clear
+            mpv --no-video "https://www.youtube.com/watch?v=$id"
+            clear
+            # Auto-mark as watched after playing
+            mark_as_watched "$id"
+            ;;
+        *"Open in Browser"*)
             xdg-open "https://www.youtube.com/watch?v=$id" 2>/dev/null || open "https://www.youtube.com/watch?v=$id"
+            ;;
+        *"Download Video"*)
+            echo "Downloading video to $DOWNLOAD_DIR..."
+            yt-dlp --cookies-from-browser "$BROWSER" \
+                --no-write-thumbnail \
+                -o "$DOWNLOAD_DIR/%(title)s.%(ext)s" \
+                "https://www.youtube.com/watch?v=$id"
+            echo "Download complete! Press any key to continue..."
+            read -n 1
+            ;;
+        *"Download Audio"*)
+            echo "Downloading audio to $DOWNLOAD_AUDIO_DIR..."
+            yt-dlp --cookies-from-browser "$BROWSER" \
+                --no-write-thumbnail \
+                -x --audio-format mp3 \
+                -o "$DOWNLOAD_AUDIO_DIR/%(title)s.%(ext)s" \
+                "https://www.youtube.com/watch?v=$id"
+            echo "Download complete! Press any key to continue..."
+            read -n 1
+            ;;
+        *"Mark as Watched"*)
+            mark_as_watched "$id"
+            echo "Marked as watched! Press any key to continue..."
+            read -n 1
             ;;
         *)
             return
@@ -37,7 +90,7 @@ fetch_and_play() {
         echo "Loading $feed_name (Items $start_index to $end_index)..."
         
         # Fetching data using yt-dlp
-        yt-dlp --cookies-from-browser firefox \
+        yt-dlp --cookies-from-browser "$BROWSER" \
             --flat-playlist \
             --playlist-items "$start_index:$end_index" \
             --no-check-certificates --no-warnings \
@@ -90,7 +143,7 @@ fetch_and_play() {
 }
 
 handle_search() {
-    search_type=$(printf "1. Video\n2. Playlist\n3. Music\n4. URL" | fzf \
+    search_type=$(printf "1. Video\n2. Playlist\n3. URL" | fzf \
         --header "Search Type" --height 15% --reverse --border --prompt="> ")
     
     [ -z "$search_type" ] && return
@@ -106,12 +159,6 @@ handle_search() {
             query=$(gum input --placeholder "Search YouTube Playlists...")
             if [ $? -eq 0 ] && [ ! -z "$query" ]; then
                 fetch_and_play "ytsearchplaylist500:$query" "Playlist Search: $query"
-            fi
-            ;;
-        *"Music"*)
-            query=$(gum input --placeholder "Search YouTube Music...")
-            if [ $? -eq 0 ] && [ ! -z "$query" ]; then
-                fetch_and_play "ytsearchmusic500:$query" "Music Search: $query"
             fi
             ;;
         *"URL"*)
