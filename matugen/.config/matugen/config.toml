@@ -66,4 +66,4 @@ post_hook = 'pywalfox update'
 [templates.xresources]
 input_path = "~/.config/matugen/templates/xresources.conf"
 output_path = "~/.Xresources"
-post_hook = "xrdb ~/.Xresources && xdotool key --clearmodifiers super+control+shift+q && pidof st | xargs -r kill -USR1"
+post_hook = "xdotool key --clearmodifiers super+control+shift+q"
