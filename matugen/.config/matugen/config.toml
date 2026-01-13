@@ -5,9 +5,8 @@ caching = true
 
 [config.wallpaper]
 set = true
-command = "swww"
-# Matugen automatically adds the image path as the last argument
-arguments = ["img", "--transition-type", "grow", "--transition-pos", "0.85,0.85", "--transition-fps", "60"]
+command = "sh"
+arguments = ["-c", "if pgrep -x Hyprland >/dev/null; then swww img \"$0\" --transition-type grow --transition-pos 0.85,0.85 --transition-fps 60; elif pgrep -x dwm >/dev/null; then feh --bg-fill \"$0\"; fi"]
 
 [templates.hyprland]
 input_path = '~/.config/matugen/templates/hyprland.conf'
@@ -17,7 +16,7 @@ output_path = '~/.config/colors/hyprland.conf'
 input_path = '~/.config/matugen/templates/waybar.css'
 output_path = '~/.config/colors/waybar.css'
 # Post-hook to tell Waybar to reload its CSS instantly
-post_hook = "pkill waybar && waybar & diswon"
+post_hook = "pkill waybar && waybar & disown"
 
 [templates.rofi]
 input_path = '~/.config/matugen/templates/rofi.rasi'
@@ -34,7 +33,6 @@ output_path = '~/.config/gtk-3.0/gtk.css'
 [templates.gtk4]
 input_path = '~/.config/matugen/templates/gtk.css'
 output_path = '~/.config/gtk-4.0/gtk.css'
-
 # This hook forces GTK apps to "notice" the color change
 post_hook = "gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'"
 
@@ -42,13 +40,13 @@ post_hook = "gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark
 input_path = '~/.config/matugen/templates/qutebrowser.py'
 output_path = '~/.config/colors/qutebrowser.py'
 # Use --load to target profiles directly, bypassing the interactive menu
-post_hook = "~/.config/scripts/qute-reload"
+post_hook = '~/.config/scripts/qute-reload'
 
 [templates.swaync]
 input_path = '~/.config/matugen/templates/swaync.css'
 output_path = '~/.config/colors/swaync.css'
 # Signal swaync to reload the CSS live
-post_hook = "swaync-client -R && swaync-client -rs"
+post_hook = 'timeout 1 swaync-client -R && timeout 1 swaync-client -rs || true'
 
 [templates.kitty]
 input_path = '~/.config/matugen/templates/kitty.conf'
@@ -56,6 +54,16 @@ output_path = '~/.config/colors/kitty.conf'
 post_hook = "pkill -SIGUSR1 kitty"
 
 [templates.emacs]
-input_path = "~/.config/matugen/templates/minimal-matugen-theme.el"
-output_path = "~/.config/colors/minimal-matugen-theme.el"
+input_path = '~/.config/matugen/templates/minimal-matugen-theme.el'
+output_path = '~/.config/colors/minimal-matugen-theme.el'
 post_hook = "emacsclient -e '(load-theme (quote minimal-matugen) t)'"
+
+[templates.pywalfox]
+input_path = '~/.config/matugen/templates/pywalfox.json'
+output_path = '~/.cache/wal/colors.json'
+post_hook = 'pywalfox update'
+
+[templates.xresources]
+input_path = "~/.config/matugen/templates/xresources.conf"
+output_path = "~/.Xresources"
+post_hook = "xrdb ~/.Xresources && xdotool key --clearmodifiers super+control+shift+q && pidof st | xargs -r kill -USR1"

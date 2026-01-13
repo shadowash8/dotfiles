@@ -1,0 +1,69 @@
+#!/bin/bash
+WALL_DIR="$HOME/Pictures/Wallpapers"
+CACHE_FILE="$HOME/.cache/current_wallpaper"
+
+# --- Functions ---
+get_wallpaper() {
+    if pgrep -x "Hyprland" > /dev/null; then
+        local WALL=$(swww query | awk -F ": " '{print $NF}' | head -n 1)
+        if [[ -z "$WALL" || "$WALL" == "no-image" ]]; then
+            echo "No wallpaper set via swww."
+        else
+            echo "$WALL"
+        fi
+    elif pgrep -x "dwm" > /dev/null; then
+        if [[ -f "$CACHE_FILE" ]]; then
+            cat "$CACHE_FILE"
+        else
+            echo "No wallpaper cached."
+        fi
+    fi
+}
+
+set_wallpaper() {
+    local IMAGE="$1"
+    if [[ -f "$IMAGE" ]]; then
+        matugen image "$IMAGE" -m dark
+        ln -sf "$(realpath "$IMAGE")" "$CACHE_FILE"
+        notify-send "System Theme" "Applied $(basename "$IMAGE")"
+    else
+        echo "Error: $IMAGE not found."
+    fi
+}
+
+list_wallpapers_for_rofi() {
+    find "$WALL_DIR" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) 2>/dev/null | while read -r wall; do
+        echo -en "$(basename "$wall")\0icon\x1f$wall\n"
+    done
+}
+
+# --- Main Logic ---
+case "$1" in
+    get)
+        get_wallpaper
+        ;;
+    set)
+        if [[ -n "$2" ]]; then
+            set_wallpaper "$2"
+        else
+            echo "Usage: wallpaper set <path>"
+        fi
+        ;;
+    *)
+        if pgrep -x "Hyprland" > /dev/null; then
+            # Use Rofi on Hyprland
+            choice=$(list_wallpapers_for_rofi | rofi -dmenu -i -p "Wallpaper" \
+                -show-icons \
+                -theme-str 'window { height: 530px; } listview { spacing: 10px; layout: horizontal; } element { orientation: vertical; width: 800px; padding: 10px; } element-icon { size: 400px; } element-text { horizontal-align: 0.5; }')
+            if [[ -n "$choice" ]]; then
+                set_wallpaper "$WALL_DIR/$choice"
+            fi
+        elif pgrep -x "dwm" > /dev/null; then
+            # Use nsxiv on dwm - pass full paths directly
+            choice=$(nsxiv -otb "$WALL_DIR"/*)
+            if [[ -n "$choice" ]]; then
+                set_wallpaper "$choice"
+            fi
+        fi
+        ;;
+esac

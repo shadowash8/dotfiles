@@ -50,27 +50,27 @@ config.set('colors.webpage.darkmode.enabled', False, 'file://*')
 
 # styles, cosmetics
 colors_path = os.path.expanduser('~/.config/colors/qutebrowser.py')
-
+config.source(colors_path)
 # Check which TWM is running
-def get_current_wm():
-    # Check if we are on Wayland (Hyprland)
-    if os.environ.get('WAYLAND_DISPLAY'):
-        return "hyprland"
-    # Check X11 Desktop variable
-    desktop = os.environ.get('XDG_CURRENT_DESKTOP', '').lower()
-    if 'dwm' in desktop:
-        return "dwm"
-    return "unknown"
-
-wm = get_current_wm()
-
-# Apply themes based on the detected WM
-if wm == "hyprland":
-    if os.path.exists(colors_path):
-        config.source(colors_path)
-else:
-    # Default to your sick Monochrome setup for DWM
-    config.source("./themes/monochrome.py")
+#def get_current_wm():
+#    # Check if we are on Wayland (Hyprland)
+#    if os.environ.get('WAYLAND_DISPLAY'):
+#        return "hyprland"
+#    # Check X11 Desktop variable
+#    desktop = os.environ.get('XDG_CURRENT_DESKTOP', '').lower()
+#    if 'dwm' in desktop:
+#        return "dwm"
+#    return "unknown"
+#
+#wm = get_current_wm()
+#
+## Apply themes based on the detected WM
+#if wm == "hyprland":
+#    if os.path.exists(colors_path):
+#        config.source(colors_path)
+#else:
+#    # Default to your sick Monochrome setup for DWM
+#    config.source("./themes/monochrome.py")
 
 c.content.user_stylesheets = ["~/.config/qutebrowser/styles/youtube-tweaks.css"]
 c.tabs.padding = {'top': 5, 'bottom': 5, 'left': 9, 'right': 9}

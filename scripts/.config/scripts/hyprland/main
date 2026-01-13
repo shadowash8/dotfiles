@@ -16,5 +16,5 @@ choice=$(printf "%s\n" "${!menu[@]}" | rofi -dmenu -i -p "Hypr Settings:")
 
 # If a choice was made, execute the corresponding script
 if [ -n "$choice" ]; then
-    bash "$SCRIPT_DIR/${menu[$choice]}"
+    bash "${menu[$choice]}"
 fi
