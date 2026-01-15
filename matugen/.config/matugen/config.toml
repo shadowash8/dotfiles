@@ -67,6 +67,10 @@ input_path = "~/.config/matugen/templates/xresources.conf"
 output_path = "~/.Xresources"
 post_hook = "xdotool key --clearmodifiers super+control+shift+q"
 
-[templates.qtct]
+[templates.qt5ct]
 input_path = '~/.config/matugen/templates/qtct.conf'
-output_path = '~/.config/colors/qtct.conf'
+output_path = '~/.config/qt5ct/colors/Matugen.conf'
+
+[templates.qt6ct]
+input_path = '~/.config/matugen/templates/qtct.conf'
+output_path = '~/.config/qt6ct/colors/Matugen.conf'
