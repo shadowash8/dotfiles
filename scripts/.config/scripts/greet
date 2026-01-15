@@ -6,11 +6,16 @@ host=$(hostname)
 read -r kernel < /proc/sys/kernel/osrelease
 . /etc/os-release
 
-## wm
-id=$(xprop -root -notype _NET_SUPPORTING_WM_CHECK)
-id=${id##* }
-wm=$(xprop -id "$id" -notype -len 100 -f _NET_WM_NAME 8t |
-    grep '^_NET_WM_NAME' | cut -d\" -f 2)
+## wm (only if in X11/Wayland session)
+if [ -n "$DISPLAY" ] || [ -n "$WAYLAND_DISPLAY" ]; then
+    id=$(xprop -root -notype _NET_SUPPORTING_WM_CHECK 2>/dev/null)
+    id=${id##* }
+    wm=$(xprop -id "$id" -notype -len 100 -f _NET_WM_NAME 8t 2>/dev/null |
+        grep '^_NET_WM_NAME' | cut -d\" -f 2)
+    [ -z "$wm" ] && wm="unknown"
+else
+    wm="tty"
+fi
 
 ## kernel
 ke=$(uname -s -r)
@@ -21,33 +26,32 @@ get_uptime() {
   # converting that data into days, hours and minutes using simple
   # math.
   IFS=. read -r s _ </proc/uptime
-
+  
   # Convert the uptime from seconds into days, hours and minutes.
   d=$((s / 60 / 60 / 24))
   h=$((s / 60 / 60 % 24))
   m=$((s / 60 % 60))
-
+  
   # Only append days, hours and minutes if they're non-zero.
   case "$d" in [!0]*) uptime="${uptime}${d}d " ;; esac
   case "$h" in [!0]*) uptime="${uptime}${h}h " ;; esac
   case "$m" in [!0]*) uptime="${uptime}${m}m " ;; esac
-
+  
   echo ${uptime:-0m}
 }
 
 ## colors
-magenta='[35m'
-cyan='[36m'
-white='[37m'
-reset='[0m'
+magenta='\033[35m'
+cyan='\033[36m'
+white='\033[37m'
+reset='\033[0m'
 
 ## output
-printf '%s\n' "
+printf '%b\n' "
   ${cyan}os${white} ~ ${PRETTY_NAME}
   ${cyan}ke${white} ~ ${ke}
   ${cyan}sh${white} ~ ${SHELL##*/}
   ${cyan}wm${white} ~ ${wm}
-  ${cyan}up${white} ~ ${$(get_uptime)}
-
-   \ (^_^) / welcome to ${magenta}${host}${reset}, ${magenta}${USER}${reset}
+  ${cyan}up${white} ~ $(get_uptime)
+   \\ (^_^) / welcome to ${magenta}${host}${reset}, ${magenta}${USER}${reset}
 "
