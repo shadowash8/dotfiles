@@ -54,7 +54,7 @@ case "$1" in
             # Use Rofi on Hyprland
             choice=$(list_wallpapers_for_rofi | rofi -dmenu -i -p "Wallpaper" \
                 -show-icons \
-                -theme-str 'window { height: 530px; } listview { spacing: 10px; layout: horizontal; } element { orientation: vertical; width: 800px; padding: 10px; } element-icon { size: 400px; } element-text { horizontal-align: 0.5; }')
+                -theme-str 'window { height: 450px; width: 1511px; } listview { spacing: 10px; layout: horizontal; columns: 4; } element { orientation: vertical; width: 360px; padding: 10px; } element-icon { size: 300px; } element-text { horizontal-align: 0.5; }')
             if [[ -n "$choice" ]]; then
                 set_wallpaper "$WALL_DIR/$choice"
             fi
