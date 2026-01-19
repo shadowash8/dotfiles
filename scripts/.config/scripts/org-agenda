@@ -1,0 +1,72 @@
+#!/bin/bash
+
+# Org folder configuration
+ORG_FOLDER="$HOME/Documents/org"
+DAILY_NOTES_FOLDER="$ORG_FOLDER/notes/daily"
+
+# Get today's date in YYYY-MM-DD format
+TODAY=$(date +%Y-%m-%d)
+DAILY_NOTE="$DAILY_NOTES_FOLDER/$TODAY.org"
+
+echo "================================"
+echo "ORG-MODE AGENDA"
+echo "================================"
+echo ""
+
+# Get the agenda using emacsclient
+# First, generate the agenda and write it to a temporary file
+emacsclient -e "(progn (org-agenda-list) (org-agenda-write \"/tmp/org-agenda.txt\" nil nil nil) (kill-buffer))" > /dev/null 2>&1
+
+# Wait a moment for the file to be written
+sleep 0.5
+
+if [ -f "/tmp/org-agenda.txt" ]; then
+    cat /tmp/org-agenda.txt
+    rm /tmp/org-agenda.txt
+else
+    # Alternative method: use org-batch-agenda
+    echo "Trying alternative method..."
+    emacs --batch -l "$ORG_FOLDER/agenda-files.el" \
+          --eval "(setq org-agenda-files '(\"$ORG_FOLDER\"))" \
+          --eval "(org-batch-agenda \"a\")" 2>/dev/null || \
+    emacsclient -e "(org-agenda-list)" 2>/dev/null | sed 's/^"//;s/"$//' | sed 's/\\n/\n/g' || \
+    echo "Could not retrieve agenda. Make sure Emacs daemon is running with org-mode configured."
+fi
+
+echo ""
+echo "================================"
+echo "DAILY NOTE TASKS - $TODAY"
+echo "================================"
+echo ""
+
+# Check if today's daily note exists
+if [ ! -f "$DAILY_NOTE" ]; then
+    echo "Daily note not found: $DAILY_NOTE"
+    exit 1
+fi
+
+# Extract everything from the Tasks heading onward
+# Using awk to find the Tasks heading and print everything under it until the next same-level heading
+awk '
+    /^[*] [Tt]asks/ { 
+        found=1
+        level=1
+        print
+        next 
+    }
+    found && /^[*] / && !/^[*] [Tt]asks/ { 
+        # Hit another top-level heading, stop
+        exit 
+    }
+    found { 
+        print 
+    }
+' "$DAILY_NOTE"
+
+# Check if we found any tasks
+if ! grep -q "^[*] [Tt]asks" "$DAILY_NOTE" 2>/dev/null; then
+    echo "Could not find Tasks heading in daily note"
+    echo ""
+    echo "Available headings in $DAILY_NOTE:"
+    grep "^[*]" "$DAILY_NOTE" 2>/dev/null || echo "No headings found"
+fi
