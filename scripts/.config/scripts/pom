@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+
+# Pomodoro Timer Script
+# Dependencies: gum, timer, terminal-notifier (or notify-send on Linux)
+
+pom() {
+    local split="$POMO_SPLIT"
+    local work
+    local break_time
+    
+    # If POMO_SPLIT is not set, prompt user to choose
+    if [ -z "$split" ]; then
+        split=$(gum choose "25/5" "50/10" "all done" --header "Choose a pomodoro split.")
+    fi
+    
+    # Set work and break times based on selection
+    case "$split" in
+        "25/5")
+            work="25m"
+            break_time="5m"
+            ;;
+        "50/10")
+            work="50m"
+            break_time="10m"
+            ;;
+        "all done")
+            return 0
+            ;;
+        *)
+            echo "Invalid selection"
+            return 1
+            ;;
+    esac
+    
+    # Start work timer
+    timer "$work"
+    
+    # Notify when work timer is done
+    if command -v terminal-notifier &> /dev/null; then
+        terminal-notifier -message "Pomodoro" \
+            -title "Work Timer is up! Take a Break 😊" \
+            -sound "Crystal"
+    elif command -v notify-send &> /dev/null; then
+        notify-send "Pomodoro" "Work Timer is up! Take a Break 😊"
+    fi
+    
+    # Ask if ready for break
+    if gum confirm "Ready for a break?"; then
+        timer "$break_time"
+        
+        # Notify when break is over
+        if command -v terminal-notifier &> /dev/null; then
+            terminal-notifier -message "Pomodoro" \
+                -title "Break is over! Get back to work 😬" \
+                -sound "Crystal"
+        elif command -v notify-send &> /dev/null; then
+            notify-send "Pomodoro" "Break is over! Get back to work 😬"
+        fi
+        
+        # Recursively call pom for another round
+        pom
+    else
+        # If not ready for break, end the session
+        return 0
+    fi
+}
+
+# Run the function
+pom

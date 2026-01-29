@@ -1,0 +1,98 @@
+;; defsrc is still necessary
+(defcfg
+  process-unmapped-keys true 
+  danger-enable-cmd true
+  concurrent-tap-hold     yes
+  allow-hardware-repeat   no
+)
+
+(defsrc
+  esc   f1   f2   f3   f4   f5   f6   f7   f8   f9   f10  f11  f12   prtsc   slck  pause
+  grv   1    2    3    4    5    6    7    8    9    0    -    =     bspc    ins home pgup     nlck  kp/  kp* kp-
+  tab   q    w    e    r    t    y    u    i    o    p    [    ]     \       del end  pgdn     kp7   kp8  kp9  kp+
+  caps  a    s    d    f    g    h    j    k    l    ;    '     ret                             kp4   kp5  kp6
+  lsft  z    x    c    v    b    n    m    ,    .    /     rsft                    up           kp1   kp2  kp3  kprt
+  lctl  lmet lalt           spc                ralt  rmet  rctl              left  down  right  kp0        kp.
+)
+
+(defvar
+  tap-time 200 
+  hold-time 200
+)
+
+(defalias
+  ;; REMAPS
+  cap (tap-hold $tap-time $hold-time esc caps)
+  ent (tap-hold $tap-time $hold-time ' enter)
+
+  ;; HOME ROW MODS
+  a (tap-hold $tap-time $hold-time a lalt)
+  s (tap-hold $tap-time $hold-time s lsft)
+  d (tap-hold $tap-time $hold-time d lctl)
+  f (tap-hold $tap-time $hold-time f lmet)
+
+  j (tap-hold $tap-time $hold-time j rmet)
+  k (tap-hold $tap-time $hold-time k rctl)
+  l (tap-hold $tap-time $hold-time l rsft)
+  ; (tap-hold $tap-time $hold-time ; lalt)
+
+  ;; LAYERS 
+  bse (layer-switch base)
+  mni (layer-toggle manipulation)
+  med (layer-toggle media)
+  sys (layer-toggle system)
+  dis (layer-switch disable)
+
+  ;; MEDIA SHORT ALIASES
+  mps (cmd "xdotool" "key" "XF86Stop")     ;; Stop
+  mpp (cmd "xdotool" "key" "XF86Play")     ;; Play/Pause
+
+  ;; BRIGHTNESS ALIASES 
+  bru (cmd "brightnessctl" "set" "+10%") ;; Brightness Up
+  brd (cmd "brightnessctl" "set" "10%-") ;; Brightness Down
+)
+
+(deflayer base
+  @dis  _    _    _    _    _    _    _    _    _    _    _    _     _       _    _
+  _     _    _    _    _    _    _    _    _    _    _    -    _     _       _    _    _      _     _    _    _
+  _     _    _    _    _    _    _    _    _    _    _    _    _     _       _    _    _      _     _    _    _
+  @cap  @a    @s    @d    @f    _    _    @j    @k    @l    @;    @ent _                      _     _    _
+  XX    _    _    _    _    _    _    _    _    _    _    XX                    _             _     _    _    _
+  @med @sys  @mni           _               @mni  XX   @med                 _   _   _         _          _
+)
+
+(deflayer manipulation 
+  @dis  _    _    _    _    _    _    _    _    _    _    _    _     _       _    _
+  _     _    _    _    _    _    _    _    _    _    _    -    _     _       _    _    _      _     _    _    _
+  _     del  up   bspc C-tab _    _   _    _    _    _    _    _     _       _    _    _      _     _    _    _
+  @cap  left down right @f    _    _    left down up   right @ent  _                          _     _    _
+  XX    _    _    _    _    _    _    _    _    _    _    XX                    _             _     _    _    _
+  XX    XX   XX             _               XX    XX   XX                   _   _   _         _          _
+)
+
+(deflayer media
+  @dis  _    _    _    _    _    _    _    _    _    _    _    _     _       _    _
+  _     _    _    _    _    _    _    _    _    _    _    _    _     _       _    _    _      _     _    _    _
+  _     mute volu @mps _    _    _    _    _    _    _    _    _     _       _    _    _      _     _    _    _
+  _     prev vold next _    _    _    _    vold volu _    _    _                              _     _    _
+  XX    _    _    _    _    _    _    _    _    _    _    XX                    volu          _     _    _    _
+  @bse  XX   XX             @mpp            XX    XX   @bse                   _ vold _        _          _
+)
+
+(deflayer system 
+  XX    _    _    _    _    _    _    _    _    _    _    _    _     _       _    _
+  _     _    _    _    _    _    _    _    _    _    _    _    _     _       _    _    _      _     _    _    _
+  _     _    @bru _    _    _    _    _    _    _    _    _    _     _       _    _    _      _     _    _    _
+  _     _    @brd _    _    _    _    _    _    _    _    _    _                              _     _    _
+  XX    _    _    _    _    _    _    _    _    _    _    XX                    _             _     _    _    _
+  XX    @bse XX             -               XX    XX   XX                    _  _   _         _          _
+)
+
+(deflayer disable
+  @bse  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX    XX      XX   XX
+  XX    XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX    XX      XX   XX   XX     XX    XX   XX   XX
+  XX    XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX    XX      XX   XX   XX     XX    XX   XX   XX
+  XX    XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX                             XX    XX   XX
+  XX    XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX                    XX            XX    XX   XX   XX
+  XX    XX   XX             XX              XX    XX   XX                   XX  XX  XX        XX         XX
+)

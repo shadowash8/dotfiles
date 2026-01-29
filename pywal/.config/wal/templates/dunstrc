@@ -1,0 +1,43 @@
+[global]
+    monitor = 0
+    follow = keyboard
+    width = (250, 500)
+    height = (0, 750)
+    offset = (7, 28)
+    padding = 5
+    horizontal_padding = 5
+    gap_size = 3
+    
+    # Transparency: 0 is fully opaque, 100 is fully transparent
+    transparency = 35
+    
+    frame_width = 2
+    # Using 'color8' or 'color2' for the frame usually looks best
+    frame_color = "{color2}"
+    
+    font = Iosevka 11
+    corner_radius = 0
+    min_icon_size = 32
+    max_icon_size = 32
+    format = "<b>%s</b>\n%b"
+
+[urgency_low]
+    # Background is your dark wallpaper color
+    background = "{background}"
+    # Foreground is a muted grey/color
+    foreground = "{color7}"
+    timeout = 10
+
+[urgency_normal]
+    background = "{background}"
+    # Foreground is your main text color
+    foreground = "{foreground}"
+    timeout = 10
+    override_pause_level = 30
+
+[urgency_critical]
+    # Critical background often uses a bright accent color
+    background = "{color1}"
+    foreground = "{background}"
+    frame_color = "{color9}"
+    timeout = 15

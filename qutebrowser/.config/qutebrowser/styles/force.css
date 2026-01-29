@@ -1,0 +1,52 @@
+/* Improve text rendering */
+html,
+body,
+div,
+p,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+strong,
+em,
+b,
+i,
+a {
+    font-family: "Iosevka", sans-serif !important;
+    text-rendering: optimizeLegibility !important;
+    -webkit-font-smoothing: antialiased !important;
+}
+
+/* Better line spacing */
+p,
+li,
+div {
+    line-height: 1.6 !important;
+}
+
+/* Remove sticky headers */
+header[style*="position: fixed"],
+header[style*="position: sticky"],
+nav[style*="position: fixed"] {
+    position: relative !important;
+}
+
+/* Hide cookie banners, newsletters, popups */
+[class*="cookie"],
+[class*="gdpr"],
+[class*="newsletter"],
+[class*="subscribe"],
+[id*="modal"],
+[class*="popup"] {
+    display: none !important;
+}
+
+/* Remove annoying chat widgets */
+[class*="intercom"],
+[class*="drift"] {
+    display: none !important;
+}

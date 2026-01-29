@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Function to reload only if the profile is running
+reload_profile() {
+    local profile=$1
+    # Check if the socket file exists in the runtime directory
+    # Standard path: /run/user/1000/qutebrowser/ipc-<profile_hash>
+    # Simpler way: check if the process is running for that profile
+    if pgrep -af "qutebrowser.*--basedir.*$profile" > /dev/null; then
+        qutebrowser-profile --load "$profile" ":config-source"
+    fi
+}
+
+reload_profile "personal"
+reload_profile "studies"

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Determine which menu to use based on the desktop environment
+if [ "$XDG_CURRENT_DESKTOP" = "dwm" ] || [ -z "$WAYLAND_DISPLAY" ]; then
+    # We are in dwm (X11)
+    MENU_FLAG="--menu=dmenu"
+else
+    # We are in Hyprland (Wayland) - uses your script's default rofi logic
+    MENU_FLAG=""
+fi
+
+# If there is no URL, just launch the profile selector
+if [ -z "$1" ]; then
+    qutebrowser-profile $MENU_FLAG --choose
+else
+    # Pass the URL from KDE Connect into the --choose logic
+    qutebrowser-profile $MENU_FLAG --choose "$1"
+fi

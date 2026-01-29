@@ -1,0 +1,62 @@
+/* cosmetic and focus tweaks for yt */
+/* credit to various userstyles makers for some pieces of this */
+
+/* hide recs */
+#secondary {
+    display: none !important;
+}
+
+/* make video fill the remaining space */
+#primary {
+    width: 100% !important;
+    flex: 1 !important;
+    max-width: none !important;
+}
+
+html:not(.ytd-watch-flexy) ytd-watch-flexy[flexy] #player {
+    width: 100% !important;
+    max-width: 1400px;
+    margin: 0 auto !important;
+}
+
+/* hide ads */
+ytd-ad-slot-renderer {
+    display: none !important;
+}
+
+ytd-statement-banner-renderer,
+ytd-engagement-panel-section-list-renderer {
+    display: none !important;
+}
+
+/* hide shorts */
+ytd-rich-shelf-renderer {
+    display: none !important;
+}
+
+a[title="Shorts"] {
+    display: none !important;
+}
+
+a[href="/shorts/"] {
+    display: none !important;
+}
+
+grid-shelf-view-model.ytGridShelfViewModelHost {
+    display: none !important;
+}
+
+/* extra stuff */
+#related {
+    display: none !important;
+}
+
+ytd-two-column-browse-results-renderer[page-subtype="home"] {
+    display: none !important;
+}
+
+#player,
+#ytd-player,
+#full-bleed-container {
+    display: none !important;
+}

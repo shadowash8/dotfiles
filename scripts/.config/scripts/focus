@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+HOSTS="/etc/hosts"
+
+DOMAINS=(
+  "youtube.com"
+  "www.youtube.com"
+  "m.youtube.com"
+  "youtu.be"
+  "music.youtube.com"
+  "gaming.youtube.com"
+  "discord.com"
+)
+
+echo "Activating Focus Mode..."
+
+for domain in "${DOMAINS[@]}"; do
+  # Only add the domain if it isn't already in the hosts file
+  if ! grep -q "[[:space:]]$domain$" "$HOSTS"; then
+    echo "0.0.0.0 $domain" | sudo tee -a "$HOSTS" > /dev/null
+  fi
+done
+
+# Clear DNS cache (Linux/NetworkManager)
+sudo systemctl restart NetworkManager
+
+echo "Focus Mode On. Distractions blocked."

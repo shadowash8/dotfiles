@@ -1,0 +1,72 @@
+#!/bin/sh
+
+browser='qutebrowser-profile --menu=dmenu'
+engine='https://duckduckgo.com/?q=%s'
+
+# Check for menu flag
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --menu)
+      MENU_TYPE="$2"
+      shift 2
+      ;;
+    *)
+      shift
+      ;;
+  esac
+done
+
+# Set default if not specified
+if [[ -z "$MENU_TYPE" ]]; then
+    MENU_TYPE="rofi"
+fi
+
+if [[ "$MENU_TYPE" == "dmenu" ]]; then
+    menu_cmd="dmenu -c -l 10 -s -p Search"
+elif [[ "$MENU_TYPE" == "wmenu" ]]; then
+    menu_cmd="wmenu -i -p Search"
+else
+    menu_cmd="rofi -dmenu -i -p Search -l 10"
+fi
+
+gotourl() {
+	$browser "$choice"
+}
+
+searchweb() {
+	#convert search query to percent encoding and insert it into url
+	choice=$(echo "$choice" | hexdump -v -e '/1 " %02x"')
+	choice=$(echo "$engine" | sed "s/%s/${choice% 0a}/;s/[[:space:]]/%/g")
+	gotourl
+}
+
+tmpfile=$(mktemp /tmp/dmenu_websearch.XXXXXX)
+trap 'rm "$tmpfile"' 0 1 15
+
+printf '%s\n%s\n' "$uricur" "$1" > "$tmpfile"
+sed -i -E '/^(#|$)/d' "$tmpfile"
+
+choice=$(cat "$tmpfile" | $menu_cmd) || exit 1
+
+# Detect links without protocol (This is WIP)
+protocol='^(https?|ftps?|mailto|about|file):///?'
+
+checkurl() {
+	grep -Fx "$choice" "$tmpfile" &&
+		choice=$(echo "$choice" | awk '{ print $1 }') && return 0
+	[ ${#choice} -lt 4 ] && return 1
+	echo "$choice" | grep -Z ' ' && return 1
+	echo "$choice" | grep -EiZ "$protocol" && return 0
+	echo "$choice" | grep -FZ '..' && return 1
+	prepath=$(echo "$choice" | sed 's/(\/|#|\?).*//')
+	echo "$prepath" |  grep -FvZ '.' && return 1
+	echo "$prepath" |  grep -EZ '^([[:alnum:]~_:-]+\.?){1,3}' && return 0
+}
+
+if checkurl
+then
+	echo "$choice" | grep -EivZ "$protocol" &&
+		choice="http://$choice"
+	gotourl
+else searchweb
+fi

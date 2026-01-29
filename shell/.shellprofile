@@ -1,0 +1,33 @@
+# Vars
+export LANG=en_US.UTF-8
+export EDITOR="nvim"
+export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$HOME/.config/scripts:/var/lib/flatpak/exports/bin:$HOME/.local/bin/appimages:$PATH"
+
+# Alias
+alias vi="nvim"
+alias vim="nvim"
+alias zshconf="vi ~/.zshrc"
+alias zshref="source ~/.zshrc"
+alias ls='eza'
+alias ll='eza -la'
+alias g="git"
+alias cls="clear"
+alias lg="lazygit"
+alias lj="lazyjournal"
+alias em='emacsclient -c -a "emacs"'
+alias get="curl -O"
+alias clip="xclip -selection clipboard"
+alias nmrestart="sudo systemctl restart NetworkManager"
+
+alias dn="sudo dnf"
+alias dni="sudo dnf install"
+alias dnr="sudo dnf remove"
+alias dns="sudo dnf search"
+
+alias dwmgen="cd ~/.ashdwm/dwm/ && sudo make clean install"
+alias dwlgen="cd ~/.ashdwl/dwl/ && sudo make clean install"
+alias pdry="patch --dry-run -p1 <"
+alias prun="patch -p1 <"
+alias sx="startx ~/.xinitrc"
+alias ws="wayback-session"
+alias sus="systemctl suspend"

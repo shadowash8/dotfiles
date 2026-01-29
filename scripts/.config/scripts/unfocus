@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+HOSTS="/etc/hosts"
+
+# List must match the focus script to ensure everything is unblocked
+DOMAINS=(
+  "youtube.com"
+  "www.youtube.com"
+  "m.youtube.com"
+  "youtu.be"
+  "music.youtube.com"
+  "gaming.youtube.com"
+  "discord.com"
+)
+
+echo "Deactivating Focus Mode..."
+
+for domain in "${DOMAINS[@]}"; do
+    # Escapes dots for sed and deletes lines matching the domain
+    safe_domain=$(echo "$domain" | sed 's/\./\\./g')
+    sudo sed -i "/$safe_domain/d" "$HOSTS"
+done
+
+sudo systemctl restart NetworkManager
+
+echo "Focus Mode Off. Work hard, play hard."
