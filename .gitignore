@@ -1,0 +1,20 @@
+# ----------------------------------------
+# System generated files 
+# ----------------------------------------
+*~
+*#
+.#*
+*.elc
+*.eln
+*.log
+*.ini
+*.local
+thumbs.db
+lazy-lock.json
+tmp-*/
+
+
+qutebrowser/.config/qutebrowser/quickmarks
+qutebrowser/.config/qutebrowser/bookmarks
+qutebrowser/.config/qutebrowser/bookmarks
+
