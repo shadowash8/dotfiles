@@ -73,8 +73,6 @@ c.fonts.web.family.fixed = 'Iosevka'
 c.fonts.web.family.sans_serif = 'Iosevka'
 c.fonts.web.family.serif = 'Iosevka'
 c.fonts.web.family.standard = 'Iosevka'
-# hints
-c.hints.chars = 'arstneio'
 
 # misc
 config.load_autoconfig() 
