@@ -19,6 +19,7 @@ alias get="curl -O"
 alias clip="xclip -selection clipboard"
 alias nmrestart="sudo systemctl restart NetworkManager"
 
+alias sv="systemctl"
 alias dn="sudo dnf"
 alias dni="sudo dnf install"
 alias dnr="sudo dnf remove"
