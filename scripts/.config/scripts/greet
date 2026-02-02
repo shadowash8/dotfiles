@@ -1,6 +1,6 @@
 #!/bin/sh
 ## hostname
-host=$(hostname)
+host=$(hostnamectl hostname)
 
 ## os (distro)
 read -r kernel < /proc/sys/kernel/osrelease

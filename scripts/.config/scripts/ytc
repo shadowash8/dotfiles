@@ -4,7 +4,7 @@
 CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/ytc"
 DOWNLOAD_DIR="${HOME}/Videos/ytc"
 DOWNLOAD_AUDIO_DIR="${HOME}/Music/ytc"
-BROWSER="firefox"  # Change this to your browser: firefox, chrome, chromium, edge, brave, opera, safari, vivaldi
+BROWSER="firefox:fe2njbzs.default-release"  # Change this to your browser: firefox, chrome, chromium, edge, brave, opera, safari, vivaldi
 
 mkdir -p "$CACHE_DIR"
 mkdir -p "$DOWNLOAD_DIR"
