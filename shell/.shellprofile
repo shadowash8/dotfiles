@@ -1,7 +1,7 @@
 # Vars
 export LANG=en_US.UTF-8
 export EDITOR="nvim"
-export PATH="$HOME/.cargo/bin:$HOME/.local/bin:$HOME/.config/scripts:/var/lib/flatpak/exports/bin:$HOME/.local/bin/appimages:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.config/scripts:$PATH"
 
 # Alias
 alias vi="nvim"
@@ -17,13 +17,8 @@ alias lj="lazyjournal"
 alias em='emacsclient -c -a "emacs"'
 alias get="curl -O"
 alias clip="xclip -selection clipboard"
-alias nmrestart="sudo systemctl restart NetworkManager"
 
 alias sv="systemctl"
-alias dn="sudo dnf"
-alias dni="sudo dnf install"
-alias dnr="sudo dnf remove"
-alias dns="sudo dnf search"
 
 alias dwmgen="cd ~/.ashdwm/dwm/ && sudo make clean install"
 alias dwlgen="cd ~/.ashdwl/dwl/ && sudo make clean install"
