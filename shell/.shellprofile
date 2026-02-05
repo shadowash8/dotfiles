@@ -2,6 +2,8 @@
 export LANG=en_US.UTF-8
 export EDITOR="nvim"
 export PATH="$HOME/.local/bin:$HOME/.config/scripts:$PATH"
+export GOGC=25
+export TERMINAL=kitty
 
 # Alias
 alias vi="nvim"
