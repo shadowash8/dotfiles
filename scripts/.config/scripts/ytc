@@ -128,7 +128,7 @@ fetch_and_play() {
                         printf \"\033[1;37mTITLE:\033[0m \$title\n\"
                         printf \"\033[1;37mTIME:\033[0m \$duration\n\"
                         echo \"------------------------------------\"
-                        chafa --size=80x40 -f kitty \"\$thumb_path\" 2>/dev/null
+                        chafa --size=80x40 \"\$thumb_path\" 2>/dev/null
                     fi
                 " --preview-window=right:60%:wrap)
             
