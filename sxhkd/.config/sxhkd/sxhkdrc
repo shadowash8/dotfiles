@@ -1,0 +1,52 @@
+# --- Launchers ---
+
+# Open Rofi
+super + space
+    rofi -show drun
+
+# Terminal (st)
+super + Return
+    st
+
+# Clipboard
+super + v
+    rofi -modi "clipboard:greenclip print" -show clipboard
+
+# Browser
+super + b
+    qbpm choose
+
+# File Manager 
+super + f
+    thunar
+
+# Emacs Client
+super + w
+    emacsclient -c
+
+# Lock Screen
+super + l
+    slock
+
+# Connect Phone
+super + p
+    connect
+
+# Music
+super + m
+    kitty rmpc
+
+# Web Search
+super + ctrl + r
+    websearch
+
+# Notes
+super + shift + space
+    notes
+
+# Wallpaper Menu
+super + ctrl + space
+    walmenu
+
+super + Escape
+    pkill -USR1 sxhkd && notify-send "sxhkd" "Configuration reloaded"
