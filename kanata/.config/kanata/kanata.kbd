@@ -57,8 +57,8 @@
   _     _    _    _    _    _    _    _    _    _    _    -    _     _       _    _    _      _     _    _    _
   _     _    _    _    _    _    _    _    _    _    _    _    _     _       _    _    _      _     _    _    _
   @cap  @a    @s    @d    @f    _    _    @j    @k    @l    @;    @ent _                      _     _    _
-  XX    _    _    _    _    _    _    _    _    _    _    XX                    _             _     _    _    _
-  @med @sys  @mni           _               @mni  XX   @med                 _   _   _         _          _
+  @med   _    _    _    _    _    _    _    _    _    _    XX                    _             _     _    _    _
+  XX    @sys  @mni           _               @mni  XX   @med                 _   _   _         _          _
 )
 
 (deflayer manipulation 
@@ -75,8 +75,8 @@
   _     _    _    _    _    _    _    _    _    _    _    _    _     _       _    _    _      _     _    _    _
   _     mute volu @mps _    _    _    _    _    _    _    _    _     _       _    _    _      _     _    _    _
   _     prev vold next _    _    _    _    vold volu _    _    _                              _     _    _
-  XX    _    _    _    _    _    _    _    _    _    _    XX                    volu          _     _    _    _
-  @bse  XX   XX             @mpp            XX    XX   @bse                   _ vold _        _          _
+  @bse  _    _    _    _    _    _    _    _    _    _    XX                    volu          _     _    _    _
+  XX    XX   XX             @mpp            XX    XX   @bse                   _ vold _        _          _
 )
 
 (deflayer system 
