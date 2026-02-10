@@ -17,16 +17,12 @@ super + b
     qbpm choose
 
 # File Manager 
-super + f
+super + e
     thunar
 
 # Emacs Client
 super + w
-    emacsclient -c
-
-# Lock Screen
-super + l
-    slock
+    emacsclient -c -a emacs
 
 # Connect Phone
 super + p
