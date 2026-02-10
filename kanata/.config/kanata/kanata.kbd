@@ -54,18 +54,18 @@
 
 (deflayer base
   @dis  _    _    _    _    _    _    _    _    _    _    _    _     _       _    _
-  _     _    _    _    _    _    _    _    _    _    _    -    _     _       _    _    _      _     _    _    _
-  _     _    _    _    _    _    _    _    _    _    _    _    _     _       _    _    _      _     _    _    _
-  @cap  @a    @s    @d    @f    _    _    @j    @k    @l    @;    @ent _                      _     _    _
+  _     _    _    _    _    _    _    _    _    _    _    -    _     _       _    _    _       _     _    _    _
+  _     _    _    _    _    _    _    _    _    _    _    _    _     _       _    _    _       _     _    _    _
+  @cap  @a    @s    @d    @f    _    _    @j    @k    @l    @;    @ent _                       _     _    _
   @med   _    _    _    _    _    _    _    _    _    _    XX                    _             _     _    _    _
   XX    @sys  @mni           _               @mni  XX   @med                 _   _   _         _          _
 )
 
 (deflayer manipulation 
-  @dis  _    _    _    _    _    _    _    _    _    _    _    _     _       _    _
-  _     _    _    _    _    _    _    _    _    _    _    -    _     _       _    _    _      _     _    _    _
-  _     del  up   bspc C-tab _    _   _    _    _    _    _    _     _       _    _    _      _     _    _    _
-  @cap  left down right @f    _    _    left down up   right @ent  _                          _     _    _
+  @dis  _    _    _    _    _    _    _    _    _    _    _    _    _       _    _
+  _     _    _    _    _    _    _    _    _    _    _    -    _    _       _    _    _       _     _    _    _
+  _     del  up bspc  C-tab _    _   _     _    _    _    _    _    _       _    _    _       _     _    _    _
+  @cap  left down right @f  _  left down  up  right  _  @ent   _                              _     _    _
   XX    _    _    _    _    _    _    _    _    _    _    XX                    _             _     _    _    _
   XX    XX   XX             _               XX    XX   XX                   _   _   _         _          _
 )
@@ -74,7 +74,7 @@
   @dis  _    _    _    _    _    _    _    _    _    _    _    _     _       _    _
   _     _    _    _    _    _    _    _    _    _    _    _    _     _       _    _    _      _     _    _    _
   _     mute volu @mps _    _    _    _    _    _    _    _    _     _       _    _    _      _     _    _    _
-  _     prev vold next _    _    _    _    vold volu _    _    _                              _     _    _
+  _     prev vold next _    _    _    vold volu _    _    _    _                              _     _    _
   @bse  _    _    _    _    _    _    _    _    _    _    XX                    volu          _     _    _    _
   XX    XX   XX             @mpp            XX    XX   @bse                   _ vold _        _          _
 )
