@@ -12,14 +12,17 @@ URL="$1"
 # This ensures it opens in a completely fresh, isolated window
 DIR_HASH=$(echo -n "$URL" | md5sum | cut -d' ' -f1)
 
-# 3. Launch qutebrowser with the "App Mode" settings
-qutebrowser \
-    --target window \
-    -s tabs.show never \
-    -s statusbar.show never \
-    ':tab-only' \
-    ':bind o nop' \
-    ':bind O nop' \
-    ':bind <Ctrl-t> nop' \
-    ':bind <Ctrl-n> nop' \
-    "$URL"
+# # 3. Launch qutebrowser with the "App Mode" settings
+# qutebrowser \
+#     --target window \
+#     -s tabs.show never \
+#     -s statusbar.show never \
+#     ':tab-only' \
+#     ':bind o nop' \
+#     ':bind O nop' \
+#     ':bind <Ctrl-t> nop' \
+#     ':bind <Ctrl-n> nop' \
+#     "$URL"
+
+# 3. Surf
+surf "$URL"
