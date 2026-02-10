@@ -2,13 +2,11 @@
 
 # --- Configuration & Styling ---
 CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/ytc"
-DOWNLOAD_DIR="${HOME}/Videos/ytc"
-DOWNLOAD_AUDIO_DIR="${HOME}/Music/ytc"
+DOWNLOAD_DIR="${HOME}/vids/ytc"
+DOWNLOAD_AUDIO_DIR="${HOME}/moosic/ytc"
 BROWSER="firefox:fe2njbzs.default-release"  # Change this to your browser: firefox, chrome, chromium, edge, brave, opera, safari, vivaldi
 
 mkdir -p "$CACHE_DIR"
-mkdir -p "$DOWNLOAD_DIR"
-mkdir -p "$DOWNLOAD_AUDIO_DIR"
 
 mark_as_watched() {
     local id="$1"
@@ -51,6 +49,7 @@ play_submenu() {
             ;;
         *"Download Video"*)
             echo "Downloading video to $DOWNLOAD_DIR..."
+            mkdir -p "$DOWNLOAD_DIR"
             yt-dlp --cookies-from-browser "$BROWSER" \
                 --no-write-thumbnail \
                 -o "$DOWNLOAD_DIR/%(title)s.%(ext)s" \
@@ -60,6 +59,7 @@ play_submenu() {
             ;;
         *"Download Audio"*)
             echo "Downloading audio to $DOWNLOAD_AUDIO_DIR..."
+            mkdir -p "$DOWNLOAD_AUDIO_DIR"
             yt-dlp --cookies-from-browser "$BROWSER" \
                 --no-write-thumbnail \
                 -x --audio-format mp3 \
