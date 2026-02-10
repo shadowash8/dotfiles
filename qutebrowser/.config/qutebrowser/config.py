@@ -74,8 +74,6 @@ c.fonts.web.family.sans_serif = 'SF Mono'
 c.fonts.web.family.serif = 'SF Mono'
 c.fonts.web.family.standard = 'SF Mono'
 
-c.hints.chars = 'arstgmneio'
-
 # misc
 config.load_autoconfig() 
 c.auto_save.session = True 

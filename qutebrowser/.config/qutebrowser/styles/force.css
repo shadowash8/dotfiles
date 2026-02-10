@@ -16,7 +16,7 @@ em,
 b,
 i,
 a {
-    font-family: "Iosevka", sans-serif !important;
+    font-family: "SF Mono", sans-serif !important;
     text-rendering: optimizeLegibility !important;
     -webkit-font-smoothing: antialiased !important;
 }
