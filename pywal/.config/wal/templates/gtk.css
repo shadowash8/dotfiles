@@ -23,8 +23,3 @@
 @define-color sidebar_fg_color @window_fg_color;
 @define-color sidebar_border_color @window_bg_color;
 @define-color sidebar_backdrop_color @window_bg_color;
-
-#XfcePanelWindow {
-    border-radius: 16px;
-    padding: 4px;
-}
