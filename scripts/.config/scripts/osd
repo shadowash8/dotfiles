@@ -1,0 +1,56 @@
+#!/bin/bash
+
+# Dependencies: brightnessctl, wireplumber, libnotify, slock
+
+# Function to handle Brightness
+brightness() {
+    # $2 is the value (e.g., 5%+)
+    brightnessctl set "$2" > /dev/null
+
+    # Get current value (e.g., 55)
+    current=$(brightnessctl -m | cut -d, -f4 | tr -d '%')
+    
+    notify-send -h string:x-dunst-stack-tag:bri \
+                -h int:value:"$current" \
+                "Brightness: $current%"
+}
+
+# Function to handle Volume
+volume() {
+    if [ "$2" == "toggle" ]; then
+        wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+    else
+        wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ "$2"
+    fi
+        
+    # Update dwmblocks (Signal 4)
+    pkill -RTMIN+4 dwmblocks 2>/dev/null
+        
+    # Get volume info
+    vol_raw=$(wpctl get-volume @DEFAULT_AUDIO_SINK@)
+    is_muted=$(echo "$vol_raw" | grep -o "MUTED")
+        
+    if [ -n "$is_muted" ]; then
+        notify-send -u low -h string:x-dunst-stack-tag:vol "Volume: Muted"
+    else
+        # Convert 0.50 to 50 and ensure it's an integer for Dunst
+        val=$(echo "$vol_raw" | awk '{printf "%.0f", $2 * 100}')
+        notify-send -u low -h string:x-dunst-stack-tag:vol -h int:value:"$val" "Volume: ${val}%"
+    fi
+}
+
+# Main Case Statement
+case "$1" in
+    brightness)
+        brightness "$1" "$2"
+        ;;
+    volume)
+        volume "$1" "$2"
+        ;;
+    lock)
+        slock &
+        ;;
+    *)
+        echo "Usage: $0 {brightness [+/-value]|volume [+/-value|toggle]|lock}"
+        ;;
+esac

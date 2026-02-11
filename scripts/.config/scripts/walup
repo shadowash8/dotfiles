@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# update bg
+feh --bg-fill $(cat ~/.cache/wal/wal) &
+
+# update xrdb
+xrdb -load ~/.Xresources
+
+# update dwm
+xdotool key --clearmodifiers super+control+shift+q
+
+# update qutebrowser colors
+~/.config/scripts/qute-reload &
+
+# update emacs colors
+emacsclient -e '(my/reload-xresources-theme)' &
+
+# update firefox colors
+pywalfox update &
+
+# update kitty colors
+pkill -SIGUSR1 kitty
+
+# update dunst colors
+pkill dunst &
+dunst & disown
+
+# update qute-reload colors
+qute-reload &
