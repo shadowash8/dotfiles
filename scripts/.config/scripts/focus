@@ -22,6 +22,6 @@ for domain in "${DOMAINS[@]}"; do
 done
 
 # Clear DNS cache (Linux/NetworkManager)
-sudo systemctl restart NetworkManager
+sudo systemctl restart iwd
 
 echo "Focus Mode On. Distractions blocked."

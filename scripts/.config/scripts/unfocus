@@ -21,6 +21,6 @@ for domain in "${DOMAINS[@]}"; do
     sudo sed -i "/$safe_domain/d" "$HOSTS"
 done
 
-sudo systemctl restart NetworkManager
+sudo systemctl restart iwd 
 
 echo "Focus Mode Off. Work hard, play hard."

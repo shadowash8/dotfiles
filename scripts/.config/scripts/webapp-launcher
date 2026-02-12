@@ -25,4 +25,4 @@ DIR_HASH=$(echo -n "$URL" | md5sum | cut -d' ' -f1)
 #     "$URL"
 
 # 3. Surf
-surf "$URL"
+GDK_BACKEND=x11 surf "$URL"
