@@ -58,10 +58,8 @@
 
     <!-- Divider -->
     <child>
-		<object class="GtkMenuItem">
-			<property name="label"></property>
-        </object>
-	</child>
+      <object class="GtkSeparatorMenuItem" id="divider2"/>
+    </child>
 
     <!-- Power options -->
     <child>

@@ -1,18 +1,20 @@
 {
     "layer": "top",
-    "position": "top",
+    "position": "bottom",
     "height": 30,
-    "margin-top": 8,
+    "margin-top": 0,
     "margin-left": 8,
     "margin-right": 8,
-    "margin-bottom": 0,
+    "margin-bottom": 8,
     "reload_style_on_change": true,
     "modules-left": [
         "custom/user-menu",
         "ext/workspaces",
         "dwl/window"
     ],
-    "modules-center": [],
+    "modules-center": [
+        "custom/org-clock"
+    ],
     "modules-right": [
         "group/expand",
         "power-profiles-daemon",
@@ -37,7 +39,7 @@
             "music": "thunar $HOME/moosic",
             "shutdown": "systemctl poweroff",
             "reboot": "systemctl reboot",
-            "lock": "hyprlock",
+            "lock": "lock.sh",
             "suspend": "systemctl suspend"
         }
     },
