@@ -1,7 +1,7 @@
 # Vars
 export LANG=en_US.UTF-8
 export EDITOR="nvim"
-export PATH="$HOME/.local/bin:$HOME/.config/scripts:$HOME/.ashdwm/scripts:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.config/scripts:$PATH"
 export GOMEMLIMIT=200MiB
 export GOGC=20
 export TERMINAL=kitty
