@@ -5,7 +5,7 @@
    GENERAL
    ========================= */
 * {
-    font-family: "SF Mono", "FiraCode Nerd Font Propo";
+    font-family: "sans";
 }
 
 /* =========================
@@ -13,9 +13,9 @@
    ========================= */
 window#waybar {
     background-color: transparent;
-    color: @foreground;
+    color: @color7;
     border-radius: 8px;
-    font-size: 11pt;
+    font-size: 10pt;
     transition: background-color 0.5s;
 }
 
@@ -60,7 +60,7 @@ tooltip {
     border-radius: 999px;
     margin: 0 4px;
     padding: 0 12px;
-    border: 0.7px solid @color9;
+    border: 2px solid @color4;
 }
 
 /* =========================
@@ -92,7 +92,7 @@ tooltip {
 
 #workspaces button {
     all: unset;
-    background-color: @foreground;
+    background-color: @color6;
     font-size: 0;
     margin: 0 2px;
     padding: 0 8px;
@@ -105,12 +105,12 @@ tooltip {
 }
 
 #workspaces button.active {
-    background-color: @foreground;
+    background-color: @color3;
     padding: 0 18px;
 }
 
 #workspaces button.empty {
-    color: @foreground;
+    color: @color2;
 }
 
 #workspaces button.empty:hover {
@@ -118,7 +118,7 @@ tooltip {
 }
 
 #workspaces button.empty.active {
-    color: @foreground;
+    color: @color4;
 }
 
 window#waybar.empty #window {
@@ -232,6 +232,7 @@ menuitem {
    ========================= */
 #custom-user-menu {
     margin-left: 8px;
+    color: @color3;
 }
 
 /* =========================

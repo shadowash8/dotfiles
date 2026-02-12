@@ -66,13 +66,13 @@ c.tabs.padding = {'top': 5, 'bottom': 5, 'left': 9, 'right': 9}
 c.scrolling.smooth = True
 
 # fonts
-c.fonts.default_family = 'SF Mono'
+c.fonts.default_family = 'sans'
 c.fonts.default_size = '10pt'
 c.fonts.web.size.default = 16
-c.fonts.web.family.fixed = 'SF Mono'
-c.fonts.web.family.sans_serif = 'SF Mono'
-c.fonts.web.family.serif = 'SF Mono'
-c.fonts.web.family.standard = 'SF Mono'
+c.fonts.web.family.fixed = 'sans'
+c.fonts.web.family.sans_serif = 'sans'
+c.fonts.web.family.serif = 'sans'
+c.fonts.web.family.standard = 'sans'
 
 # misc
 config.load_autoconfig() 

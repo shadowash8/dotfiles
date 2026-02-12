@@ -3,7 +3,7 @@
     follow = keyboard
     width = (250, 500)
     height = (0, 750)
-    offset = (0, 0)
+    offset = (8, 8)
     padding = 5
     horizontal_padding = 5
     gap_size = 3
@@ -15,8 +15,8 @@
     # Using 'color8' or 'color2' for the frame usually looks best
     frame_color = "{color2}"
     
-    font = "SF-Mono-Regular:10"
-    corner_radius = 0
+    font = Monospace:11
+    corner_radius = 8
     min_icon_size = 32
     max_icon_size = 32
     format = "<b>%s</b>\n%b"

@@ -16,9 +16,10 @@ em,
 b,
 i,
 a {
-    font-family: "SF Mono", sans-serif !important;
+    font-family: "sans", sans !important;
     text-rendering: optimizeLegibility !important;
     -webkit-font-smoothing: antialiased !important;
+    font-size: 12pt;
 }
 
 /* Better line spacing */
