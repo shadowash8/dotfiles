@@ -5,7 +5,7 @@
    GENERAL
    ========================= */
 * {
-    font-family: "sans";
+    font-family: "sans", "Symbols Nerd Font";
 }
 
 /* =========================
@@ -15,7 +15,6 @@ window#waybar {
     background-color: transparent;
     color: @color7;
     border-radius: 8px;
-    font-size: 10pt;
     transition: background-color 0.5s;
 }
 
@@ -169,14 +168,6 @@ window#waybar.empty #window {
 /* =========================
    MODULE COLORS
    ========================= */
-#hyprland-workspaces {
-    color: @color1;
-}
-
-#hyprland-window {
-    color: @color4;
-}
-
 #custom-notification {
     color: @color5;
 }
