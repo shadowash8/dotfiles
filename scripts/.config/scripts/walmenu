@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-FOLDER=~/pics/wals
-SCRIPT=~/.ashdwm/scripts/walup
+FOLDER=~/Pictures/Wallpapers/
+SCRIPT=walup
 
 # 1. Select the Wallpaper
 if command -v nsxiv >/dev/null; then 

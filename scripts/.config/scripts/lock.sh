@@ -15,11 +15,11 @@ swaylock \
   --indicator-thickness 10 \
   --datestr "%A, %d %b" \
   --timestr "%I:%M" \
-  --font "SF Mono" \
+  --font "sans" \
   --ring-color "$color4" \
   --inside-color 00000000 \
   --line-color 00000000 \
   --key-hl-color "$color2" \
   --text-color "$foreground" \
   --effect-blur 7x5 \
-  --fade-in 0.2
+  --fade-in 0
