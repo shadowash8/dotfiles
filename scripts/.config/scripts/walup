@@ -2,12 +2,10 @@
 
 # update bg
 feh --bg-fill $(cat ~/.cache/wal/wal) &
+xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitoreDP-1/workspace0/last-image -s $(cat ~/.cache/wal/wal)
 
 # update xrdb
 xrdb -load ~/.Xresources
-
-# update dwm
-xdotool key --clearmodifiers super+control+shift+q
 
 # update qutebrowser colors
 ~/.config/scripts/qute-reload &
@@ -27,3 +25,7 @@ dunst & disown
 
 # update qute-reload colors
 qute-reload &
+
+# update xfce4
+xfce4-panel -r &
+pkill xfwm4 &

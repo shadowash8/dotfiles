@@ -1,20 +1,12 @@
 # --- Launchers ---
 
-# Open Rofi
-super + space
-    rofi -show drun
-
 # Terminal (st)
 super + Return
-    st
-
-# Clipboard
-super + v
-    rofi -modi "clipboard:greenclip print" -show clipboard
+    st 
 
 # Browser
 super + b
-    qbpm choose
+   helium-browser
 
 # File Manager 
 super + e

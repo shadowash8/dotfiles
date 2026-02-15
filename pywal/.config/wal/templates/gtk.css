@@ -23,3 +23,26 @@
 @define-color sidebar_fg_color @window_fg_color;
 @define-color sidebar_border_color @window_bg_color;
 @define-color sidebar_backdrop_color @window_bg_color;
+
+/* Map Pywal variables to XFCE Panel classes */
+.xfce4-panel,
+.xfce4-panel.background,
+#panel-1, /* Main Panel ID */
+#panel-2 {
+    background-color: @window_bg_color;
+    color: @window_fg_color;
+}
+
+/* Make sure the tasklist buttons (opened apps) match */
+.xfce4-panel .tasklist button {
+    background-color: transparent;
+    border: none;
+    color: @window_fg_color;
+}
+
+/* Highlight the active/clicked app using your Pywal accent */
+.xfce4-panel .tasklist button:checked,
+.xfce4-panel .tasklist button:hover {
+    background-color: @accent_bg_color;
+    color: @accent_fg_color;
+}

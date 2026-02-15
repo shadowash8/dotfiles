@@ -8,7 +8,7 @@ APPS_DIR="$HOME/.local/share/applications"
 create_webapp() {
     local name="$1"
     local url="$2" 
-    local browser="${3:-webapp-launcher}"
+    local browser="$(which webapp-launcher)"
     
     if [[ -z "$name" || -z "$url" ]]; then
         echo "Usage: webapp-create 'App Name' 'https://url.com' [browser-command]"
