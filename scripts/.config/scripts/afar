@@ -1,0 +1,17 @@
+#!/bin/bash
+
+case "$1" in
+  on)
+    echo "Setting afar on."
+    wlr-randr --output eDP-1 --scale 1.2 
+    ;;
+  off)
+    echo "Setting afar off."
+    wlr-randr --output eDP-1 --scale 1.0 
+    ;;
+  *)
+    echo "Usage: afar {on|off}"
+    exit 1
+esac
+
+exit 0
