@@ -6,29 +6,32 @@ default_floating_border pixel 2
 
 # Autostart
 exec_always --no-startup-id sh -c 'feh --bg-fill "$(cat ~/.cache/wal/wal)"'
-exec_always --no-startup-id pkill xfdesktop 
 exec --no-startup-id picom
+exec --no-startup-id dunst
+exec --no-startup-id sxhkd 
+exec --no-startup-id setxkbmap us -variant colemak_dh
+exec --no-startup-id xrdb -override ~/.Xresources
+exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+
 
 # Settings
 floating_modifier $mod
 tiling_drag modifier titlebar
 
 # Bindings
-bindsym $mod+Return exec kitty 
 bindsym $mod+q kill
-bindsym $mod+space exec --no-startup-id xfce4-appfinder
 
 # Focus 
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym $mod+m focus left
+bindsym $mod+n focus down
+bindsym $mod+e focus up
+bindsym $mod+i focus right
 
 # Move 
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+m move left
+bindsym $mod+Shift+n move down
+bindsym $mod+Shift+e move up
+bindsym $mod+Shift+i move right
 
 # Arrow keys
 bindsym $mod+Left focus left
@@ -79,10 +82,10 @@ bindsym $mod+Shift+r restart
 
 # Resize Mode
 mode "resize" {
-    bindsym j resize shrink width 10 px or 10 ppt
-    bindsym k resize grow height 10 px or 10 ppt
-    bindsym l resize shrink height 10 px or 10 ppt
-    bindsym semicolon resize grow width 10 px or 10 ppt
+    bindsym m resize shrink width 10 px or 10 ppt
+    bindsym n resize grow height 10 px or 10 ppt
+    bindsym e resize shrink height 10 px or 10 ppt
+    bindsym i resize grow width 10 px or 10 ppt
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
@@ -96,3 +99,22 @@ for_window [class="Xfce4-panel"] floating enable
 for_window [class="Xfce4-about"] floating enable
 for_window [class="Xfce4-appfinder"] floating enable, border pixel 2, resize set 600 400, move position center
 for_window [class="Xfce4-session-logout"] floating enable
+for_window [class="Xfce4-clipman-history"] floating enable
+
+# Bar
+bar {
+    status_command    i3blocks
+    position          top
+
+    font pango:sans 10
+
+    colors {
+        background #000000
+        statusline #ffffff
+
+        focused_workspace  #ffffff #285577
+        active_workspace   #ffffff #333333
+        inactive_workspace #888888 #222222
+        urgent_workspace   #ffffff #900000
+    }
+}

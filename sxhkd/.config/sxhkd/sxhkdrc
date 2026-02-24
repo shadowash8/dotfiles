@@ -4,13 +4,16 @@
 super + Return
     st 
 
+super + space
+    rofi -show drun
+
 # Browser
-super + b
-   helium-browser
+super + t
+    qbpm choose 
 
 # File Manager 
 super + e
-    thunar
+    pcmanfm
 
 # Emacs Client
 super + w
@@ -38,3 +41,15 @@ super + ctrl + space
 
 super + Escape
     pkill -USR1 sxhkd && notify-send "sxhkd" "Configuration reloaded"
+
+
+# Volume
+XF86Audio{Raise,Lower}Volume
+    osd volume {5%+,5%-} && pkill -SIGRTMIN+10 i3blocks
+
+XF86AudioMute
+    osd volume toggle && pkill -SIGRTMIN+10 i3blocks
+
+# Brightness (Assuming you want a brightness block too)
+XF86MonBrightness{Up,Down}
+    osd brightness {+5%,-5%} && pkill -SIGRTMIN+11 i3blocks

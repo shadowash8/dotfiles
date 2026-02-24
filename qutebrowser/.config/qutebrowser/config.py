@@ -10,7 +10,7 @@ import subprocess
 c.tabs.show = "multiple"
 
 # url
-c.url.default_page = "https://shadowash8.github.io/minimal-startpage/"
+c.url.default_page = "about:blank"
 c.url.searchengines = {
         'DEFAULT': 'https://duckduckgo.com/?q={}',
         '!aw': 'https://wiki.archlinux.org/?search={}',
@@ -68,10 +68,10 @@ c.scrolling.smooth = True
 # fonts
 c.fonts.default_family = 'sans'
 c.fonts.default_size = '10pt'
-c.fonts.web.size.default = 16
+c.fonts.web.size.default = 14
 c.fonts.web.family.fixed = 'sans'
-c.fonts.web.family.sans_serif = 'sans'
-c.fonts.web.family.serif = 'sans'
+c.fonts.web.family.sans_serif = 'sans-serif'
+c.fonts.web.family.serif = 'serif'
 c.fonts.web.family.standard = 'sans'
 
 # misc
@@ -79,6 +79,7 @@ config.load_autoconfig()
 c.auto_save.session = True 
 c.content.pdfjs = False
 c.editor.command =["nvim", "-f", "{file}", "-c", "normal {line}G{column0}l"]
+c.zoom.text_only = True
 
 # privacy - adjust these settings based on your preference
 c.content.canvas_reading = False

@@ -2,8 +2,8 @@
 
 # --- Configuration & Styling ---
 CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/ytc"
-DOWNLOAD_DIR="${HOME}/vids/ytc"
-DOWNLOAD_AUDIO_DIR="${HOME}/moosic/ytc"
+DOWNLOAD_DIR="${HOME}/Downloads/ytc/Videos"
+DOWNLOAD_AUDIO_DIR="${HOME}/Downloads/ytc/Music"
 BROWSER="firefox:fe2njbzs.default-release"  # Change this to your browser: firefox, chrome, chromium, edge, brave, opera, safari, vivaldi
 
 mkdir -p "$CACHE_DIR"
