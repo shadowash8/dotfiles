@@ -3,20 +3,20 @@
     follow = keyboard
     width = (250, 500)
     height = (0, 750)
-    offset = (8, 8)
+    offset = (8, 32)
     padding = 5
     horizontal_padding = 5
     gap_size = 3
     
     # Transparency: 0 is fully opaque, 100 is fully transparent
-    transparency = 35
+    transparency = 0
     
     frame_width = 2
     # Using 'color8' or 'color2' for the frame usually looks best
     frame_color = "{color2}"
     
     font = Monospace:11
-    corner_radius = 8
+    corner_radius = 0
     min_icon_size = 32
     max_icon_size = 32
     format = "<b>%s</b>\n%b"
