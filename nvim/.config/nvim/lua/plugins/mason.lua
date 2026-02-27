@@ -11,7 +11,4 @@ return {
             { "<leader>lm", "<cmd>Mason<cr>", desc = "Mason" },
         }
     },
-    { 
-        "williamboman/mason-lspconfig.nvim"
-    },
 }
