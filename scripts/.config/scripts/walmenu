@@ -14,19 +14,5 @@ fi
 
 [ -z "$WALLPAPER" ] && exit 0
 
-# 2. Attempt standard generation
-# If this fails (exit code != 0), the block after '||' executes
-if ! wal -i "$WALLPAPER" -o "$SCRIPT" 2>/dev/null; then
-    
-    # 3. Fix: The Theme Picker
-    # We filter specifically for the theme names to avoid the [E] theme error
-    THEMES=$(wal --theme | grep -E '^ - ' | sed 's/ - //g' | sed 's/ (.*//g' | sort)
-    
-    # Open dmenu; if you pick one, it applies it to that wallpaper
-    SELECTED_THEME=$(echo "$THEMES" | rofi -dmenu -c -l 20 -s -p "Gen Failed. Pick Theme:")
+wal -i "$WALLPAPER" -o "$SCRIPT" 2>/dev/null
 
-    if [ -n "$SELECTED_THEME" ]; then
-        # The fix: Ensure no leading/trailing spaces in $SELECTED_THEME
-        wal -i "$WALLPAPER" --theme "$SELECTED_THEME" -o "$SCRIPT"
-    fi
-fi

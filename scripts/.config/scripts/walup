@@ -2,13 +2,10 @@
 
 # update bg
 feh --bg-fill $(cat ~/.cache/wal/wal) &
-xfconf-query -c xfce4-desktop -p /backdrop/screen0/monitoreDP-1/workspace0/last-image -s $(cat ~/.cache/wal/wal)
+swww img $(cat ~/.cache/wal/wal) --transition-type grow --transition-pos 0.85,0.85 --transition-fps 60 &
 
 # update xrdb
 xrdb -load ~/.Xresources
-
-# update qutebrowser colors
-~/.config/scripts/qute-reload &
 
 # update emacs colors
 emacsclient -e '(my/reload-xresources-theme)' &
@@ -21,11 +18,11 @@ pkill -SIGUSR1 kitty
 
 # update dunst colors
 pkill dunst &
-dunst & disown
+dunst &
+disown
 
 # update qute-reload colors
 qute-reload &
 
-# update xfce4
-xfce4-panel -r &
-pkill xfwm4 &
+# update cosmic colors
+cosmic-settings appearance import ~/.cache/wal/colors-cosmic.ron
