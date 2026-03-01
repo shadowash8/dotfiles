@@ -1,0 +1,125 @@
+@import "../../.cache/wal/colors-waybar.css";
+
+* {
+    font-family: "sans";
+    color: @foreground;
+}
+
+/* Base windows */
+notificationwindow,
+.blank-window,
+.floating-notifications {
+    background: transparent;
+}
+
+/* Notifications */
+.notification-row {
+    background: transparent;
+}
+
+.notification {
+    background: @background;
+    border-radius: 8px;
+    border: 1px solid @color4;
+    padding: 10px 12px;
+    color: @foreground;
+    transition: background 200ms ease;
+}
+
+.notification:hover {
+    background: @color2;
+}
+
+.summary {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.body {
+    font-size: 14px;
+    color: @foreground;
+}
+
+.time {
+    font-size: 13px;
+    color: @foreground;
+}
+
+button {
+    background: @background;
+    border: 1px solid @color4;
+}
+
+/* Close button */
+.close-button {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    min-width: 26px;
+    min-height: 26px;
+}
+
+.close-button:hover {
+    background: @color4;
+}
+
+/* Control center */
+.control-center {
+    background: @background;
+    border-radius: 8px;
+    border: 1px solid @color4;
+    padding: 8px;
+}
+
+/* Widgets */
+.widget {
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin: 8px;
+}
+
+/* Volume / brightness */
+.widget-volume,
+.widget-backlight {
+    color: @blue;
+    background: @background;
+}
+
+/* Buttons grid */
+.widget-buttons-grid {
+    background: @background;
+}
+
+.widget-buttons-grid button {
+    background: @background;
+    padding: 10px;
+}
+
+.widget-buttons-grid button:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.widget-buttons-grid button.toggle:checked {
+    background: @color4;
+    border: 1px solid @color4;
+}
+
+/* DND */
+.widget-dnd>switch,
+.widget-backlight>switch slider {
+    background: @background;
+}
+
+.widget-dnd label {
+    color: @foreground;
+}
+
+/* MPRIS */
+.widget-mpris-player {
+    border-radius: 8px;
+}
+
+.widget-mpris-player .mpris-overlay {
+    background: rgba(0, 0, 0, 0.45);
+    padding: 14px;
+}
