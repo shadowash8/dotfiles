@@ -17,11 +17,11 @@
     ],
     "modules-right": [
         "group/expand",
-        "power-profiles-daemon",
         "backlight",
         "pulseaudio",
         "network",
-        "clock"
+        "clock",
+        "custom/notification"
     ],
     "custom/user-menu": {
         "format": "",
