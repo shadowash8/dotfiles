@@ -17,6 +17,7 @@
     ],
     "modules-right": [
         "group/expand",
+        "power-profiles-daemon",
         "backlight",
         "pulseaudio",
         "network",
@@ -52,10 +53,16 @@
     "dwl/window": {
         "format": "[{layout}] {title}"
     },
-    "hyprland/window": {
-        "max-length": 60,
-        "icon": true,
-        "icon-size": 16
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "format-icons": {
+            "default": "",
+            "performance": "",
+            "balanced": "",
+            "power-saver": ""
+        }
     },
     "custom/notification": {
         "tooltip": false,
