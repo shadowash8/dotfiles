@@ -3,7 +3,7 @@
     follow = keyboard
     width = (250, 500)
     height = (0, 750)
-    offset = (8, 32)
+    offset = (10, 10)
     padding = 5
     horizontal_padding = 5
     gap_size = 3
@@ -16,7 +16,7 @@
     frame_color = "{color2}"
     
     font = Monospace:11
-    corner_radius = 0
+    corner_radius = 8
     min_icon_size = 32
     max_icon_size = 32
     format = "<b>%s</b>\n%b"
