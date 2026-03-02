@@ -1,5 +1,5 @@
 /* ======================================================
-                Glide version: 0.1.58a
+                Glide version: 0.1.59a
    ====================================================== */
 // 
 
@@ -229,6 +229,12 @@ declare const GLIDE_EXCOMMANDS: [
 		readonly repeatable: false;
 	},
 	{
+		readonly name: "tab_reopen";
+		readonly description: "Open the last closed tab";
+		readonly content: false;
+		readonly repeatable: true;
+	},
+	{
 		readonly name: "commandline_show";
 		readonly description: "Show the commandline UI";
 		readonly content: false;
@@ -292,6 +298,18 @@ declare const GLIDE_EXCOMMANDS: [
 	{
 		readonly name: "go_to_root";
 		readonly description: "Go to the root of the current URL";
+		readonly content: false;
+		readonly repeatable: true;
+	},
+	{
+		readonly name: "go_next";
+		readonly description: "Follow the link labeled next or >";
+		readonly content: false;
+		readonly repeatable: true;
+	},
+	{
+		readonly name: "go_previous";
+		readonly description: "Follow the link labeled previous or <";
 		readonly content: false;
 		readonly repeatable: true;
 	},
@@ -432,6 +450,18 @@ declare const GLIDE_EXCOMMANDS: [
 		readonly repeatable: false;
 	},
 	{
+		readonly name: "scroll_half_page_down";
+		readonly description: "Scroll down by half a page (0.5 * the size of the viewport)";
+		readonly content: false;
+		readonly repeatable: false;
+	},
+	{
+		readonly name: "scroll_half_page_up";
+		readonly description: "Scroll up by half a page (0.5 * the size of the viewport)";
+		readonly content: false;
+		readonly repeatable: false;
+	},
+	{
 		readonly name: "blur";
 		readonly description: "Blur the active element";
 		readonly content: true;
@@ -528,6 +558,7 @@ declare const GLIDE_EXCOMMANDS: [
 						"B",
 						"I",
 						"0",
+						"^",
 						"$",
 						"{",
 						"}",
@@ -822,6 +853,23 @@ declare global {
 			 * Reset the pref value back to its default.
 			 */
 			clear(name: string): void;
+			/**
+			 * Helper for temporarily setting prefs.
+			 *
+			 * You **must** assign this with the `using` keyword, e.g. `using prefs = glide.prefs.scoped()`.
+			 *
+			 * *temporary* is determined by the lifetime of the return value, e.g.
+			 * ```typescript
+			 *  {
+			 *    using prefs = glide.prefs.scoped();
+			 *    prefs.set("foo", true);
+			 *    // .... for the rest of this block `foo` is set to `true`
+			 *  }
+			 *
+			 *  // ... now outside the block, `foo` is set to its previous value
+			 * ```
+			 */
+			scoped(): glide.ScopedPrefs;
 		};
 		/**
 		 * Equivalent to `vim.g`.
@@ -862,6 +910,14 @@ declare global {
 			 * This is the same API as [browser.tabs.get](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/query),
 			 */
 			query(query: Browser.Tabs.QueryQueryInfoType): Promise<Browser.Tabs.Tab[]>;
+			/**
+			 * Unload[0] the given tabs.
+			 *
+			 * Note that you *cannot* unload the currently active tab, if you try to do so, an error will be thrown.
+			 *
+			 * [0]: https://support.mozilla.org/kb/unload-tabs-reduce-memory-usage-firefox
+			 */
+			unload(...tabs: Array<number | Browser.Tabs.Tab>): Promise<void>;
 		};
 		commandline: {
 			/**
@@ -1112,6 +1168,41 @@ declare global {
 				 */
 				numeric: glide.HintLabelGenerator;
 			};
+		};
+		/**
+		 * APIs for interacting with the native [findbar](https://support.mozilla.org/kb/search-contents-current-page-text-or-links).
+		 */
+		findbar: {
+			/**
+			 * Open the findbar.
+			 *
+			 * This can also be used to update the findbar options if it is already open.
+			 */
+			open(opts?: glide.FindbarOpenOpts): Promise<void>;
+			/**
+			 * Select the next match for the findbar query.
+			 *
+			 * If the findbar is not currently open, then it is opened with the last searched query.
+			 */
+			next_match(): Promise<void>;
+			/**
+			 * Select the previous match for the findbar query.
+			 *
+			 * If the findbar is not currently open, then it is opened with the last searched query.
+			 */
+			previous_match(): Promise<void>;
+			/**
+			 * Close the findbar. Does nothing if the findbar is already closed.
+			 */
+			close(): Promise<void>;
+			/**
+			 * If the findbar UI is currently visible.
+			 */
+			is_open(): boolean;
+			/**
+			 * If the findbar UI is currently visible *and* focused.
+			 */
+			is_focused(): boolean;
 		};
 		buf: {
 			prefs: {
@@ -1645,6 +1736,272 @@ declare global {
 		 * @default "about:newtab"
 		 */
 		newtab_url: string;
+		/**
+		 * The element text patterns to search for in the `:go_next` excmd.
+		 *
+		 * For example, with the default patterns, `html:<a href="...">next page</a>` would be matched.
+		 *
+		 * @default ["next", "more", "newer", ">", ">", "âº", "â", "Â»", "â«", ">>"]
+		 */
+		go_next_patterns: string[];
+		/**
+		 * The element text patterns to search for in the `:go_previous` excmd.
+		 *
+		 * For example, with the default patterns, `html:<a href="...">next page</a>` would be matched.
+		 *
+		 * @default ["prev", "previous", "back", "older", "<", "â¹", "â", "Â«", "âª", "<<"]
+		 */
+		go_previous_patterns: string[];
+		/**
+		 * Determines whether keymappings should resolve from the key event `code`[0] or `key`[1].
+		 *
+		 * The `code` is the string for the *physical* key that you pressed, whereas the `key` is the string that your OS resolved to.
+		 *
+		 * For example, with a german layout pressing the key with the `BracketLeft` code, `[` on a US layout, would result in `key` being set to `Ã¼`.
+		 *
+		 * - `ts:"never"` always use `event.key`
+		 * - `ts:"force"` always use `event.code`
+		 * - `ts:"for_macos_option_modifier"` use `event.code` on macOS when the Option modifier is held, `event.key` otherwise.
+		 *   this is useful, as macOS uses Option for diacritics support, e.g. Option + p => Ï, which can be surprising as you'd have to
+		 *   map `<A-Ï>` instead of `<A-p>`.
+		 *
+		 * Codes are translated to keys using {@link glide.o.keyboard_layout}, the default is `ts:"qwerty"` but you can add arbitrary layouts with {@link glide.o.keyboard_layouts}.
+		 *
+		 * Setting this to `ts:"force"` is recommended for everyone with multiple, or non-english keyboard layouts.
+		 *
+		 * [0]: https://developer.mozilla.org/docs/Web/API/KeyboardEvent/code
+		 * [1]: https://developer.mozilla.org/docs/Web/API/KeyboardEvent/key
+		 *
+		 * @default "for_macos_option_modifier"
+		 */
+		keymaps_use_physical_layout: "never" | "for_macos_option_modifier" | "force";
+		/**
+		 * The keyboard layout to use when {@link glide.o.keymaps_use_physical_layout} is set to `ts:"force"`.
+		 *
+		 * The only keyboard layout supported by default is `ts:"qwerty"`. See {@link glide.o.keyboard_layouts} for how to add your own.
+		 */
+		keyboard_layout: keyof GlideKeyboardLayouts;
+		/**
+		 * The supported keyboard layouts. Each entry in this object should map a key [`code`](https://developer.mozilla.org/docs/Web/API/KeyboardEvent/code) to the string, and shifted string, used in glide keymappings.
+		 *
+		 * If your layout is missing, you can create one with the help of [https://gistpreview.github.io/?348d752bfaec70b703cc809d34e0462b](https://gistpreview.github.io/?348d752bfaec70b703cc809d34e0462b), and then add it to glide with:
+		 *
+		 * ```typescript
+		 * declare global {
+		 *   interface GlideKeyboardLayouts {
+		 *     dvorak: GlideKeyboardLayout;
+		 *   }
+		 * }
+		 * glide.o.keyboard_layouts.dvorak = {
+		 *   // `[` by default, `{` when shift is held
+		 *   Minus: ["[", "{"],
+		 *   // ...
+		 * };
+		 * glide.o.keyboard_layout = "dvorak";
+		 * ```
+		 *
+		 * note: please contribute your layout into Glide so that others can benefit from it!
+		 *       you'll have to add it to `get_layouts()` in https://github.com/glide-browser/glide/blob/main/src/glide/browser/base/content/browser-keyboard.mts
+		 *       and `GlideKeyboardLayouts` in https://github.com/glide-browser/glide/blob/main/src/glide/browser/base/content/glide.d.ts
+		 */
+		keyboard_layouts: GlideKeyboardLayouts;
+	}
+	/**
+	 * Builtin keyboard layouts.
+	 *
+	 * If your layout is missing, you can create one with the help of [https://gistpreview.github.io/?348d752bfaec70b703cc809d34e0462b](https://gistpreview.github.io/?348d752bfaec70b703cc809d34e0462b), and then add it to glide with:
+	 *
+	 * ```typescript
+	 * declare global {
+	 *   interface GlideKeyboardLayouts {
+	 *     dvorak: GlideKeyboardLayout;
+	 *   }
+	 * }
+	 * glide.o.keyboard_layouts.dvorak = {
+	 *   // `[` by default, `{` when shift is held
+	 *   Minus: ["[", "{"],
+	 *   // ...
+	 * };
+	 * glide.o.keyboard_layout = "dvorak";
+	 * glide.o.keymaps_use_physical_layout = "force";
+	 * ```
+	 *
+	 * note: please contribute your layout into glide so that others can benefit from it!
+	 *       you'll have to add it to `get_layouts()` in https://github.com/glide-browser/glide/blob/main/src/glide/browser/base/content/browser-keyboard.mts
+	 *       and `GlideKeyboardLayouts` in https://github.com/glide-browser/glide/blob/main/src/glide/browser/base/content/glide.d.ts
+	 */
+	interface GlideKeyboardLayouts {
+		"qwerty": GlideKeyboardLayout;
+	}
+	type GlideKeyboardLayout = Partial<Record<keyof GlideKeyCodes, [
+		key: string,
+		shifted: string
+	]>>;
+	/**
+	 * All key code values mentioned in https://developer.mozilla.org/docs/Web/API/UI_Events/Keyboard_event_code_values
+	 */
+	interface GlideKeyCodes {
+		// <most common keys>
+		KeyA: {};
+		KeyB: {};
+		KeyC: {};
+		KeyD: {};
+		KeyE: {};
+		KeyF: {};
+		KeyG: {};
+		KeyH: {};
+		KeyI: {};
+		KeyJ: {};
+		KeyK: {};
+		KeyL: {};
+		KeyM: {};
+		KeyN: {};
+		KeyO: {};
+		KeyP: {};
+		KeyQ: {};
+		KeyR: {};
+		KeyS: {};
+		KeyT: {};
+		KeyU: {};
+		KeyV: {};
+		KeyW: {};
+		KeyX: {};
+		KeyY: {};
+		KeyZ: {};
+		Digit0: {};
+		Digit1: {};
+		Digit2: {};
+		Digit3: {};
+		Digit4: {};
+		Digit5: {};
+		Digit6: {};
+		Digit7: {};
+		Digit8: {};
+		Digit9: {};
+		Equal: {};
+		Comma: {};
+		Slash: {};
+		Quote: {};
+		Minus: {};
+		Period: {};
+		Backquote: {};
+		Backslash: {};
+		Semicolon: {};
+		BracketLeft: {};
+		BracketRight: {};
+		// <most common keys />
+		IntlBackslash: {};
+		IntlRo: {};
+		IntlYen: {};
+		AltLeft: {};
+		AltRight: {};
+		Backspace: {};
+		CapsLock: {};
+		ContextMenu: {};
+		ControlLeft: {};
+		ControlRight: {};
+		Enter: {};
+		Escape: {};
+		MetaLeft: {};
+		MetaRight: {};
+		ShiftLeft: {};
+		ShiftRight: {};
+		Space: {};
+		Tab: {};
+		F1: {};
+		F2: {};
+		F3: {};
+		F4: {};
+		F5: {};
+		F6: {};
+		F7: {};
+		F8: {};
+		F9: {};
+		F10: {};
+		F11: {};
+		F12: {};
+		F13: {};
+		F14: {};
+		F15: {};
+		F16: {};
+		F17: {};
+		F18: {};
+		F19: {};
+		F20: {};
+		F21: {};
+		F22: {};
+		F23: {};
+		F24: {};
+		Delete: {};
+		End: {};
+		Help: {};
+		Home: {};
+		Insert: {};
+		PageDown: {};
+		PageUp: {};
+		ArrowDown: {};
+		ArrowLeft: {};
+		ArrowRight: {};
+		ArrowUp: {};
+		NumLock: {};
+		Numpad0: {};
+		Numpad1: {};
+		Numpad2: {};
+		Numpad3: {};
+		Numpad4: {};
+		Numpad5: {};
+		Numpad6: {};
+		Numpad7: {};
+		Numpad8: {};
+		Numpad9: {};
+		NumpadAdd: {};
+		NumpadComma: {};
+		NumpadDecimal: {};
+		NumpadDivide: {};
+		NumpadEnter: {};
+		NumpadEqual: {};
+		NumpadMultiply: {};
+		NumpadSubtract: {};
+		ScrollLock: {};
+		Pause: {};
+		PrintScreen: {};
+		AudioVolumeMute: {};
+		Eject: {};
+		MediaPlayPause: {};
+		MediaSelect: {};
+		MediaStop: {};
+		MediaTrackNext: {};
+		MediaTrackPrevious: {};
+		VolumeDown: {};
+		VolumeMute: {};
+		VolumeUp: {};
+		BrowserBack: {};
+		BrowserFavorites: {};
+		BrowserForward: {};
+		BrowserHome: {};
+		BrowserRefresh: {};
+		BrowserSearch: {};
+		BrowserStop: {};
+		LaunchApp1: {};
+		LaunchApp2: {};
+		LaunchMail: {};
+		Convert: {};
+		KanaMode: {};
+		Lang1: {};
+		Lang2: {};
+		NonConvert: {};
+		Again: {};
+		Copy: {};
+		Cut: {};
+		Find: {};
+		Open: {};
+		Paste: {};
+		Props: {};
+		Select: {};
+		Undo: {};
+		Power: {};
+		WakeUp: {};
+		Fn: {};
 	}
 	/**
 	 * Throws an error if the given value is not truthy.
@@ -1834,6 +2191,9 @@ declare global {
 		export type TabWithID = Omit<Browser.Tabs.Tab, "id"> & {
 			id: number;
 		};
+		export type ScopedPrefs = Omit<(typeof glide.prefs), "scoped"> & {
+			[Symbol.dispose](): void;
+		};
 		export type AddonInstallOptions = {
 			/**
 			 * If `true`, always install the given addon, even if it is already installed.
@@ -1841,6 +2201,12 @@ declare global {
 			 * @default false
 			 */
 			force?: boolean;
+			/**
+			 * If the addon will be enabled in private browsing mode.
+			 *
+			 * @default false
+			 */
+			private_browsing_allowed?: boolean;
 		};
 		export type Addon = {
 			readonly id: string;
@@ -1849,6 +2215,7 @@ declare global {
 			readonly version: string;
 			readonly active: boolean;
 			readonly source_uri: URL | null;
+			readonly private_browsing_allowed: boolean;
 			readonly type: "extension" | "plugin" | "theme" | "locale" | "dictionary" | "sitepermission" | "mlmodel";
 			uninstall(): Promise<void>;
 			/**
@@ -2002,6 +2369,59 @@ declare global {
 				 */
 				execute<R>(cb: (target: HTMLElement) => R | Promise<R>): Promise<R extends Promise<infer U> ? U : R>;
 			};
+		};
+		export type FindbarOpenOpts = {
+			/**
+			 * Search for the given string.
+			 *
+			 * When not specified, the findbar opens with the most recently used search query. To open the findbar
+			 * with an empty query, pass an empty string `""`.
+			 */
+			query?: string;
+			/**
+			 * The findbar can be opened in 3 different "modes":
+			 *
+			 * - "links"    : the findbar will only show results for links, pressing enter will click the link
+			 * - "typeahead": the findbar will exit as soon as you press enter
+			 * - "normal"   : the classic experience
+			 *
+			 * @default "normal"
+			 */
+			mode?: "normal" | "typeahead" | "links";
+			/**
+			 * Highlight all terms that match the search you've entered
+			 *
+			 * When not specified, this retains whatever value was last setâeither through the API or by manually
+			 * toggling the highlight button in the findbar.
+			 */
+			highlight_all?: boolean | undefined;
+			/**
+			 * Make searches case-sensitive.
+			 *
+			 * Normally if you search for "search phrase", instances of "Search Phrase" on the page will also be found.
+			 *
+			 * If this is set to `false`, only instances of the phrase exactly as you've typed it will be found.
+			 *
+			 * When not specified, this retains whatever value was last setâeither through the API or by manually
+			 * toggling the casing button in the findbar.
+			 */
+			match_casing?: boolean | undefined;
+			/**
+			 * When this option is `true` the search will distinguish between accented letters and their base letters.
+			 *
+			 * For example, the search for "rÃ©sumÃ©" will not find a match for "resume".
+			 *
+			 * When not specified, this retains whatever value was last setâeither through the API or by manually
+			 * toggling the diacritics button in the findbar.
+			 */
+			match_diacritics?: boolean | undefined;
+			/**
+			 * This highlights only entire words that match your search.
+			 *
+			 * When not specified, this retains whatever value was last setâeither through the API or by manually
+			 * toggling the whole words button in the findbar.
+			 */
+			whole_words?: boolean | undefined;
 		};
 		export type SplitViewCreateOpts = {
 			id?: string;
@@ -2260,6 +2680,16 @@ declare global {
 		DOM.CreateElementProps<TagName extends keyof HTMLElementTagNameMap ? TagName : "div">
 		// children
 		 | Array<(Node | string)>, props?: DOM.CreateElementProps<TagName extends keyof HTMLElementTagNameMap ? TagName : "div">): TagName extends keyof HTMLElementTagNameMap ? HTMLElementTagNameMap[TagName] : HTMLElement;
+		listeners: {
+			/**
+			 * Returns true if a event target has any listener for the given type.
+			 *
+			 * ```typescript
+			 * DOM.listeners.has(element, "click");
+			 * ```
+			 */
+			has(target: EventTarget, type: string): boolean;
+		};
 	};
 	namespace DOM {
 		type Utils = typeof DOM;
