@@ -12,39 +12,37 @@ return {
 
             local dashboard = require("alpha.themes.dashboard")
             dashboard.section.header.val = {
-                [[ ⠀⠀⠀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡠⡄⠀⠀ ]],
-                [[ ⢰⠒⠒⢻⣿⣶⡒⠒⠒⠒⠒⠒⠒⠒⠒⠒⡶⠊⣰⣓⡒⡆ ]],
-                [[ ⢸⢸⢻⣭⡙⢿⣿⣍⡉⠉⡇⣯⠉⠉⣩⠋⢀⣔⠕⢫⡇⡇ ]],
-                [[ ⢸⢸⣈⡻⣿⣶⣽⡸⣿⣦⡇⣧⠠⠊⣸⢶⠋⢁⡤⠧⡧⡇ ]],
-                [[ ⢸⢸⠻⣿⣶⣝⠛⣿⣮⢻⠟⣏⣠⠞⠁⣼⡶⠋⢀⣴⡇⡇ ]],
-                [[ ⢸⢸⣿⣶⣍⠻⠼⣮⡕⢁⡤⢿⢁⡴⠊⣸⣵⠞⠋⢠⡇⡇ ]],
-                [[ ⢸⢘⣛⡻⣿⣧⢳⣿⣧⠎⢀⣾⠋⡠⠞⢱⢇⣠⡴⠟⡇⡇ ]],
-                [[ ⢸⢸⠹⣿⣷⣎⣉⣻⢁⡔⢁⢿⡏⢀⣤⢾⡟⠁⣀⣎⡇⡇ ]],
-                [[ ⢸⢸⠲⣶⣭⡛⠚⢿⢋⡔⢁⣼⠟⢋⣠⣼⠖⠋⢁⠎⡇⡇ ]],
-                [[ ⢸⢸⢤⣬⣛⠿⠞⣿⢋⠔⣉⣾⠖⠋⢁⣯⡴⠞⢃⠂⡇⡇ ]],
-                [[ ⢸⢸⠀⢙⣻⢿⣧⣾⡵⠚⣉⣯⠶⠛⣹⣧⠤⢮⠁⠀⡇⡇ ]],
-                [[ ⠸⣘⠢⣄⠙⠿⢷⡡⠖⣋⣽⠥⠒⣩⣟⣤⣔⣁⡤⠖⣃⠇ ]],
-                [[ ⠀⠀⠙⠢⢍⣻⡿⠒⢉⣴⣗⣚⣽⣋⣀⣤⣊⠥⠒⠉⠀⠀ ]],
-                [[ ⠀⠀⠀⢀⣔⠥⠒⢮⣙⠾⠀⠷⣚⡭⠞⠉⠛⠦⣀⠀⠀⠀ ]],
-                [[ ⠀⠀⠀⠉⠀⠀⠀⠀⠈⠑⠒⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀ ]],
+                [[     /\/\/\                            /  \  ]],
+                [[    | \  / |                         /      \    ]],
+                [[    |  \/  |                       /          \    ]],
+                [[    |  /\  |----------------------|     /\     |    ]],
+                [[    | /  \ |                      |    /  \    |    ]],
+                [[    |/    \|                      |   /    \   |    ]],
+                [[    |\    /|                      |  | (  ) |  |    ]],
+                [[    | \  / |                      |  | (  ) |  |    ]],
+                [[    |  \/  |                 /\   |  |      |  |   /\    ]],
+                [[    |  /\  |                /  \  |  |      |  |  /  \    ]],
+                [[    | /  \ |               |----| |  |      |  | |----|    ]],
+                [[    |/    \|---------------|    | | /|   .  |\ | |    |    ]],
+                [[    |\    /|               |    | /  |   .  |  \ |    |    ]],
+                [[    | \  / |               |    /    |   .  |    \    |    ]],
+                [[    |  \/  |               |  /      |   .  |      \  |    ]],
+                [[    |  /\  |---------------|/        |   .  |        \|    ]],
+                [[    | /  \ |              /    NASA  |   .  | Artemis  \    ]],
+                [[    |/    \|              (          |      |           )    ]],
+                [[    |/\/\/\|               |    | |--|      |--| |    |    ]],
+                [[    ------------------------/  \-----/  \/  \-----/  \--------    ]],
+                [[                            \\//     \\//\\//     \\//    ]],
+                [[                             \/       \/  \/       \/    ]],
             }
 
             dashboard.section.buttons.val = {
                 dashboard.button("f", "  Find file", function()
-                    require('mini.pick').builtin.files({ tool = "git" }, { source = { cwd = vim.fn.getcwd() } })
+                    require("fzf-lua").files()
                 end),
                 dashboard.button("e", "  New file", ":ene <BAR> startinsert <CR>"),
-                dashboard.button("p", "  Find project", function()
-                    require('mini.pick').builtin.projects()
-                end),
-                dashboard.button("r", "󰑓  Recently used files", function()
-                    require('mini.extra').pickers.oldfiles()
-                end),
                 dashboard.button("t", "󰦨  Find text", function()
-                    require('mini.pick').builtin.grep_live({ tool = "git" }, { source = { cwd = vim.fn.getcwd() } })
-                end),
-                dashboard.button("c", "  Configuration", function()
-                    require('mini.pick').builtin.files(nil, { source = { cwd = vim.fn.stdpath("config") } })
+                    require("fzf-lua").live_grep()
                 end),
                 dashboard.button("q", "  Quit Neovim", ":qa<CR>"),
             }
