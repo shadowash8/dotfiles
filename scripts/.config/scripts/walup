@@ -2,7 +2,7 @@
 
 # update bg
 feh --bg-fill $(cat ~/.cache/wal/wal) &
-swww img $(cat ~/.cache/wal/wal) --transition-type grow --transition-pos 0.85,0.85 --transition-fps 60 &
+swaybg -i $(cat ~/.cache/wal/wal) &
 
 # update xrdb
 xrdb -load ~/.Xresources

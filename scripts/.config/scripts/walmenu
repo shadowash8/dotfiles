@@ -1,18 +1,28 @@
 #!/usr/bin/env bash
 
-FOLDER=~/Pictures/Wallpapers/
+FOLDER=~/Pictures/Wallpapers
 SCRIPT=walup
 
-# 1. Select the Wallpaper
-if command -v nsxiv >/dev/null; then 
-    WALLPAPER=$(nsxiv -otb "$FOLDER"/*)
-else 
-    CHOICE=$(command ls -v "$FOLDER" | rofi -dmenu -c -l 15 -i -p "Wallpaper: ")
-    [ -z "$CHOICE" ] && exit 0
-    WALLPAPER="$FOLDER/$CHOICE"
-fi
+# 1. Generate the list for Rofi with icon metadata
+# Format: filename\0icon\x1f/path/to/image
+list_wallpapers_for_rofi() {
+    find "$FOLDER" -maxdepth 1 -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) 2>/dev/null | while read -r wall; do
+        echo -en "$(basename "$wall")\0icon\x1f$wall\n"
+    done
+}
 
-[ -z "$WALLPAPER" ] && exit 0
+# 2. Show Rofi with a grid layout
+CHOICE=$(list_wallpapers_for_rofi | rofi -dmenu -i -p "Wallpaper" \
+    -show-icons \
+    -theme-str 'configuration { show-icons: true; } 
+                element { orientation: vertical; padding: 10px; } 
+                element-icon { size: 150px; horizontal-align: 0.5; } 
+                element-text { horizontal-align: 0.5; } 
+                listview { columns: 5; lines: 3; spacing: 10px; }')
 
+[ -z "$CHOICE" ] && exit 0
+
+WALLPAPER="$FOLDER/$CHOICE"
+
+# 3. Run your wal command
 wal -i "$WALLPAPER" -o "$SCRIPT" 2>/dev/null
-
