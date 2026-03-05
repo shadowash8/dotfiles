@@ -1,8 +1,4 @@
 # Welcome
-# Auto start tbsm only on tty1
-if [[ ! ${DISPLAY} && ${XDG_VTNR} == 1 ]]; then
-    exec tbsm
-fi
 source $HOME/.shellprofile
 #source $HOME/.config/scripts/greet
 

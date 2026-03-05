@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# --- CONFIGURATION ---
+W=1920
+H=1080
+OFFSET=1920
+
+get_ip() {
+    ip addr show | grep "inet " | grep -v 127.0.0.1 | awk '{print $2}' | cut -d/ -f1 | head -n1
+}
+
+cleanup() {
+    echo "Cleaning up..."
+    pkill weylus 2>/dev/null
+    if [ -n "$DISPLAY" ]; then
+        MAIN_OUT=$(xrandr --display "$DISPLAY" | grep " connected" | head -n1 | cut -d' ' -f1)
+        xrandr --display "$DISPLAY" --output "$MAIN_OUT" --panning 0x0
+        xrandr --display "$DISPLAY" --delmonitor PHONE 2>/dev/null
+        xrandr --display "$DISPLAY" --fb ${W}x${H}
+    fi
+}
+
+setup_x11() {
+    echo "Setting up X11 Extended Display (Locked eDP-1)..."
+    MAIN_OUT="eDP-1"
+    
+    # 1. Virtual monitor and framebuffer
+    xrandr --display "$DISPLAY" --setmonitor PHONE ${W}/100x${H}/100+${OFFSET}+0 none
+    xrandr --display "$DISPLAY" --fb $((W + W))x${H}
+    
+    # 2. Lock eDP-1 so it doesn't "creep" or slide
+    xrandr --display "$DISPLAY" --output "$MAIN_OUT" \
+           --mode ${W}x${H} \
+           --pos 0x0 \
+           --panning $((W + W))x${H}+0+0/${W}x${H}+0+0/0/0/0/0
+    
+    # 3. Start Weylus SILENTLY
+    # --no-gui prevents the window from opening on your desktop
+    # --auto-start makes the server go live immediately
+    nohup weylus --no-gui --auto-start --try-vaapi --try-nvenc >/dev/null 2>&1 &
+}
+
+setup_wayland() {
+    echo "Setting up Wayland Virtual Display..."
+    if command -v wlr-randr >/dev/null; then
+        wlr-randr --create-headless --output-name HEADLESS-1 --mode ${W}x${H}
+        sleep 1
+        nohup weylus --auto-start --wayland-support --try-vaapi --try-nvenc >/dev/null 2>&1 &
+    else
+        echo "Error: wlr-randr not found."
+        exit 1
+    fi
+}
+
+case "$1" in
+    start)
+        cleanup
+        if [ -n "$WAYLAND_DISPLAY" ]; then
+            setup_wayland
+        elif [ -n "$DISPLAY" ]; then
+            setup_x11
+        fi
+        echo "-------------------------------------------"
+        echo "WEYLUS STARTED"
+        echo "Connect to: http://$(get_ip):1701"
+        echo "FIRST TIME: Open the Weylus GUI on Linux and"
+        echo "set 'Capture Area' to 1920x1080 with X:1920."
+        echo "-------------------------------------------"
+        ;;
+    stop)
+        cleanup
+        echo "Reset complete."
+        ;;
+    *)
+        echo "Usage: pwey {start|stop}"
+        ;;
+esac
