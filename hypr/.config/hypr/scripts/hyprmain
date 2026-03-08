@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Directory where your scripts live
+SCRIPT_DIR="$HOME/.config/scripts/hyprland"
+
+# Define the menu options (Display Name|Script Filename)
+declare -A menu
+menu=(
+    ["Animations"]="hypranim"
+    ["Wallpaper"]="walmenu"
+    ["Keybinds"]="keybinds_hint"
+)
+
+# Pipe the keys (Display Names) to rofi
+choice=$(printf "%s\n" "${!menu[@]}" | rofi -dmenu -i -p "Hypr Settings:")
+
+# If a choice was made, execute the corresponding script
+if [ -n "$choice" ]; then
+    bash "${menu[$choice]}"
+fi
