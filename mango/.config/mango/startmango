@@ -1,4 +1,6 @@
 . ~/.shellprofile
 export XDG_CURRENT_DESKTOP=MangoWC
+rm ~/.config/waybar -r
+ln -s ~/.dotfiles/waybar/.config/waybar ~/.config/waybar
 
 mango

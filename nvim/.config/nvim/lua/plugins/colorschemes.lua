@@ -1,8 +1,9 @@
 return {
-    {
-        'uZer/pywal16.nvim',
-        config = function()
-            vim.cmd.colorscheme("pywal16")
-        end,
-    }
+	{
+		"shadowash8/cwal16.nvim",
+		priority = 1000,
+		config = function()
+			vim.cmd.colorscheme("cwal16")
+		end,
+	},
 }

@@ -9,8 +9,8 @@
     "reload_style_on_change": true,
     "modules-left": [
         "custom/user-menu",
-        "ext/workspaces",
-        "dwl/window"
+        "hyprland/workspaces",
+        "hyprland/window"
     ],
     "modules-center": [
         "custom/org-clock"
@@ -21,8 +21,7 @@
         "backlight",
         "pulseaudio",
         "network",
-        "clock",
-        "custom/notification"
+        "clock"
     ],
     "custom/user-menu": {
         "format": "",
@@ -53,6 +52,19 @@
     "dwl/window": {
         "format": "[{layout}] {title}"
     },
+    "hyprland/workspaces": {
+        "format": "{icon}",
+        "on-click": "activate",
+        "format-icons": {
+            "active": "",
+            "default": ""
+        },
+        "sort-by-number": true
+    },
+    "hyprland/window": {
+        "format": "{}",
+        "separate-outputs": true
+    },
     "power-profiles-daemon": {
         "format": "{icon}",
         "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
@@ -63,12 +75,6 @@
             "balanced": "",
             "power-saver": ""
         }
-    },
-    "custom/notification": {
-        "tooltip": false,
-        "format": "\uf0f3",
-        "on-click": "swaync-client -t -sw",
-        "escape": true
     },
     "clock": {
         "format": "{:%a, %b %d, %I:%M %p}",

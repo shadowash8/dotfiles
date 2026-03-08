@@ -13,7 +13,7 @@ glide.keymaps.set("normal", "cs", "config_reload");
 async function sync_pywal() {
     try {
         // Glide's internal FS API can read local files without CORS issues
-        const wal_raw = await glide.fs.read("/home/ashwin/.cache/wal/colors.json", "utf8");
+        const wal_raw = await glide.fs.read("/home/ashwin/.cache/cwal/colors.json", "utf8");
         const wal = JSON.parse(wal_raw);
 
         await browser.theme.update({

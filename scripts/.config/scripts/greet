@@ -53,5 +53,5 @@ printf '%b\n' "
   ${cyan}sh${white} ~ ${SHELL##*/}
   ${cyan}wm${white} ~ ${wm}
   ${cyan}up${white} ~ $(get_uptime)
-   \\ (^_^) / welcome to ${magenta}${host}${reset}, ${magenta}${USER}${reset}
+   \\ (^_^) / welcome to ${magenta}${host}${reset}, ${magenta}ash${reset}
 "

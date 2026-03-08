@@ -23,7 +23,7 @@ local lsp_configs = {
 	},
 	ts_ls = {
 		filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-		root_markers = { "package.json", "tsconfig.json", ".git" },
+		root_markers = { "package.json", ".git" },
 	},
 }
 
@@ -41,6 +41,11 @@ require("conform").setup({
 		javascriptreact = { "prettier" },
 		typescript = { "prettier" },
 		typescriptreact = { "prettier" },
+	},
+	formatters = {
+		prettier = {
+			prepend_args = { "--tab-width", "4" },
+		},
 	},
 })
 

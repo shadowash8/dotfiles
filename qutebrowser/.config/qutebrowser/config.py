@@ -57,7 +57,7 @@ c.colors.webpage.darkmode.policy.images = 'never'
 config.set('colors.webpage.darkmode.enabled', False, 'file://*')
 
 # styles, cosmetics
-# colors_path = os.path.expanduser('~/.cache/wal/qutebrowser.py')
+# colors_path = os.path.expanduser('~/.cache/cwal/qutebrowser.py')
 colors_path = os.path.expanduser('~/.config/qutebrowser/themes/xresources.py')
 config.source(colors_path)
 styles_dir = os.path.expanduser('~/.config/qutebrowser/styles')

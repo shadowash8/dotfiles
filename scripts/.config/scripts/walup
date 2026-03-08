@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # update bg
-feh --bg-fill $(cat ~/.cache/wal/wal) &
-swaybg -i $(cat ~/.cache/wal/wal) &
+feh --bg-fill $(cat ~/.cache/cwal/cwal) &
+swaybg -i $(cat ~/.cache/cwal/cwal) -m fill &
 
 # update xrdb
 xrdb -load ~/.Xresources

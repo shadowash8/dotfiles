@@ -1,69 +1,99 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
-# Dependencies check (Added tesseract, xdotool, and slop to the list)
-for cmd in xclip maim notify-send tesseract xdotool slop magick; do 
-    command -v "$cmd" &>/dev/null || { echo "Missing: $cmd" >&2; exit 1; }
-done
+TMP=$(mktemp /tmp/shot.XXXXXX.png)
 
-OUTDIR="${2:-$HOME/Pictures/Screenshots}"; mkdir -p "$OUTDIR"
-FILE="$OUTDIR/$(date +%Y%m%d_%H%M%S).png"
-TMP=$(mktemp --suffix=.png); trap 'rm -f "$TMP"' EXIT
+show_help() {
+  cat <<EOF
+Usage: $(basename "$0") [OPTION]
 
-show_help(){ 
-    cat <<EOF
-Usage: $0 [clip|color|full|window|ocr] [output_dir]
+Options:
+  clip      Capture region → clipboard
+  color     Color picker → clipboard
+  full      Full screen → clipboard
+  window    Active window → clipboard
+  ocr       Capture region → OCR text → clipboard
+  (none)    Capture region → clipboard (default)
 EOF
 }
 
-post(){ 
-    xclip -selection clipboard -t image/png -i "$FILE" && notify-send -i "$FILE" "Screenshot: $(basename "$FILE")"
-}
-
-colorpicker(){ 
-    # maim -s lets you click a pixel or drag a box. 
-    maim -s "$TMP" || exit 1
-    hex=$(magick "$TMP" -scale 1x1\! -format "#%[hex:p{0,0}]" info: 2>/dev/null || echo "#??????")
-    echo "$hex" | xclip -selection clipboard -i && notify-send "Color Picked" "Hex: $hex" -i "$TMP"
-}
-
-capture_full(){ 
-    maim "$FILE" && post
-}
-
-capture_window(){ 
-    # Changed to getactivewindow for better reliability
-    maim -i "$(xdotool getactivewindow)" "$FILE" && post
-}
-
-capture_selection(){ 
-    maim -s "$FILE" && post
-}
-
-capture_clipboard_only(){
-    # Swapped import for maim -s to keep it consistent
-    maim -s "$TMP" && \
-    xclip -selection clipboard -t image/png -i "$TMP" && \
+capture_clipboard_only() {
+  grim -g "$(slurp)" "$TMP" &&
+    wl-copy <"$TMP" &&
     notify-send "Clipboard" "Region copied to clipboard" -i "$TMP"
 }
 
-ocr(){
-    maim -s "$TMP" || return 1
-    # tr -d '\f' removes the pesky page break character tesseract adds
-    tesseract "$TMP" - | tr -d '\f' | xclip -selection clipboard
-    notify-send 'OCR' 'Text copied to clipboard' -i "$TMP"
+colorpicker() {
+  COLOR=$(hyprpicker -a) &&
+    notify-send "Color Picker" "Copied $COLOR to clipboard" -i camera-photo
 }
 
-main(){ 
-    case "${1:-}" in
-        -h|--help) show_help ;;
-        clip)      capture_clipboard_only ;;
-        color*)    colorpicker ;;
-        full)      capture_full ;;
-        window)    capture_window ;;
-        ocr)       ocr ;;
-        *)         capture_selection ;;
-    esac
+#!/usr/bin/env bash
+
+TMP=$(mktemp /tmp/shot.XXXXXX.png)
+SAVEDIR="$HOME/Pictures/Screenshots"
+mkdir -p "$SAVEDIR"
+
+show_help() {
+  cat <<EOF2
+Usage: $(basename "$0") [OPTION]
+
+Options:
+  clip      Capture region → clipboard only
+  color     Color picker → clipboard
+  full      Full screen → save to ~/Pictures/Screenshots
+  window    Active window → save to ~/Pictures/Screenshots
+  ocr       Capture region → OCR text → clipboard
+  (none)    Capture region → save to ~/Pictures/Screenshots (default)
+EOF2
+}
+
+capture_clipboard_only() {
+  grim -g "$(slurp)" "$TMP" &&
+    wl-copy <"$TMP" &&
+    notify-send "Clipboard" "Region copied to clipboard" -i "$TMP"
+}
+
+colorpicker() {
+  COLOR=$(hyprpicker -a) &&
+    notify-send "Color Picker" "Copied $COLOR to clipboard" -i camera-photo
+}
+
+capture_full() {
+  FILE="$SAVEDIR/$(date +%Y-%m-%d_%H-%M-%S).png" &&
+    grim "$FILE" &&
+    notify-send "Screenshot" "Saved to Pictures/Screenshots" -i "$FILE"
+}
+
+capture_window() {
+  FILE="$SAVEDIR/$(date +%Y-%m-%d_%H-%M-%S).png" &&
+    GEOM=$(hyprctl activewindow -j | jq -r '"\(.at[0]),\(.at[1]) \(.size[0])x\(.size[1])"') &&
+    grim -g "$GEOM" "$FILE" &&
+    notify-send "Screenshot" "Window saved to Pictures/Screenshots" -i "$FILE"
+}
+
+capture_selection() {
+  FILE="$SAVEDIR/$(date +%Y-%m-%d_%H-%M-%S).png" &&
+    grim -g "$(slurp)" "$FILE" &&
+    notify-send "Screenshot" "Saved to Pictures/Screenshots" -i "$FILE"
+}
+
+ocr() {
+  grim -g "$(slurp)" "$TMP" || return 1
+  tesseract "$TMP" - | tr -d '\f' | wl-copy
+  notify-send 'OCR' 'Text copied to clipboard' -i "$TMP"
+  rm "$TMP"
+}
+
+main() {
+  case "${1:-}" in
+  -h | --help) show_help ;;
+  clip) capture_clipboard_only ;;
+  color*) colorpicker ;;
+  full) capture_full ;;
+  window) capture_window ;;
+  ocr) ocr ;;
+  *) capture_selection ;;
+  esac
 }
 
 main "$@"

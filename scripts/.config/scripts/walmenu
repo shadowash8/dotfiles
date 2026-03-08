@@ -25,4 +25,4 @@ CHOICE=$(list_wallpapers_for_rofi | rofi -dmenu -i -p "Wallpaper" \
 WALLPAPER="$FOLDER/$CHOICE"
 
 # 3. Run your wal command
-wal -i "$WALLPAPER" -o "$SCRIPT" 2>/dev/null
+cwal --img "$WALLPAPER" --script "$SCRIPT" 2>/dev/null

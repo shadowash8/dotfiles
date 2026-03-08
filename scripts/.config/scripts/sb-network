@@ -1,0 +1,53 @@
+#!/bin/sh
+
+# 1. Get the interface name (wlan0) dynamically
+# This looks for the first word in the list that isn't Name, State, Scanning, or dashes.
+device=$(iwctl station list | sed 's/\x1b\[[0-9;]*m//g' | awk '$1 ~ /^[a-z0-9]+$/ && $1 != "Name" {print $1; exit}')
+
+# Handle clicks from dwmblocks
+case $BLOCK_BUTTON in
+    1) rofi -show wifi -modi "wifi:iwdrofimenu" &  ;;
+    2) 
+       state=$(iwctl device "$device" show | grep "Powered" | awk '{print $2}')
+       [ "$state" = "on" ] && pwr="off" || pwr="on"
+       iwctl device "$device" set-property Powered $pwr
+       ;; 
+    3) notify-send "Network Status" "[W]: iwd | [E]: Eth" ;; 
+    4|5) pkill -RTMIN+4 dwmblocks ;; 
+esac
+
+# 1. Wifi Status & Strength
+if [ -z "$device" ]; then
+    wifiicon="[X]"
+else
+    # Extract state and RSSI in one go to save CPU cycles
+    stats=$(iwctl station "$device" show)
+    conn_state=$(echo "$stats" | grep "State" | awk '{print $2}')
+    
+    if [ "$conn_state" = "connected" ]; then
+        # Grab the dBm value (e.g., -60)
+        rssi=$(echo "$stats" | grep "RSSI" | awk '{print $2}')
+        
+        # Simple dBm to % conversion for the eyes
+        # Formula: Quality = 2 * (dBm + 100) -> -50dBm = 100%, -100dBm = 0%
+        if [ -n "$rssi" ]; then
+            perc=$(( 2 * (rssi + 100) ))
+            [ "$perc" -gt 100 ] && perc=100
+            [ "$perc" -lt 0 ] && perc=0
+            wifiicon="[W] ${perc}%"
+        else
+            wifiicon="[W] ?"
+        fi
+    else
+        wifiicon="[-]"
+    fi
+fi
+
+# 2. Ethernet Status
+if grep -q "1" /sys/class/net/e*/carrier 2>/dev/null; then
+    ethericon=" [E]"
+else
+    ethericon=""
+fi
+
+printf "%s%s\n" "$wifiicon" "$ethericon"
