@@ -1,0 +1,16 @@
+#!/bin/bash
+
+read -p "Enter video URL: " URL
+
+if [ -z "$URL" ]; then
+    echo "No URL entered. Exiting."
+    exit 1
+fi
+
+REFERER=$(echo "$URL" | grep -oP 'https?://[^/]+/')
+UA="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+
+mpv "$URL" \
+    --user-agent="$UA" \
+    --referrer="$REFERER"
+

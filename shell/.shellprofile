@@ -4,7 +4,8 @@ export EDITOR="nvim"
 export PATH="$HOME/.local/bin:$HOME/.config/scripts:$PATH"
 export GOMEMLIMIT=200MiB
 export GOGC=20
-export TERMINAL=kitty
+export TERMINAL=foot
+export BROWSER=glide-bin
 
 # Alias
 alias vi="nvim"
@@ -19,6 +20,7 @@ alias lg="lazygit"
 alias lj="lazyjournal"
 alias em='emacsclient -c -a "emacs"'
 alias get="wget"
+alias open="xdg-open"
 alias clip="xclip -selection clipboard"
 alias define='_def(){ curl -s "dict://dict.org/d:$1" | bat --language=md --style=grid,numbers; }; _def'
 
