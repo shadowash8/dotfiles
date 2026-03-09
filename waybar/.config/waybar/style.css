@@ -13,7 +13,7 @@
    ========================= */
 window#waybar {
     background-color: transparent;
-    color: @color3;
+    color: @color6;
     transition: background-color 0.5s;
 }
 
@@ -184,23 +184,23 @@ window#waybar.empty #window {
 }
 
 #backlight {
-    color: @color5;
+    color: @color4;
 }
 
 #battery {
-    color: @color3;
+    color: @color6;
 }
 
 #custom-org-clock {
-    color: @color3;
+    color: @color6;
 }
 
 #pulseaudio {
-    color: @color2;
+    color: @color4;
 }
 
 #power-profiles-daemon {
-    color: @color2;
+    color: @color4;
 }
 
 /* =========================
@@ -222,7 +222,6 @@ menuitem {
    ========================= */
 #custom-user-menu {
     margin-left: 8px;
-    color: @color3;
 }
 
 /* =========================
