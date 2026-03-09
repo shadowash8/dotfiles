@@ -1,26 +1,12 @@
 return {
-	{
-		"williamboman/mason.nvim",
-		lazy = false,
-		opts = {
-			auto_install = true,
-		},
-		config = true,
-		keys = {
-			{ "<leader>lm", "<cmd>Mason<cr>", desc = "Mason" },
-		},
-	},
-
-	-- Bridges Mason installs → vim.lsp automatically
-	{
-		"williamboman/mason-lspconfig.nvim",
-		lazy = false,
-		dependencies = { "williamboman/mason.nvim" },
-		opts = {
-			ensure_installed = { "lua_ls", "ts_ls" },
-			automatic_installation = true,
-		},
-	},
+    {
+        "mason-org/mason-lspconfig.nvim",
+        opts = {},
+        dependencies = {
+            { "mason-org/mason.nvim", opts = {} },
+            "neovim/nvim-lspconfig",
+        },
+    },
 
 	-- Formatter runner (prettier, stylua, etc.)
 	{
@@ -33,6 +19,11 @@ return {
 				javascriptreact = { "prettier" },
 				typescript = { "prettier" },
 				typescriptreact = { "prettier" },
+			},
+			formatters = {
+				prettier = {
+					prepend_args = { "--tab-width", "4" },
+				},
 			},
 		},
 	},
