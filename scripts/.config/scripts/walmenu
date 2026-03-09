@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-FOLDER=~/Pictures/Wallpapers
+FOLDER=~/pictures/wallpapers
 SCRIPT=walup
 
 # 1. Generate the list for Rofi with icon metadata

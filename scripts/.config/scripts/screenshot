@@ -30,7 +30,7 @@ colorpicker() {
 #!/usr/bin/env bash
 
 TMP=$(mktemp /tmp/shot.XXXXXX.png)
-SAVEDIR="$HOME/Pictures/Screenshots"
+SAVEDIR="$HOME/pictures/screenshots/"
 mkdir -p "$SAVEDIR"
 
 show_help() {
