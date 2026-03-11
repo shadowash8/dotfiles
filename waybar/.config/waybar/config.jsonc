@@ -1,204 +1,204 @@
 {
-    "layer": "top",
-    "position": "top",
-    "height": 30,
-    "margin-top": 8,
-    "margin-left": 8,
-    "margin-right": 8,
-    "margin-bottom": 0,
-    "reload_style_on_change": true,
-    "modules-left": [
-        "custom/user-menu",
-        "hyprland/workspaces",
-        "hyprland/window"
-    ],
-    "modules-center": [
-        "custom/org-clock"
-    ],
-    "modules-right": [
-        "group/expand",
-        "power-profiles-daemon",
-        "backlight",
-        "pulseaudio",
-        "network",
-        "clock"
-    ],
-    "custom/user-menu": {
-        "format": "",
-        "tooltip": false,
-        "menu": "on-click",
-        "menu-file": "~/.config/waybar/res/user_menu.xml",
-        "menu-actions": {
-            "user": "foot -H fastfetch",
-            "home": "thunar $HOME",
-            "documents": "thunar $HOME/Documents",
-            "pictures": "thunar $HOME/Pictures",
-            "videos": "thunar $HOME/Videos",
-            "downloads": "thunar $HOME/Downlaods",
-            "music": "thunar $HOME/Music",
-            "shutdown": "systemctl poweroff",
-            "reboot": "systemctl reboot",
-            "lock": "lock.sh",
-            "suspend": "systemctl suspend"
-        }
-    },
-    "ext/workspaces": {
-        "format": "{icon}",
-        "ignore-hidden": true,
-        "on-click": "activate",
-        "on-click-right": "deactivate",
-        "sort-by-id": true
-    },
-    "dwl/window": {
-        "format": "[{layout}] {title}"
-    },
-    "hyprland/workspaces": {
-        "format": "{icon}",
-        "on-click": "activate",
-        "format-icons": {
-            "active": "",
-            "default": ""
-        },
-        "sort-by-number": true
-    },
-    "hyprland/window": {
-        "format": "{}",
-        "separate-outputs": true
-    },
-    "power-profiles-daemon": {
-        "format": "{icon}",
-        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
-        "tooltip": true,
-        "format-icons": {
-            "default": "",
-            "performance": "",
-            "balanced": "",
-            "power-saver": ""
-        }
-    },
-    "clock": {
-        "format": "{:%a, %b %d, %I:%M %p}",
-        "interval": 1,
-        "tooltip-format": "<tt>{calendar}</tt>",
-        "actions": {
-            "on-click-right": "shift_down",
-            "on-click": "shift_up"
-        }
-    },
-    "network": {
-        "format-wifi": "󰤨",
-        "format-ethernet": "",
-        "format-disconnected": "",
-        "format-icons": [
-            "󰤯",
-            "󰤟",
-            "󰤢",
-            "󰤥",
-            "󰤨"
-        ],
-        "tooltip-format-disconnected": "Error",
-        "tooltip-format-wifi": "{essid} ({signalStrength}%) 󰤨",
-        "tooltip-format-ethernet": "{ifname} 🖧 ",
-        // "on-click": "rofi -show wifi -modi 'wifi:iwdrofimenu'"
-        "on-click": "iwgtk"
-    },
-    "bluetooth": {
-        "format-on": "󰂯",
-        "format-off": "BT-off",
-        "format-disabled": "󰂲",
-        "format-connected-battery": "󰂯",
-        "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
-        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
-        "tooltip-format-enumerate-connected": "{device_alias}\n{device_address}",
-        "tooltip-format-enumerate-connected-battery": "{device_alias}\n{device_address}\n{device_battery_percentage}%"
-    },
-    "battery": {
-        "interval": 1,
-        "states": {
-            "good": 95,
-            "warning": 30,
-            "critical": 20
-        },
-        "format": "{icon} {capacity}%",
-        "format-charging": "󰂄 {capacity}%",
-        "format-plugged": "󰂄  {capacity}%",
-        "format-alt": "{icon} {time}",
-        "format-icons": [
-            "󰁻",
-            "󰁼",
-            "󰁾",
-            "󰂀",
-            "󰂂",
-            "󰁹"
-        ]
-    },
-    "pulseaudio": {
-        "format": "{icon} {volume}%",
-        "format-bluetooth": "{volume}% {icon} {format_source}",
-        "format-bluetooth-muted": " {icon} {format_source}",
-        "format-muted": " ",
-        "format-source": "{volume}% ",
-        "format-source-muted": "",
-        "format-icons": {
-            "headphone": "",
-            "hands-free": "",
-            "headset": "",
-            "phone": "",
-            "portable": "",
-            "car": "",
-            "default": [
-                "",
-                "",
-                ""
-            ]
-        },
-        "on-click": "pavucontrol"
-    },
-    "backlight": {
-        "format": "{icon} {percent}%",
-        "format-icons": [
-            "",
-            "󱩎",
-            "󱩏",
-            "󱩐",
-            "󱩑",
-            "󱩒",
-            "󱩓",
-            "󱩔",
-            "󱩕",
-            "󱩖",
-            "󰛨"
-        ]
-    },
-    "custom/expand": {
-        "format": "",
-        "tooltip": false
-    },
-    "custom/endpoint": {
-        "format": " ",
-        "tooltip": false
-    },
-    "group/expand": {
-        "orientation": "horizontal",
-        "drawer": {
-            "transition-duration": 600,
-            "transition-to-left": true,
-            "click-to-reveal": true
-        },
-        "modules": [
-            "custom/expand",
-            "tray",
-            "custom/endpoint"
-        ]
-    },
-    "tray": {
-        "icon-size": 14,
-        "spacing": 10
-    },
-    "custom/org-clock": {
-        "exec": "~/.config/scripts/org-clock-task",
-        "interval": 60,
-        "return-type": "text",
-        "tooltip": false
+  "layer": "top",
+  "position": "top",
+  "height": 30,
+  "margin-top": 8,
+  "margin-left": 4,
+  "margin-right": 4,
+  "margin-bottom": 0,
+  "reload_style_on_change": true,
+  "modules-left": [
+    "custom/user-menu",
+    "hyprland/workspaces",
+    "hyprland/window"
+  ],
+  "modules-center": [
+    "custom/org-clock"
+  ],
+  "modules-right": [
+    "group/expand",
+    "power-profiles-daemon",
+    "backlight",
+    "pulseaudio",
+    "network",
+    "clock"
+  ],
+  "custom/user-menu": {
+    "format": "",
+    "tooltip": false,
+    "menu": "on-click",
+    "menu-file": "~/.config/waybar/res/user_menu.xml",
+    "menu-actions": {
+      "user": "foot -H fastfetch",
+      "home": "thunar $HOME",
+      "documents": "thunar $HOME/Documents",
+      "pictures": "thunar $HOME/Pictures",
+      "videos": "thunar $HOME/Videos",
+      "downloads": "thunar $HOME/Downlaods",
+      "music": "thunar $HOME/Music",
+      "shutdown": "systemctl poweroff",
+      "reboot": "systemctl reboot",
+      "lock": "lock.sh",
+      "suspend": "systemctl suspend"
     }
+  },
+  "ext/workspaces": {
+    "format": "{icon}",
+    "ignore-hidden": true,
+    "on-click": "activate",
+    "on-click-right": "deactivate",
+    "sort-by-id": true
+  },
+  "dwl/window": {
+    "format": "[{layout}] {title}"
+  },
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "on-click": "activate",
+    "format-icons": {
+      "active": "",
+      "default": ""
+    },
+    "sort-by-number": true
+  },
+  "hyprland/window": {
+    "format": "{}",
+    "separate-outputs": true
+  },
+  "power-profiles-daemon": {
+    "format": "{icon}",
+    "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+    "tooltip": true,
+    "format-icons": {
+      "default": "",
+      "performance": "",
+      "balanced": "",
+      "power-saver": ""
+    }
+  },
+  "clock": {
+    "format": "{:%a, %b %d, %I:%M %p}",
+    "interval": 1,
+    "tooltip-format": "<tt>{calendar}</tt>",
+    "actions": {
+      "on-click-right": "shift_down",
+      "on-click": "shift_up"
+    }
+  },
+  "network": {
+    "format-wifi": "󰤨",
+    "format-ethernet": "",
+    "format-disconnected": "",
+    "format-icons": [
+      "󰤯",
+      "󰤟",
+      "󰤢",
+      "󰤥",
+      "󰤨"
+    ],
+    "tooltip-format-disconnected": "Error",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%) 󰤨",
+    "tooltip-format-ethernet": "{ifname} 🖧 ",
+    // "on-click": "rofi -show wifi -modi 'wifi:iwdrofimenu'"
+    "on-click": "iwgtk"
+  },
+  "bluetooth": {
+    "format-on": "󰂯",
+    "format-off": "BT-off",
+    "format-disabled": "󰂲",
+    "format-connected-battery": "󰂯",
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\n{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\n{device_address}\n{device_battery_percentage}%"
+  },
+  "battery": {
+    "interval": 1,
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 20
+    },
+    "format": "{icon} {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": "󰂄  {capacity}%",
+    "format-alt": "{icon} {time}",
+    "format-icons": [
+      "󰁻",
+      "󰁼",
+      "󰁾",
+      "󰂀",
+      "󰂂",
+      "󰁹"
+    ]
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-bluetooth": "{volume}% {icon} {format_source}",
+    "format-bluetooth-muted": " {icon} {format_source}",
+    "format-muted": " ",
+    "format-source": "{volume}% ",
+    "format-source-muted": "",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "phone": "",
+      "portable": "",
+      "car": "",
+      "default": [
+        "",
+        "",
+        ""
+      ]
+    },
+    "on-click": "pavucontrol"
+  },
+  "backlight": {
+    "format": "{icon} {percent}%",
+    "format-icons": [
+      "",
+      "󱩎",
+      "󱩏",
+      "󱩐",
+      "󱩑",
+      "󱩒",
+      "󱩓",
+      "󱩔",
+      "󱩕",
+      "󱩖",
+      "󰛨"
+    ]
+  },
+  "custom/expand": {
+    "format": "",
+    "tooltip": false
+  },
+  "custom/endpoint": {
+    "format": " ",
+    "tooltip": false
+  },
+  "group/expand": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 600,
+      "transition-to-left": true,
+      "click-to-reveal": true
+    },
+    "modules": [
+      "custom/expand",
+      "tray",
+      "custom/endpoint"
+    ]
+  },
+  "tray": {
+    "icon-size": 14,
+    "spacing": 10
+  },
+  "custom/org-clock": {
+    "exec": "~/.config/scripts/org-clock-task",
+    "interval": 60,
+    "return-type": "text",
+    "tooltip": false
+  }
 }
