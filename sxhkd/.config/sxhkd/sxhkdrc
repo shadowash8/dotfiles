@@ -9,7 +9,7 @@ super + space
 
 # Browser
 super + t
-    helium-browser 
+    qbpm choose 
 
 # File Manager 
 super + e
