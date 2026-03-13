@@ -9,8 +9,8 @@
   "reload_style_on_change": true,
   "modules-left": [
     "custom/user-menu",
-    "hyprland/workspaces",
-    "hyprland/window"
+    "ext/workspaces",
+    "dwl/window"
   ],
   "modules-center": [
     "custom/org-clock"
@@ -31,11 +31,11 @@
     "menu-actions": {
       "user": "foot -H fastfetch",
       "home": "thunar $HOME",
-      "documents": "thunar $HOME/Documents",
-      "pictures": "thunar $HOME/Pictures",
-      "videos": "thunar $HOME/Videos",
-      "downloads": "thunar $HOME/Downlaods",
-      "music": "thunar $HOME/Music",
+      "documents": "thunar $HOME/documents",
+      "pictures": "thunar $HOME/pictures",
+      "videos": "thunar $HOME/videos",
+      "downloads": "thunar $HOME/downlaods",
+      "music": "thunar $HOME/moosic",
       "shutdown": "systemctl poweroff",
       "reboot": "systemctl reboot",
       "lock": "lock.sh",
