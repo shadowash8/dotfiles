@@ -55,8 +55,6 @@ ytd-two-column-browse-results-renderer[page-subtype="home"] {
     display: none !important;
 }
 
-#player,
-#ytd-player,
 #full-bleed-container {
     display: none !important;
 }

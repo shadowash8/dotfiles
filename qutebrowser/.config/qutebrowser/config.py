@@ -12,13 +12,14 @@ c.tabs.show = "multiple"
 # url
 c.url.default_page = "about:blank"
 c.url.searchengines = {
-        'DEFAULT': 'https://duckduckgo.com/?q={}',
-        '!aw': 'https://wiki.archlinux.org/?search={}',
-        '!apkg': 'https://archlinux.org/packages/?sort=&q={}&maintainer=&flagged=',
-        '!gh': 'https://github.com/search?o=desc&q={}&s=stars',
-        '!yt': 'https://www.youtube.com/results?search_query={}',
-        }
-c.completion.open_categories = ['searchengines', 'quickmarks', 'bookmarks', 'history', 'filesystem']
+    'DEFAULT': 'https://duckduckgo.com/?q={}',
+    '!aw': 'https://wiki.archlinux.org/?search={}',
+    '!apkg': 'https://archlinux.org/packages/?sort=&q={}&maintainer=&flagged=',
+    '!gh': 'https://github.com/search?o=desc&q={}&s=stars',
+    '!yt': 'https://www.youtube.com/results?search_query={}',
+}
+c.completion.open_categories = [
+    'searchengines', 'quickmarks', 'bookmarks', 'history', 'filesystem']
 
 # keybinding changes
 config.bind('<alt-x>', 'cmd-set-text :')
@@ -55,6 +56,7 @@ c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
 c.colors.webpage.darkmode.policy.images = 'never'
 config.set('colors.webpage.darkmode.enabled', False, 'file://*')
+config.set('colors.webpage.darkmode.enabled', False, 'file:///*')
 
 # styles, cosmetics
 # colors_path = os.path.expanduser('~/.cache/cwal/qutebrowser.py')
@@ -75,11 +77,9 @@ c.fonts.web.family.serif = 'serif'
 c.fonts.web.family.standard = 'sans'
 
 # misc
-config.load_autoconfig() 
-c.auto_save.session = True 
+c.auto_save.session = True
 c.content.pdfjs = False
-c.editor.command =["nvim", "-f", "{file}", "-c", "normal {line}G{column0}l"]
-c.zoom.text_only = True
+c.editor.command = ["nvim", "-f", "{file}", "-c", "normal {line}G{column0}l"]
 
 # privacy - adjust these settings based on your preference
 c.content.canvas_reading = False
@@ -89,32 +89,32 @@ c.content.cookies.accept = "no-3rdparty"
 c.content.cookies.store = True
 c.content.headers.user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.3"
 c.content.webgl = False
-c.content.javascript.enabled = False 
+c.content.javascript.enabled = False
 
 # Adblocking
 c.content.blocking.enabled = True
 c.content.blocking.method = 'both'
 c.content.blocking.adblock.lists = [
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/legacy.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters-general.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters-mobile.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters-2020.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters-2021.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters-2022.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters-2023.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters-2024.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters-2025.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/badware.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/privacy.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/badlists.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/experimental.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/annoyances.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/annoyances-cookies.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/annoyances-others.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/badlists.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/quick-fixes.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/resource-abuse.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/unbreak.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/ubo-link-shorteners.txt",
-        "https://github.com/uBlockOrigin/uAssets/raw/master/filters/ubol-filters.txt"]
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/legacy.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters-general.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters-mobile.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters-2020.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters-2021.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters-2022.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters-2023.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters-2024.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/filters-2025.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/badware.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/privacy.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/badlists.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/experimental.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/annoyances.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/annoyances-cookies.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/annoyances-others.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/badlists.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/quick-fixes.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/resource-abuse.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/unbreak.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/ubo-link-shorteners.txt",
+    "https://github.com/uBlockOrigin/uAssets/raw/master/filters/ubol-filters.txt"]
