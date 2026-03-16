@@ -41,8 +41,7 @@ nav[style*="position: fixed"] {
 [class*="gdpr"],
 [class*="newsletter"],
 [class*="subscribe"],
-[id*="modal"],
-[class*="popup"] {
+[id*="modal"] {
     display: none !important;
 }
 

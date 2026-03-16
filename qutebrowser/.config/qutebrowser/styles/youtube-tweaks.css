@@ -6,17 +6,12 @@
     display: none !important;
 }
 
-/* make video fill the remaining space */
-#primary {
-    width: 100% !important;
-    flex: 1 !important;
-    max-width: none !important;
+grid-shelf-view-model.ytGridShelfViewModelHost {
+    display: none !important;
 }
 
-html:not(.ytd-watch-flexy) ytd-watch-flexy[flexy] #player {
-    width: 100% !important;
-    max-width: 1400px;
-    margin: 0 auto !important;
+ytd-two-column-browse-results-renderer[page-subtype="home"] {
+    display: none !important;
 }
 
 /* hide ads */
@@ -42,19 +37,29 @@ a[href="/shorts/"] {
     display: none !important;
 }
 
-grid-shelf-view-model.ytGridShelfViewModelHost {
-    display: none !important;
-}
 
 /* extra stuff */
 #related {
     display: none !important;
 }
 
-ytd-two-column-browse-results-renderer[page-subtype="home"] {
-    display: none !important;
-}
 
-#full-bleed-container {
-    display: none !important;
-}
+/* hide video player */
+/* make video fill the remaining space */
+/* #primary { */
+/*     width: 100% !important; */
+/*     flex: 1 !important; */
+/*     max-width: none !important; */
+/* } */
+
+/* html:not(.ytd-watch-flexy) ytd-watch-flexy[flexy] #player { */
+/*     width: 100% !important; */
+/*     max-width: 1400px; */
+/*     margin: 0 auto !important; */
+/* } */
+
+
+
+/* #full-bleed-container { */
+/*     display: none !important; */
+/* } */
