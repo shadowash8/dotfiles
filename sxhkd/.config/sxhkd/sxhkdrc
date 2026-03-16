@@ -4,15 +4,12 @@
 super + Return
     st 
 
-super + space
-    rofi -show drun
-
 # Browser
-super + t
+super + b
     qbpm choose 
 
 # File Manager 
-super + e
+super + f
     pcmanfm
 
 # Emacs Client
@@ -24,7 +21,7 @@ super + p
     connect
 
 # Music
-super + m
+super + h
     kitty rmpc
 
 # Web Search

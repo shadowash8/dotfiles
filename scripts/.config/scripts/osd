@@ -10,9 +10,9 @@ brightness() {
     # Get current value (e.g., 55)
     current=$(brightnessctl -m | cut -d, -f4 | tr -d '%')
     
-    notify-send -h string:x-dunst-stack-tag:bri \
-                -h int:value:"$current" \
-                "Brightness: $current%"
+    # notify-send -h string:x-dunst-stack-tag:bri \
+    #             -h int:value:"$current" \
+    #             "Brightness: $current%"
 }
 
 # Function to handle Volume
@@ -31,11 +31,12 @@ volume() {
     is_muted=$(echo "$vol_raw" | grep -o "MUTED")
         
     if [ -n "$is_muted" ]; then
-        notify-send -u low -h string:x-dunst-stack-tag:vol "Volume: Muted"
+        exit
+        # notify-send -u low -h string:x-dunst-stack-tag:vol "Volume: Muted"
     else
         # Convert 0.50 to 50 and ensure it's an integer for Dunst
         val=$(echo "$vol_raw" | awk '{printf "%.0f", $2 * 100}')
-        notify-send -u low -h string:x-dunst-stack-tag:vol -h int:value:"$val" "Volume: ${val}%"
+        # notify-send -u low -h string:x-dunst-stack-tag:vol -h int:value:"$val" "Volume: ${val}%"
     fi
 }
 

@@ -2,222 +2,240 @@
 
 # --- Configuration & Styling ---
 CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/ytc"
-DOWNLOAD_DIR="${HOME}/downloads/ytc/videos"
-DOWNLOAD_AUDIO_DIR="${HOME}/downlaods/ytc/music"
-BROWSER="firefox:fe2njbzs.default-release"  # Change this to your browser: firefox, chrome, chromium, edge, brave, opera, safari, vivaldi
+DOWNLOAD_DIR="${HOME}/downloads/ytc/bideos"
+DOWNLOAD_AUDIO_DIR="${HOME}/downloads/ytc/music"
+BROWSER="firefox:fe2njbzs.default-release" # Change this to your browser: firefox, chrome, chromium, edge, brave, opera, safari, vivaldi
 
 mkdir -p "$CACHE_DIR"
 
-# --- Gum style helpers ---
-header() {
-    gum style \
-        --foreground 196 --border-foreground 196 --border rounded \
-        --padding "0 2" --bold "$1"
-}
-
 mark_as_watched() {
-    local id="$1"
+  local id="$1"
 
-    gum spin --spinner dot --title "Marking video as watched on YouTube..." -- \
-        yt-dlp --cookies-from-browser "$BROWSER" \
-            --mark-watched \
-            --skip-download \
-            --no-write-thumbnail \
-            --no-warnings \
-            "https://www.youtube.com/watch?v=$id" 2>/dev/null
-    clear
+  # Mark as watched on YouTube using cookies
+  echo "Marking video as watched on YouTube..."
+  yt-dlp --cookies-from-browser "$BROWSER" \
+    --mark-watched \
+    --skip-download \
+    --no-write-thumbnail \
+    --no-warnings \
+    "https://www.youtube.com/watch?v=$id" 2>/dev/null
+  clear
 }
 
 play_submenu() {
-    local id="$1"
-    local title="$2"
+  local id="$1"
+  local title="$2"
 
-    choice=$(gum choose \
-        --header "$(gum style --foreground 220 --bold "Action for: $title")" \
-        --height 10 \
-        "Play in MPV" \
-        "Stream Audio Only" \
-        "Open in Browser" \
-        "Download Video" \
-        "Download Audio" \
-        "Mark as Watched" \
-        "Back to List")
+  choice=$(printf "1. Play in MPV\n2. Stream Audio Only\n3. Open in Browser\n4. Download Video\n5. Download Audio\n6. Mark as Watched\n7. Back to List" | fzf \
+    --header "Action for: $title" --height 15% --reverse --border)
 
-    case "$choice" in
-        "Play in MPV")
-            clear
-            mpv "https://www.youtube.com/watch?v=$id"
-            clear
-            mark_as_watched "$id"
-            ;;
-        "Stream Audio Only")
-            clear
-            mpv --no-video "https://www.youtube.com/watch?v=$id"
-            clear
-            mark_as_watched "$id"
-            ;;
-        "Open in Browser")
-            xdg-open "https://www.youtube.com/watch?v=$id" 2>/dev/null || open "https://www.youtube.com/watch?v=$id"
-            ;;
-        "Download Video")
-            gum spin --spinner dot --title "Downloading video to $DOWNLOAD_DIR..." -- \
-                bash -c "mkdir -p '$DOWNLOAD_DIR' && yt-dlp --cookies-from-browser '$BROWSER' \
-                    --no-write-thumbnail \
-                    -o '$DOWNLOAD_DIR/%(title)s.%(ext)s' \
-                    'https://www.youtube.com/watch?v=$id'"
-            gum style --foreground 82 "✓ Download complete!"
-            sleep 1
-            ;;
-        "Download Audio")
-            gum spin --spinner dot --title "Downloading audio to $DOWNLOAD_AUDIO_DIR..." -- \
-                bash -c "mkdir -p '$DOWNLOAD_AUDIO_DIR' && yt-dlp --cookies-from-browser '$BROWSER' \
-                    --no-write-thumbnail \
-                    -x --audio-format mp3 \
-                    -o '$DOWNLOAD_AUDIO_DIR/%(title)s.%(ext)s' \
-                    'https://www.youtube.com/watch?v=$id'"
-            gum style --foreground 82 "✓ Download complete!"
-            sleep 1
-            ;;
-        "Mark as Watched")
-            mark_as_watched "$id"
-            gum style --foreground 82 "✓ Marked as watched!"
-            sleep 1
-            ;;
-        *)
-            return
-            ;;
-    esac
+  case "$choice" in
+  *"Play in MPV"*)
+    clear
+    mpv "https://www.youtube.com/watch?v=$id"
+    clear
+    # Auto-mark as watched after playing
+    mark_as_watched "$id"
+    ;;
+  *"Stream Audio Only"*)
+    clear
+    mpv --no-video "https://www.youtube.com/watch?v=$id"
+    clear
+    # Auto-mark as watched after playing
+    mark_as_watched "$id"
+    ;;
+  *"Open in Browser"*)
+    xdg-open "https://www.youtube.com/watch?v=$id" 2>/dev/null || open "https://www.youtube.com/watch?v=$id"
+    ;;
+  *"Download Video"*)
+    echo "Downloading video to $DOWNLOAD_DIR..."
+    mkdir -p "$DOWNLOAD_DIR"
+    yt-dlp --cookies-from-browser "$BROWSER" \
+      --no-write-thumbnail \
+      -o "$DOWNLOAD_DIR/%(title)s.%(ext)s" \
+      "https://www.youtube.com/watch?v=$id"
+    echo "Download complete! Press any key to continue..."
+    read -n 1
+    ;;
+  *"Download Audio"*)
+    echo "Downloading audio to $DOWNLOAD_AUDIO_DIR..."
+    mkdir -p "$DOWNLOAD_AUDIO_DIR"
+    yt-dlp --cookies-from-browser "$BROWSER" \
+      --no-write-thumbnail \
+      -x --audio-format mp3 \
+      -o "$DOWNLOAD_AUDIO_DIR/%(title)s.%(ext)s" \
+      "https://www.youtube.com/watch?v=$id"
+    echo "Download complete! Press any key to continue..."
+    read -n 1
+    ;;
+  *"Mark as Watched"*)
+    mark_as_watched "$id"
+    echo "Marked as watched! Press any key to continue..."
+    read -n 1
+    ;;
+  *)
+    return
+    ;;
+  esac
 }
 
 fetch_and_play() {
-    local feed_url="$1"
-    local feed_name="$2"
-    local page_size=50
-    local start_index=1
+  local feed_url="$1"
+  local feed_name="$2"
+  local page_size=50
+  local start_index=1
+
+  while true; do
+    local end_index=$((start_index + page_size - 1))
+    echo "Loading $feed_name (Items $start_index to $end_index)..."
+
+    # Fetching data using yt-dlp
+    yt-dlp --cookies-from-browser "$BROWSER" \
+      --flat-playlist \
+      --playlist-items "$start_index:$end_index" \
+      --no-check-certificates --no-warnings \
+      --print "%(title)s" --print "%(id)s" --print "%(duration_string)s" \
+      "$feed_url" 2>/dev/null | tr -d '\r' | paste - - - >"$CACHE_DIR/list.txt"
+
+    # Check if any results were fetched
+    if [ ! -s "$CACHE_DIR/list.txt" ] && [ $start_index -eq 1 ]; then
+      echo "No videos found or failed to fetch data."
+      echo "Press any key to return to menu..."
+      read -n 1
+      return
+    fi
+
+    # Inject Pagination controls
+    {
+      printf ">> NEXT PAGE\tPAGE_NEXT\t--\n"
+      [ $start_index -gt 1 ] && printf "<< PREVIOUS PAGE\tPAGE_PREV\t--\n"
+      cat "$CACHE_DIR/list.txt"
+    } >"$CACHE_DIR/temp_list.txt" && mv "$CACHE_DIR/temp_list.txt" "$CACHE_DIR/list.txt"
 
     while true; do
-        local end_index=$((start_index + page_size - 1))
+      selected=$(cat "$CACHE_DIR/list.txt" | fzf \
+        --delimiter $'\t' --tabstop=4 --with-nth 1,3 \
+        --header "[$feed_name | Items $start_index-$end_index] ENTER: Select | ESC: Main Menu" \
+        --preview "
+                    id=\$(echo {} | cut -f2)
+                    if [ \"\$id\" = \"PAGE_NEXT\" ] || [ \"\$id\" = \"PAGE_PREV\" ]; then
+                        echo \"Navigate to next/previous page...\"
+                    else
+                        thumb_path=\"$CACHE_DIR/\$id.jpg\"
+                        [ ! -f \"\$thumb_path\" ] && curl -s -o \"\$thumb_path\" \"https://img.youtube.com/vi/\$id/hqdefault.jpg\" 2>/dev/null
+                        title=\$(echo {} | cut -f1)
+                        duration=\$(echo {} | cut -f3)
+                        printf \"\033[1;37mTITLE:\033[0m \$title\n\"
+                        printf \"\033[1;37mTIME:\033[0m \$duration\n\"
+                        echo \"------------------------------------\"
+                        chafa --size=80x40 \"\$thumb_path\" 2>/dev/null
+                    fi
+                " --preview-window=right:60%:wrap)
 
-        gum spin --spinner dot --title "Loading $feed_name (Items $start_index–$end_index)..." -- \
-            bash -c "yt-dlp --cookies-from-browser '$BROWSER' \
-                --flat-playlist \
-                --playlist-items '$start_index:$end_index' \
-                --no-check-certificates --no-warnings \
-                --print '%(title)s' --print '%(id)s' --print '%(duration_string)s' \
-                '$feed_url' 2>/dev/null | tr -d '\r' | paste - - - > '$CACHE_DIR/list.txt'"
+      [ -z "$selected" ] && return
 
-        if [ ! -s "$CACHE_DIR/list.txt" ] && [ $start_index -eq 1 ]; then
-            gum style --foreground 196 "✗ No videos found or failed to fetch data."
-            sleep 2
-            return
-        fi
+      v_title=$(echo "$selected" | cut -f1)
+      v_id=$(echo "$selected" | cut -f2)
+      v_dur=$(echo "$selected" | cut -f3)
 
-        # Build menu items for gum filter/choose
-        # Format: "TITLE [DURATION]" lines, with IDs stored in a parallel array approach
-        # We use a temp file with tab-separated display|id for gum filter
-        {
-            echo -e ">> NEXT PAGE\tPAGE_NEXT\t--"
-            [ $start_index -gt 1 ] && echo -e "<< PREVIOUS PAGE\tPAGE_PREV\t--"
-            cat "$CACHE_DIR/list.txt"
-        } > "$CACHE_DIR/paged_list.txt"
-
-        # Build display lines (title + duration) for gum filter
-        awk -F'\t' '{printf "%s\t[%s]\n", $1, $3}' "$CACHE_DIR/paged_list.txt" > "$CACHE_DIR/display.txt"
-
-        while true; do
-            selected_display=$(gum filter \
-                --placeholder "Search videos... ($feed_name | Items $start_index–$end_index)" \
-                --header "ENTER: Select  |  ESC: Main Menu" \
-                --height 20 \
-                < "$CACHE_DIR/display.txt")
-
-            [ -z "$selected_display" ] && return
-
-            # Match selected display line back to the tab-separated source
-            selected_title=$(echo "$selected_display" | sed 's/\t\[.*\]$//')
-
-            matched=$(grep -F "$selected_title" "$CACHE_DIR/paged_list.txt" | head -1)
-            v_title=$(echo "$matched" | cut -f1)
-            v_id=$(echo "$matched" | cut -f2)
-
-            if [ "$v_id" = "PAGE_NEXT" ]; then
-                start_index=$((start_index + page_size))
-                break
-            elif [ "$v_id" = "PAGE_PREV" ]; then
-                start_index=$((start_index - page_size))
-                [ $start_index -lt 1 ] && start_index=1
-                break
-            else
-                play_submenu "$v_id" "$v_title"
-            fi
-        done
+      if [ "$v_id" = "PAGE_NEXT" ]; then
+        start_index=$((start_index + page_size))
+        break
+      elif [ "$v_id" = "PAGE_PREV" ]; then
+        start_index=$((start_index - page_size))
+        [ $start_index -lt 1 ] && start_index=1
+        break
+      else
+        play_submenu "$v_id" "$v_title"
+      fi
     done
+  done
 }
 
 handle_search() {
-    search_type=$(gum choose \
-        --header "Search Type" \
-        --height 6 \
-        "Video" "Playlist" "URL")
+  search_type=$(printf "1. Video\n2. Playlist\n3. URL" | fzf \
+    --header "Search Type" --height 15% --reverse --border --prompt="> ")
 
-    [ -z "$search_type" ] && return
+  [ -z "$search_type" ] && return
 
-    case "$search_type" in
-        "Video")
-            query=$(gum input --placeholder "Search YouTube Videos..." --width 60)
-            [ $? -eq 0 ] && [ -n "$query" ] && fetch_and_play "ytsearch500:$query" "Search: $query"
-            ;;
-        "Playlist")
-            query=$(gum input --placeholder "Search YouTube Playlists..." --width 60)
-            [ $? -eq 0 ] && [ -n "$query" ] && fetch_and_play "ytsearchplaylist500:$query" "Playlist Search: $query"
-            ;;
-        "URL")
-            url=$(gum input --placeholder "Enter YouTube URL (video or playlist)..." --width 80)
-            if [ $? -eq 0 ] && [ -n "$url" ]; then
-                if echo "$url" | grep -q "list="; then
-                    fetch_and_play "$url" "Custom Playlist"
-                else
-                    v_id=$(echo "$url" | sed -n 's/.*[?&]v=\([^&]*\).*/\1/p')
-                    if [ -z "$v_id" ]; then
-                        v_id=$(echo "$url" | sed -n 's/.*youtu\.be\/\([^?]*\).*/\1/p')
-                    fi
+  case "$search_type" in
+  *"Video"*)
+    # Use read if gum is not available
+    if command -v gum >/dev/null 2>&1; then
+      query=$(gum input --placeholder "Search YouTube Videos...")
+    else
+      printf "Search YouTube Videos: "
+      read -r query
+    fi
+    if [ $? -eq 0 ] && [ ! -z "$query" ]; then
+      fetch_and_play "ytsearch500:$query" "Search: $query"
+    fi
+    ;;
+  *"Playlist"*)
+    if command -v gum >/dev/null 2>&1; then
+      query=$(gum input --placeholder "Search YouTube Playlists...")
+    else
+      printf "Search YouTube Playlists: "
+      read -r query
+    fi
+    if [ $? -eq 0 ] && [ ! -z "$query" ]; then
+      fetch_and_play "ytsearchplaylist500:$query" "Playlist Search: $query"
+    fi
+    ;;
+  *"URL"*)
+    if command -v gum >/dev/null 2>&1; then
+      url=$(gum input --placeholder "Enter YouTube URL (video or playlist)...")
+    else
+      printf "Enter YouTube URL: "
+      read -r url
+    fi
+    if [ $? -eq 0 ] && [ ! -z "$url" ]; then
+      # Check if it's a playlist URL
+      if echo "$url" | grep -q "list="; then
+        fetch_and_play "$url" "Custom Playlist"
+      else
+        # Extract video ID and play directly
+        v_id=$(echo "$url" | sed -n 's/.*[?&]v=\([^&]*\).*/\1/p')
+        if [ -z "$v_id" ]; then
+          v_id=$(echo "$url" | sed -n 's/.*youtu\.be\/\([^?]*\).*/\1/p')
+        fi
 
-                    if [ -n "$v_id" ]; then
-                        play_submenu "$v_id" "Direct URL"
-                    else
-                        gum style --foreground 196 "✗ Invalid YouTube URL"
-                        sleep 2
-                    fi
-                fi
-            fi
-            ;;
-    esac
+        if [ ! -z "$v_id" ]; then
+          play_submenu "$v_id" "Direct URL"
+        else
+          echo "Invalid YouTube URL"
+          sleep 2
+        fi
+      fi
+    fi
+    ;;
+  esac
 }
 
 # --- Main Menu ---
 while true; do
+  choice=$(printf "1. Home\n2. Subscriptions\n3. Watch Later\n4. Search\n5. History\n6. Quit" | fzf \
+    --header "YTC: Select Feed" --height 20% --reverse --border --prompt="> ")
+
+  case "$choice" in
+  *"Home"*)
+    fetch_and_play "https://www.youtube.com/" "Home"
+    ;;
+  *"Subscriptions"*)
+    fetch_and_play "https://www.youtube.com/feed/subscriptions" "Subscriptions"
+    ;;
+  *"Watch Later"*)
+    fetch_and_play "https://www.youtube.com/playlist?list=WL" "Watch Later"
+    ;;
+  *"Search"*)
+    handle_search
+    ;;
+  *"History"*)
+    fetch_and_play "https://www.youtube.com/feed/history" "History"
+    ;;
+  *"Quit"* | *)
     clear
-    gum style \
-        --foreground 196 --border-foreground 196 --border double \
-        --align center --width 40 --padding "1 4" \
-        "▶  YTC" "YouTube Terminal Client"
-
-    choice=$(gum choose \
-        --header "Select Feed" \
-        --height 10 \
-        "Home" \
-        "Subscriptions" \
-        "Watch Later" \
-        "Search" \
-        "History" \
-        "Quit")
-
-    case "$choice" in
-        "Home")          fetch_and_play "https://www.youtube.com/" "Home" ;;
-        "Subscriptions") fetch_and_play "https://www.youtube.com/feed/subscriptions" "Subscriptions" ;;
-        "Watch Later")   fetch_and_play "https://www.youtube.com/playlist?list=WL" "Watch Later" ;;
-        "Search")        handle_search ;;
-        "History")       fetch_and_play "https://www.youtube.com/feed/history" "History" ;;
-        "Quit"|"")       clear; exit 0 ;;
-    esac
+    exit 0
+    ;;
+  esac
 done

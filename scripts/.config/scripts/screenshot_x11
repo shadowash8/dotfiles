@@ -2,68 +2,73 @@
 set -euo pipefail
 
 # Dependencies check (Added tesseract, xdotool, and slop to the list)
-for cmd in xclip maim notify-send tesseract xdotool slop magick; do 
-    command -v "$cmd" &>/dev/null || { echo "Missing: $cmd" >&2; exit 1; }
+for cmd in xclip maim notify-send tesseract xdotool slop magick; do
+  command -v "$cmd" &>/dev/null || {
+    echo "Missing: $cmd" >&2
+    exit 1
+  }
 done
 
-OUTDIR="${2:-$HOME/Pictures/Screenshots}"; mkdir -p "$OUTDIR"
+OUTDIR="${2:-$HOME/pictures/screenshots}"
+mkdir -p "$OUTDIR"
 FILE="$OUTDIR/$(date +%Y%m%d_%H%M%S).png"
-TMP=$(mktemp --suffix=.png); trap 'rm -f "$TMP"' EXIT
+TMP=$(mktemp --suffix=.png)
+trap 'rm -f "$TMP"' EXIT
 
-show_help(){ 
-    cat <<EOF
+show_help() {
+  cat <<EOF
 Usage: $0 [clip|color|full|window|ocr] [output_dir]
 EOF
 }
 
-post(){ 
-    xclip -selection clipboard -t image/png -i "$FILE" && notify-send -i "$FILE" "Screenshot: $(basename "$FILE")"
+post() {
+  xclip -selection clipboard -t image/png -i "$FILE" && notify-send -i "$FILE" "Screenshot: $(basename "$FILE")"
 }
 
-colorpicker(){ 
-    # maim -s lets you click a pixel or drag a box. 
-    maim -s "$TMP" || exit 1
-    hex=$(magick "$TMP" -scale 1x1\! -format "#%[hex:p{0,0}]" info: 2>/dev/null || echo "#??????")
-    echo "$hex" | xclip -selection clipboard -i && notify-send "Color Picked" "Hex: $hex" -i "$TMP"
+colorpicker() {
+  # maim -s lets you click a pixel or drag a box.
+  maim -s "$TMP" || exit 1
+  hex=$(magick "$TMP" -scale 1x1\! -format "#%[hex:p{0,0}]" info: 2>/dev/null || echo "#??????")
+  echo "$hex" | xclip -selection clipboard -i && notify-send "Color Picked" "Hex: $hex" -i "$TMP"
 }
 
-capture_full(){ 
-    maim "$FILE" && post
+capture_full() {
+  maim "$FILE" && post
 }
 
-capture_window(){ 
-    # Changed to getactivewindow for better reliability
-    maim -i "$(xdotool getactivewindow)" "$FILE" && post
+capture_window() {
+  # Changed to getactivewindow for better reliability
+  maim -i "$(xdotool getactivewindow)" "$FILE" && post
 }
 
-capture_selection(){ 
-    maim -s "$FILE" && post
+capture_selection() {
+  maim -s "$FILE" && post
 }
 
-capture_clipboard_only(){
-    # Swapped import for maim -s to keep it consistent
-    maim -s "$TMP" && \
-    xclip -selection clipboard -t image/png -i "$TMP" && \
+capture_clipboard_only() {
+  # Swapped import for maim -s to keep it consistent
+  maim -s "$TMP" &&
+    xclip -selection clipboard -t image/png -i "$TMP" &&
     notify-send "Clipboard" "Region copied to clipboard" -i "$TMP"
 }
 
-ocr(){
-    maim -s "$TMP" || return 1
-    # tr -d '\f' removes the pesky page break character tesseract adds
-    tesseract "$TMP" - | tr -d '\f' | xclip -selection clipboard
-    notify-send 'OCR' 'Text copied to clipboard' -i "$TMP"
+ocr() {
+  maim -s "$TMP" || return 1
+  # tr -d '\f' removes the pesky page break character tesseract adds
+  tesseract "$TMP" - | tr -d '\f' | xclip -selection clipboard
+  notify-send 'OCR' 'Text copied to clipboard' -i "$TMP"
 }
 
-main(){ 
-    case "${1:-}" in
-        -h|--help) show_help ;;
-        clip)      capture_clipboard_only ;;
-        color*)    colorpicker ;;
-        full)      capture_full ;;
-        window)    capture_window ;;
-        ocr)       ocr ;;
-        *)         capture_selection ;;
-    esac
+main() {
+  case "${1:-}" in
+  -h | --help) show_help ;;
+  clip) capture_clipboard_only ;;
+  color*) colorpicker ;;
+  full) capture_full ;;
+  window) capture_window ;;
+  ocr) ocr ;;
+  *) capture_selection ;;
+  esac
 }
 
 main "$@"
