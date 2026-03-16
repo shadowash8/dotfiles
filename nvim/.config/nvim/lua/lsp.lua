@@ -3,44 +3,44 @@ local blink_cmp = require("blink.cmp")
 
 -- Apply blink capabilities to every LSP server
 vim.lsp.config("*", {
-	capabilities = blink_cmp.get_lsp_capabilities(),
+    capabilities = blink_cmp.get_lsp_capabilities(),
 })
 
 -- Per-server overrides
 vim.lsp.config("lua_ls", {
-	filetypes = { "lua" },
-	root_markers = { ".luarc.json", ".luarc.jsonc", ".git" },
-	settings = {
-		Lua = {
-			runtime = { version = "LuaJIT" },
-			diagnostics = { globals = { "vim" } },
-			workspace = { library = { vim.env.VIMRUNTIME } },
-		},
-	},
+    filetypes = { "lua" },
+    root_markers = { ".luarc.json", ".luarc.jsonc", ".git" },
+    settings = {
+        Lua = {
+            runtime = { version = "LuaJIT" },
+            diagnostics = { globals = { "vim" } },
+            workspace = { library = { vim.env.VIMRUNTIME } },
+        },
+    },
 })
 
 vim.lsp.config("ts_ls", {
-	filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-	root_markers = { "package.json", ".git" },
+    filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+    root_markers = { "package.json", ".git" },
 })
 
 -- Diagnostics
 vim.diagnostic.config({
-	virtual_text = true,
-	signs = {
-		text = {
-			[vim.diagnostic.severity.ERROR] = "",
-			[vim.diagnostic.severity.WARN] = "",
-			[vim.diagnostic.severity.INFO] = "",
-			[vim.diagnostic.severity.HINT] = "",
-		},
-		numhl = {
-			[vim.diagnostic.severity.ERROR] = "ErrorMsg",
-			[vim.diagnostic.severity.WARN] = "WarningMsg",
-			[vim.diagnostic.severity.INFO] = "DiagnosticInfo",
-			[vim.diagnostic.severity.HINT] = "DiagnosticHint",
-		},
-	},
+    virtual_text = true,
+    signs = {
+        text = {
+            [vim.diagnostic.severity.ERROR] = "",
+            [vim.diagnostic.severity.WARN] = "",
+            [vim.diagnostic.severity.INFO] = "",
+            [vim.diagnostic.severity.HINT] = "",
+        },
+        numhl = {
+            [vim.diagnostic.severity.ERROR] = "ErrorMsg",
+            [vim.diagnostic.severity.WARN] = "WarningMsg",
+            [vim.diagnostic.severity.INFO] = "DiagnosticInfo",
+            [vim.diagnostic.severity.HINT] = "DiagnosticHint",
+        },
+    },
 })
 
 vim.api.nvim_set_hl(0, "DiagnosticUnderlineError", { underline = true, undercurl = true, sp = "Red" })
@@ -51,7 +51,7 @@ vim.api.nvim_set_hl(0, "DiagnosticUnderlineHint", { underline = true, undercurl 
 -- LSP keymaps
 utils.nmap_leader("la", vim.lsp.buf.code_action, "Code Action")
 utils.nmap_leader("lf", function()
-	require("conform").format({ async = true, lsp_format = "fallback" })
+    require("conform").format({ async = true, lsp_format = "fallback" })
 end, "Format")
 utils.nmap_leader("lr", vim.lsp.buf.rename, "Rename")
 utils.nmap_leader("ld", vim.lsp.buf.definition, "Go to Definition")

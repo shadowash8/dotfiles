@@ -13,6 +13,10 @@ thumbs.db
 lazy-lock.json
 tmp-*/
 
+mango/.config/mango/dms
+mango/.config/mango/config.conf.*
+hypr/.config/hypr/dms
+hypr/.config/hypr/hyprland.conf.*
 
 qutebrowser/.config/qutebrowser/quickmarks
 qutebrowser/.config/qutebrowser/bookmarks
