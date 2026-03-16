@@ -1,14 +1,6 @@
 # Welcome
 source $HOME/.shellprofile
-#source $HOME/.config/scripts/greet
-
-echo ""
-echo " █   █  ███        █   █  ███        █   █  ███        ████   ███  █   █ █   █"
-echo " █  █    █         █  █    █         █  █    █         █   █ █   █ █   █ █   █"
-echo " ███     █         ███     █         ███     █         ████  █████ █████ █████"
-echo " █  █    █         █  █    █         █  █    █         █  █  █   █ █   █ █   █"
-echo " █   █  ███        █   █  ███        █   █  ███        █   █ █   █ █   █ █   █"
-echo ""
+random_greet
 
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
