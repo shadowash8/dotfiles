@@ -1,0 +1,55 @@
+#!/bin/bash
+
+# --- Functions ---
+
+compress() {
+    # Compress image
+    magick "$1" \
+        -sampling-factor 4:2:0 \
+        -strip \
+        -quality 85 \
+        -interlace Plane \
+        -gaussian-blur 0.05 \
+        "$2"
+}
+
+resize() {
+    # Resizes to a specific width (defaulting to 1200 if $3 is empty)
+    magick "$1" -resize "${3:-1200}" -quality 85 "$2"
+}
+
+tojpg() {
+    # Converts PNG, HEIC, etc., to a standard JPEG
+    magick "$1" -flatten -quality 90 "$2.jpg"
+}
+
+square() {
+    magick "$1" -gravity center -extent 1:1 -resize "${3:-800}x${3:-800}" "$2"
+}
+
+rotate() {
+    magick "$1" -rotate "$3" "$2"
+}
+
+bw() {
+    magick "$1" -colorspace gray -contrast-stretch 0 "$2"
+}
+
+case "$1" in
+    compress) compress "$2" "$3" ;;
+    resize)   resize "$2" "$3" "$4" ;;
+    tojpg)    tojpg "$2" "$3" ;;
+    square)   square "$2" "$3" "$4" ;;
+    rotate)   rotate "$2" "$3" "$4" ;;
+    bw)       bw "$2" "$3" ;;
+    *)
+        echo "Usage: image {compress|resize|tojpg|square|rotate|bw}"
+        echo "  image compress in.jpg out.jpg"
+        echo "  image resize in.jpg out.jpg [width]"
+        echo "  image tojpg in.png out_name"
+        echo "  image square in.jpg out.jpg 500"
+        echo "  image rotate in.jpg out.jpg 90"
+        echo "  image bw in.jpg out.jpg"
+        ;;
+esac
+
