@@ -1,5 +1,5 @@
 /* ======================================================
-                Glide version: 0.1.59a
+                Glide version: 0.1.60a
    ====================================================== */
 // 
 
@@ -229,8 +229,20 @@ declare const GLIDE_EXCOMMANDS: [
 		readonly repeatable: false;
 	},
 	{
+		readonly name: "tab_pin_toggle";
+		readonly description: "Pin or unpin the current tab";
+		readonly content: false;
+		readonly repeatable: true;
+	},
+	{
 		readonly name: "tab_reopen";
 		readonly description: "Open the last closed tab";
+		readonly content: false;
+		readonly repeatable: true;
+	},
+	{
+		readonly name: "tab_duplicate";
+		readonly description: "Duplicate the current tab";
 		readonly content: false;
 		readonly repeatable: true;
 	},
@@ -769,6 +781,24 @@ declare global {
 			 */
 			create<const Event extends "WindowLoaded">(event: Event, callback: (args: glide.AutocmdArgs[Event]) => void): void;
 			/**
+			 * Create an autocmd that will be invoked whenever an addon is installed.
+			 *
+			 * The `pattern` is matched against the addon `id`. You can also use `*` as a placeholder to match _any_ addon.
+			 *
+			 * For example, to define an autocmd that will be fired when uBlock Origin is installed, use `ts:"uBlock0@raymondhill.net"`.
+			 *
+			 * ```typescript
+			 * glide.autocmds.create(
+			 *   "AddonInstalled",
+			 *   "string",
+			 *   ({ addon }) => {
+			 *     //
+			 *   },
+			 * );
+			 * ```
+			 */
+			create<const Event extends "AddonInstalled">(event: Event, pattern: glide.AutocmdPatterns[Event], callback: (args: glide.AutocmdArgs[Event]) => void): void;
+			/**
 			 * Create an autocmd that will be invoked when the commandline is closed.
 			 */
 			create<const Event extends "CommandLineExit">(event: Event, callback: (args: glide.AutocmdArgs[Event]) => void): void;
@@ -938,6 +968,12 @@ declare global {
 			 * ```
 			 */
 			show(opts?: glide.CommandLineShowOpts): Promise<void>;
+			/**
+			 * Close the commandline UI.
+			 *
+			 * Returns `ts:true` if the commandline was previously open, `ts:false` if it was already closed.
+			 */
+			close(): Promise<boolean>;
 			/**
 			 * If the commandline is open and focused.
 			 */
@@ -2424,10 +2460,10 @@ declare global {
 			whole_words?: boolean | undefined;
 		};
 		export type SplitViewCreateOpts = {
-			id?: string;
+			id?: number;
 		};
 		export type SplitView = {
-			id: string;
+			id: number;
 			tabs: Browser.Tabs.Tab[];
 		};
 		export type KeyNotation = {
@@ -2547,7 +2583,7 @@ declare global {
 				input: string;
 			}): void;
 		};
-		type AutocmdEvent = "UrlEnter" | "ModeChanged" | "ConfigLoaded" | "WindowLoaded" | "CommandLineExit" | "KeyStateChanged";
+		type AutocmdEvent = "UrlEnter" | "ModeChanged" | "ConfigLoaded" | "WindowLoaded" | "AddonInstalled" | "CommandLineExit" | "KeyStateChanged";
 		type AutocmdPatterns = {
 			UrlEnter: RegExp | {
 				hostname?: string;
@@ -2555,6 +2591,7 @@ declare global {
 			ModeChanged: "*" | `${GlideMode | "*"}:${GlideMode | "*"}`;
 			ConfigLoaded: null;
 			WindowLoaded: null;
+			AddonInstalled: string | ("*" & {});
 			CommandLineExit: null;
 			KeyStateChanged: null;
 		};
@@ -2572,6 +2609,9 @@ declare global {
 			};
 			ConfigLoaded: {};
 			WindowLoaded: {};
+			AddonInstalled: {
+				readonly addon: glide.Addon;
+			};
 			CommandLineExit: {};
 			KeyStateChanged: {
 				readonly mode: GlideMode;
@@ -2622,7 +2662,7 @@ declare global {
 		};
 	}
 	type TabID = number;
-	type SplitViewID = string;
+	type SplitViewID = number;
 	/**
 	 * Dedent template function.
 	 *
