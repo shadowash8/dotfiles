@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Define paths
-ANIM_DIR="$HOME/.config/hypr/res/animations"
-TARGET_CONF="$HOME/.config/hypr/res/animations.conf"
+ANIM_DIR="$HOME/.config/hypr/modules/animations"
+TARGET_CONF="$HOME/.config/hypr/modules/animations.conf"
 
 # Get the list of files and strip the .conf extension for a cleaner UI
 choice=$(ls "$ANIM_DIR" | sed 's/\.conf$//' | rofi -dmenu -p "Select Animation Profile:")
