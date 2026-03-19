@@ -10,9 +10,9 @@ import subprocess
 c.tabs.show = "multiple"
 
 # url
-c.url.default_page = "about:blank"
+c.url.default_page = "http://localhost:8087"
 c.url.searchengines = {
-    'DEFAULT': 'https://duckduckgo.com/?q={}',
+    'DEFAULT': 'http://localhost:8087/search?q={}',
     '!aw': 'https://wiki.archlinux.org/?search={}',
     '!apkg': 'https://archlinux.org/packages/?sort=&q={}&maintainer=&flagged=',
     '!gh': 'https://github.com/search?o=desc&q={}&s=stars',

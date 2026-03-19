@@ -5,7 +5,7 @@ export PATH="$HOME/.local/bin:$HOME/.config/scripts:$PATH"
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 export TERMINAL=foot
-export BROWSER=glide-bin
+export BROWSER=zen-browser
 
 # Alias
 alias vi="nvim"
@@ -21,10 +21,12 @@ alias lj="lazyjournal"
 alias em='emacsclient -c -a "emacs"'
 alias get="wget"
 alias open="xdg-open"
-alias clip="xclip -selection clipboard"
+alias clip="wl-copy"
 alias define='_def(){ curl -s "dict://dict.org/d:$1" | bat --language=md --style=grid,numbers; }; _def'
 
 alias sv="systemctl"
+alias music="systemctl --user start {mpd,mpd-mpris}"
+alias musicoff="systemctl --user stop {mpd,mpd-mpris}"
 
 alias dwmgen="cd ~/.ashdwm/dwm/ && sudo make clean install"
 alias dwlgen="cd ~/.ashdwl/dwl/ && sudo make clean install"
@@ -33,4 +35,3 @@ alias prun="patch -p1 <"
 alias sx="startx ~/.xinitrc"
 alias ws="wayback-session"
 alias sus="systemctl suspend"
-alias wifi="rofi -show wifi -modi 'wifi:iwdrofimenu'"

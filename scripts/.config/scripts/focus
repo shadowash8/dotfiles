@@ -10,6 +10,9 @@ DOMAINS=(
   "music.youtube.com"
   "gaming.youtube.com"
   "discord.com"
+  "gemini.com"
+  "claude.ai"
+  "duck.ai"
 )
 
 echo "Activating Focus Mode..."
