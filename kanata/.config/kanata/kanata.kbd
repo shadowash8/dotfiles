@@ -22,7 +22,7 @@
 
 (defalias
   ;; REMAPS
-  cap (tap-hold $tap-time $hold-time esc caps)
+  cap (tap-hold $tap-time $hold-time esc lctl)
   ent (tap-hold $tap-time $hold-time ' enter)
 
   ;; HOME ROW MODS
