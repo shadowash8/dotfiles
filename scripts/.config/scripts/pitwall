@@ -1,0 +1,56 @@
+#!/usr/bin/env python3
+import random
+import textwrap
+
+quotes = [
+    ("Through goes Hamilton", "David Croft"),
+    ("Simply lovely", "Du Du Du Max Verstappen"),
+    ("We are checking", "Ferrari Mechanics xD"),
+    ("Must be the water", "Charles Leclerc, Prince of Monaco"),
+    ("Ki ki rahh!", "Daniel Ricciardo"),
+    ("Smooth operator", "Carlos Sainz"),
+    ("Multi 21 Seb.", "Mark Webber"),
+    ("Leave me alone, I know what I'm doing!", "Kimi Räikkönen, The Iceman"),
+    ("No, Michael, no, no! That was so not right!", "Toto Wolff"),
+    ("Valtteri, it's James.", "James Vowels"),
+    ("I am stupid.", "Charles Leclerc"),
+    ("Looks like a bunch of w*nkers.", "Guenther Steiner"),
+    ("Is that Glock?! Slowing Down?", "James Allen"),
+    ("GP2 engine, GP2... ARGH!", "Fernando Alonso"),
+    ("Sebastian Vettel, YOU ARE THE WORLD CHAMPION!", "Christian Horner"),
+    ("Everyone is a Ferrari fan. Even if they're not, they are.", "Sebastian Vettel"),
+    ("Ring-ding-ding-ding-ding!", "The Vettel Finger Celebration"),
+]
+
+DECORATORS = ["🏁", "🏎️", "⚑", "◈", "❖", "▸"]
+WIDTH = 28   # characters — fits most widget widths at default font size
+PAD  = "    " # 4-space left padding (≈ 4px feel in widget)
+
+def center(text, width=WIDTH):
+    """Center text within WIDTH, prefixed with PAD."""
+    return PAD + text.center(width)
+
+def wrap_quote(text, width=WIDTH):
+    """Word-wrap quote to WIDTH, each line centered."""
+    lines = textwrap.wrap(text, width)
+    return [center(line) for line in lines]
+
+def main():
+    quote, author = random.choice(quotes)
+    dec = random.choice(DECORATORS)
+
+    print()
+    print(center(dec))
+    print()
+
+    for line in wrap_quote(f'"{quote}"'):
+        print(line)
+
+    print()
+    print(center(f"— {author}"))
+    print()
+    print(center(dec))
+    print()
+
+if __name__ == "__main__":
+    main()
