@@ -22,7 +22,6 @@ quotes = [
     ("Ring-ding-ding-ding-ding!", "The Vettel Finger Celebration"),
 ]
 
-DECORATORS = ["🏁", "🏎️", "⚑", "◈", "❖", "▸"]
 WIDTH = 28   # characters — fits most widget widths at default font size
 PAD  = "    " # 4-space left padding (≈ 4px feel in widget)
 
@@ -37,20 +36,12 @@ def wrap_quote(text, width=WIDTH):
 
 def main():
     quote, author = random.choice(quotes)
-    dec = random.choice(DECORATORS)
-
-    print()
-    print(center(dec))
-    print()
 
     for line in wrap_quote(f'"{quote}"'):
         print(line)
 
     print()
     print(center(f"— {author}"))
-    print()
-    print(center(dec))
-    print()
 
 if __name__ == "__main__":
     main()
