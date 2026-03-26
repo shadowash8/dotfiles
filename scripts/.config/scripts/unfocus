@@ -12,6 +12,7 @@ DOMAINS=(
   "gaming.youtube.com"
   "discord.com"
   "gemini.com"
+  "gemini.google.com"
   "claude.ai"
   "duck.ai"
 )

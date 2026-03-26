@@ -29,4 +29,4 @@ split() {
 
 vol="$(printf "%.0f" "$(split "$vol" ".")")"
 
-echo "$vol%"
+echo "[V] $vol%"

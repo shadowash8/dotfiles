@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Source pywal colors
-. "${HOME}/.cache/cwal/colors.sh"
+. "${HOME}/.cache/ashwal/colors.sh"
 
 # Get the wallpaper path from the cache file
 # (The $(cat ...) reads the path inside that file)

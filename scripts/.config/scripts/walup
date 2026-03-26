@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # update bg
-feh --bg-fill $(cat ~/.cache/cwal/cwal) &
-swaybg -i $(cat ~/.cache/cwal/cwal) -m fill &
+pkill swaybg
+swaybg -i $(cat ~/.cache/ashwal/ashwal) -m fill &
 
 # update xrdb
 xrdb -load ~/.Xresources
@@ -10,19 +10,12 @@ xrdb -load ~/.Xresources
 # update emacs colors
 emacsclient -e '(my/reload-xresources-theme)' &
 
-# update firefox colors
-pywalfox update &
-
 # update kitty colors
 pkill -SIGUSR1 kitty
 
 # update dunst colors
 pkill dunst &
-dunst &
-disown
+dunst & disown
 
 # update qute-reload colors
 qute-reload &
-
-# update cosmic colors
-cosmic-settings appearance import ~/.cache/wal/colors-cosmic.ron
