@@ -16,7 +16,7 @@ return {
         lazy = false,
         priority = 1000,
         config = function()
-            -- vim.cmd([[colorscheme ash]])
+            --vim.cmd([[colorscheme ash]])
         end,
     },
     {
@@ -37,13 +37,7 @@ return {
         priority = 1000,
         config = function()
             require("koda").setup({ transparent = true })
-            -- vim.cmd("colorscheme koda")
+            vim.cmd("colorscheme koda")
         end,
     },
-    {
-        'uZer/pywal16.nvim',
-        config = function()
-            vim.cmd.colorscheme("pywal16")
-        end,
-    }
 }

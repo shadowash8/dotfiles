@@ -5,7 +5,7 @@
   "margin-top": 8,
   "margin-left": 4,
   "margin-right": 4,
-  "margin-bottom": 8,
+  "margin-bottom": 0,
   "reload_style_on_change": true,
   "modules-left": [
     "custom/user-menu",
@@ -38,7 +38,7 @@
       "music": "thunar $HOME/moosic",
       "shutdown": "systemctl poweroff",
       "reboot": "systemctl reboot",
-      "lock": "lock.sh",
+      "lock": "hyprlock",
       "suspend": "systemctl suspend"
     }
   },

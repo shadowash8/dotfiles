@@ -5,7 +5,9 @@ export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 export TERMINAL=foot
 export EDITOR=helix
-export BROWSER=zen-browser
+export BROWSER=helium-browser
+export XKB_DEFAULT_LAYOUT=us
+export XKB_DEFAULT_VARIANT=colemak_dh
 
 # Alias
 alias vi="helix"
@@ -36,4 +38,5 @@ alias neugen="cd ~/code/neuwm/ && make clean && make && sudo make install"
 alias pdry="patch --dry-run -p1 <"
 alias prun="patch -p1 <"
 alias sx="startx ~/.xinitrc"
+alias sriv="river -c ashrwm"
 alias wifi='rofi -show wifi -modi "wifi:iwdrofimenu"'

@@ -92,8 +92,8 @@ tooltip {
   background-color: @color6;
   font-size: 0;
   margin: 0 2px;
-  padding: 0 8px;
-  border-radius: 999px;
+  padding: 0 10px;
+  border-radius: 9px;
   transition: all 0.5s ease;
 }
 
