@@ -1,4 +1,4 @@
-# Autostart
+# autostart
 (defn autostart [cmd]
   (ev/spawn (os/proc-wait (os/spawn cmd :p))))
 
@@ -8,12 +8,17 @@
 (autostart ["dunst"])
 (autostart ["dbus-launch" "waybar"])
 (autostart ["wlsunset" "-o" "eDP-1" "-g" "0.8"])
-(autostart ["cliphist" "wipe"])
 (autostart ["wl-paste" "--watch" "cliphist" "store"])
 
 # colors
 (put config :background nil)
-(dofile (string (os/getenv "HOME") "/.cache/ashwal/colors-rijan.janet") :env (curenv))
+(dofile (string (os/getenv "HOME") "/.cache/ashwal/colors-ashrwm.janet") :env (curenv))
+
+# libinput
+(put config :tap-to-click true)
+(put config :natural-scroll false)
+(put config :dwt true)
+(put config :focus-follows-mouse true)
 
 # keybinds
 (array/push
@@ -29,6 +34,8 @@
   [:p {:mod4 true} (action/spawn ["sh" "-c" "connect"])]
   [:h {:mod4 true} (action/spawn ["foot" "-e" "rmpc"])]
   [:question {:mod4 true} (action/spawn ["rofi" "-show" "recursivebrowser"])]
+  [:comma {:mod4 true} (action/spawn ["sh" "-c" "solemn"])]
+  [:comma {:mod4 true :ctrl true} (action/spawn ["sh" "-c" "silly"])]
   [:space {:mod4 true :shift true} (action/spawn ["sh" "-c" "notes"])]
   [:space {:mod4 true :ctrl true} (action/spawn ["sh" "-c" "walmenu"])]
 
@@ -55,6 +62,8 @@
   [:m {:mod4 true} (action/focus-output)]
   [:i {:mod4 true} (action/focus-output)]
   [:a {:mod4 true} (action/fullscreen)]
+  [:z {:mod4 true} (action/swap-main)]
+  [:s {:mod4 true} (action/sticky)]
   [:g {:mod4 true} (action/float)]
   [:Escape {:mod4 true :mod1 true :shift true :ctrl true} (action/passthrough)]
   [:q {:mod4 true :shift true} (action/exit-session)]
