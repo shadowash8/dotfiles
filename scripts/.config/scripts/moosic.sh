@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Configuration
-SOURCE_DIR="/mnt/personal/Areas/Music"
-MIRROR_DIR="/home/ashwin/moosic"
+SOURCE_DIR="/home/ashwin/moosic"
+MIRROR_DIR="/home/ashwin/documents/moosic"
 
 # Ensure the source exists so we don't do something stupid
 if [ ! -d "$SOURCE_DIR" ]; then
@@ -29,6 +29,29 @@ find "$SOURCE_DIR" -type f -name "*.flac" -print0 | while IFS= read -r -d '' fil
         echo "Converting: $rel_path"
         # -n tells ffmpeg not to overwrite; -v warning keeps the logs clean
         ffmpeg -v warning -n -i "$file" -c:a libopus -b:a 320k -map_metadata 0 "$target_path" < /dev/null
+    else
+        echo "Skipping: $rel_path (Already exists)"
+    fi
+done
+
+echo "Startint the Perfect Execution. Hold on."
+
+# Use 'find' with -print0 to handle spaces in filenames (don't be a rookie)
+find "$SOURCE_DIR" -type f -name "*.opus" -print0 | while IFS= read -r -d '' file; do
+
+    # Calculate the relative path from the source root
+    rel_path="${file#$SOURCE_DIR/}"
+
+    # Define the target path (swap .flac for .opus)
+    target_path="$MIRROR_DIR/$rel_path"
+
+    # 1. Create the subfolder structure in the mirror
+    mkdir -p "$(dirname "$target_path")"
+
+    # 2. Check if the file already exists to save time
+    if [ ! -f "$target_path" ]; then
+        echo "Copying existing Opus: $rel_path"
+        cp "$file" "$target_path"
     else
         echo "Skipping: $rel_path (Already exists)"
     fi
