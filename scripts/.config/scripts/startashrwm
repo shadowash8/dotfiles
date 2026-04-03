@@ -1,0 +1,8 @@
+#!/bin/sh
+
+export DESKTOP_SESSION=ashrwm
+export XCURSOR_SIZE=24
+export QT_QPA_PLATFORM="wayland"
+export QT_QPA_PLATFORMTHEME="qt6ct"
+
+river -c ashrwm > ~/.ashrwm.log 2>&1
