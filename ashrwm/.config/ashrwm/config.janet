@@ -14,6 +14,8 @@
 (autostart ["wl-paste" "--watch" "cliphist" "store"])
 (autostart ["audio-init.sh"])
 
+(put config :layout :grid)
+
 # colors
 (put config :background nil)
 (dofile (string (os/getenv "HOME") "/.cache/ashwal/colors-ashrwm.janet") :env (curenv))
@@ -69,6 +71,8 @@
   [:z {:mod4 true} (action/swap-main)]
   [:s {:mod4 true} (action/sticky)]
   [:g {:mod4 true} (action/float)]
+  [:x {:mod4 true} (action/layout :tile)]
+  [:c {:mod4 true} (action/layout :grid)]
   [:equal {:mod4 true} (action/main-ratio 0.05)]
   [:minus {:mod4 true} (action/main-ratio -0.05)]
   [:Escape {:mod4 true :mod1 true :shift true :ctrl true} (action/passthrough)]
