@@ -37,6 +37,7 @@ alias dwlgen="cd ~/.ashdwl/dwl/ && sudo make clean install"
 alias neugen="cd ~/code/neuwm/ && make clean && make && sudo make install"
 alias sx="startx ~/.xinitrc"
 alias sriv="river -c ashrwm"
+alias rivrestart='pkill -x "ashrwm|waybar|dunst|swaybg|hypridle|wlsunset|kdeconnectd|polkit-gnome-au|wl-paste"; ashrwm &'
 alias wifi='rofi -show wifi -modi "wifi:iwdrofimenu"'
 
 # functions

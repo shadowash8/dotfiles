@@ -1,4 +1,6 @@
 #!/bin/sh
+. ~/.shellprofile
+
 
 export DESKTOP_SESSION=ashrwm
 export XCURSOR_SIZE=24

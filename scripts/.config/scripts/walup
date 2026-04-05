@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# update bg
-pkill swaybg
-swaybg -i $(cat ~/.cache/ashwal/ashwal) -m fill &
-
 # update xrdb
 xrdb -load ~/.Xresources
 

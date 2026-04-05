@@ -2,23 +2,30 @@
 (defn autostart [cmd]
   (ev/spawn (os/proc-wait (os/spawn cmd :p))))
 
-(autostart ["sh" "-c" "swaybg -i $(cat ~/.cache/ashwal/ashwal)"])
 (autostart ["dbus-update-activation-environment" "--systemd" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP=ashrwm"])
 (autostart ["/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"])
 (autostart ["emacs" "--daemon"])
-(autostart ["hypridle"])
+(autostart ["swayidle" "-w"
+            "timeout" "300" "gtklock"
+            "timeout" "600" "wlopm --off *"
+            "resume" "wlopm --on *"
+            "before-sleep" "gtklock"])
+(autostart ["awww-daemon"])
 (autostart ["dunst"])
 (autostart ["kdeconnectd"])
 (autostart ["dbus-launch" "waybar"])
 (autostart ["wlsunset" "-o" "eDP-1" "-g" "0.8" "-l" "19" "-L" "74"])
 (autostart ["wl-paste" "--watch" "cliphist" "store"])
-(autostart ["audio-init.sh"])
 
-(put config :layout :grid)
-
-# colors
-(put config :background nil)
+# theming
+(put config :border-width 4)
+(put config :outer-padding 6)
+(put config :inner-padding 3)
 (dofile (string (os/getenv "HOME") "/.cache/ashwal/colors-ashrwm.janet") :env (curenv))
+
+# layout
+(put config :layout :grid)
+(put config :main-ratio 0.60)
 
 # input
 (put config :tap-to-click true)
@@ -36,14 +43,14 @@
   [:b {:mod4 true} (action/spawn ["zen-browser"])]
   [:f {:mod4 true} (action/spawn ["thunar"])]
   [:w {:mod4 true} (action/spawn ["emacsclient" "-c" "-a" "emacs"])]
-  [:u {:mod4 true} (action/spawn ["hyprlock"])]
+  [:u {:mod4 true} (action/spawn ["gtklock"])]
   [:p {:mod4 true} (action/spawn ["sh" "-c" "connect"])]
   [:h {:mod4 true} (action/spawn ["foot" "-e" "rmpc"])]
   [:question {:mod4 true} (action/spawn ["rofi" "-show" "recursivebrowser"])]
   [:comma {:mod4 true} (action/spawn ["sh" "-c" "solemn"])]
   [:comma {:mod4 true :ctrl true} (action/spawn ["sh" "-c" "silly"])]
   [:space {:mod4 true :shift true} (action/spawn ["sh" "-c" "notes"])]
-  [:space {:mod4 true :ctrl true} (action/spawn ["sh" "-c" "walmenu"])]
+  [:space {:mod4 true :ctrl true} (action/spawn ["waypaper"])]
 
   # Volume / Brightness
   [:XF86AudioRaiseVolume {} (action/spawn ["osd" "volume" "5%+"])]
