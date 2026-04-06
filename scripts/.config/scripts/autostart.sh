@@ -1,13 +1,10 @@
 #!/bin/sh
 
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-hypridle &
+swayidle &
 dunst &
-dbus-launch waybar &
-swaybg -i $(cat ~/.cache/ashwal/ashwal) &
-wlsunset -o eDP-1 -g 0.8 &
+wlsunset -o eDP-1 -l 19 -L 74 -g 0.8 &
 
 # Clipboard stuff
-cliphist wipe &
 wl-paste --watch cliphist store &
 

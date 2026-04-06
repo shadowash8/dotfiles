@@ -40,7 +40,7 @@
   [:space {:mod4 true} (action/spawn ["rofi" "-show" "drun"])]
   [:Return {:mod4 true} (action/spawn ["foot"])]
   [:v {:mod4 true} (action/spawn ["sh" "-c" "cliphist list | rofi -dmenu | cliphist decode | wl-copy"])]
-  [:b {:mod4 true} (action/spawn ["zen-browser"])]
+  [:b {:mod4 true} (action/spawn ["helium-browser"])]
   [:f {:mod4 true} (action/spawn ["thunar"])]
   [:w {:mod4 true} (action/spawn ["emacsclient" "-c" "-a" "emacs"])]
   [:u {:mod4 true} (action/spawn ["gtklock"])]
