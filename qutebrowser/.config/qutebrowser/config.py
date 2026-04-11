@@ -3,7 +3,6 @@ c = c  # noqa: F821 pylint: disable=E0602,C0103
 config = config  # noqa: F821 pylint: disable=E0602,C0103
 import os
 import glob
-import subprocess
 # pylint settings included to disable linting errors
 
 # tabs
@@ -54,7 +53,7 @@ for i in range(1, 10):
 # dark mode setup
 c.colors.webpage.darkmode.enabled = True
 c.colors.webpage.darkmode.algorithm = 'lightness-cielab'
-c.colors.webpage.darkmode.policy.images = 'never'
+c.colors.webpage.darkmode.policy.images = 'smart'
 config.set('colors.webpage.darkmode.enabled', False, 'file://*')
 config.set('colors.webpage.darkmode.enabled', False, 'file:///*')
 
@@ -89,7 +88,7 @@ c.content.cookies.accept = "no-3rdparty"
 c.content.cookies.store = True
 c.content.headers.user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.3"
 c.content.webgl = False
-c.content.javascript.enabled = False
+c.content.javascript.enabled = True
 
 # Adblocking
 c.content.blocking.enabled = True
