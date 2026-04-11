@@ -1,0 +1,35 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 26,
+  "width": 720,
+  "margin-top": 10,
+  "spacing": 4,
+  "modules-left": [
+    "network"
+  ],
+  "modules-center": [
+    "clock"
+  ],
+  "modules-right": [
+    "pulseaudio"
+  ],
+  "clock": {
+    "format": "{:%H:%M}"
+  },
+  "network": {
+    "format-wifi": "wifi: {signalStrength}%",
+    "format-ethernet": "[E]",
+    "format-disconnected": "no",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)",
+    "tooltip-format-ethernet": "{ifname} (Wired)",
+    "on-click": "rofi -show wifi -modi 'wifi:iwdrofimenu'"
+  },
+  "pulseaudio": {
+    "scroll-step": 2,
+    "format": "volume: {volume}%",
+    "format-muted": "mute",
+    "format-bluetooth": "[V]BT {volume}%",
+    "on-click": "pavucontrol"
+  }
+}

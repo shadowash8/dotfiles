@@ -1,0 +1,21 @@
+@import "../../.cache/ashwal/colors-waybar.css";
+
+* {
+  font-family: "sans";
+  font-size: 14px;
+}
+
+window#waybar {
+  background-color: @color4;
+  color: @foregroud;
+  border: 1px solid @color4;
+}
+
+#clock,
+#network,
+#pulseaudio {
+  padding: 0px 8px 0px 8px;
+  background-color: @color0;
+  color: @foreground;
+  border: 1px solid @color2;
+}
