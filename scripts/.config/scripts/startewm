@@ -6,6 +6,8 @@ export XCURSOR_SIZE=24
 export QT_QPA_PLATFORM="wayland"
 export QT_QPA_PLATFORMTHEME="qt6ct"
 
+pkill emacs
+
 cd /home/ashwin/code/ewm/compositor
 EWM_MODULE_PATH=$(pwd)/target/debug/libewm_core.so \
   emacs --fg-daemon -L ../lisp -l ewm -f ewm-start-module
