@@ -24,6 +24,13 @@ vim.lsp.config("ts_ls", {
     root_markers = { "package.json", ".git" },
 })
 
+vim.lsp.config("janet_lsp", {
+    cmd = { "/usr/bin/janet-lsp" },
+    filetypes = { "janet" },
+    root_markers = { "project.janet", ".git", "build.zig" },
+})
+vim.lsp.enable("janet_lsp")
+
 -- Diagnostics
 vim.diagnostic.config({
     virtual_text = true,
