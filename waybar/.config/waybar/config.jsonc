@@ -6,7 +6,8 @@
   "margin-top": 10,
   "spacing": 4,
   "modules-left": [
-    "network"
+    "network",
+    "custom/protonvpn"
   ],
   "modules-center": [
     "clock"
@@ -18,13 +19,24 @@
     "format": "{:%H:%M}"
   },
   "network": {
+    "interface": "wlan0",
+    "format": "{ifname}",
     "format-wifi": "wifi: {signalStrength}%",
     "format-ethernet": "[E]",
     "format-disconnected": "no",
-    "tooltip-format-wifi": "{essid} ({signalStrength}%)",
-    "tooltip-format-ethernet": "{ifname} (Wired)",
+    "tooltip-format": "{ifname} via {gwaddr} 󰊗",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
+    "tooltip-format-ethernet": "{ifname} ",
     "on-click": "rofi -show wifi -modi 'wifi:iwdrofimenu'"
   },
+"custom/protonvpn": {
+    "interval": 5,
+    "return-type": "json",
+    "exec": "status=$(protonvpn status); if echo \"$status\" | grep -q 'Status: Connected'; then text='[V]'; else text='[X]'; fi; printf '{\"text\": \"%s\", \"tooltip\": \"%s\"}\\n' \"$text\" \"$(echo \"$status\" | sed ':a;N;$!ba;s/\\n/\\r/g')\"",
+    "on-click": "protonvpn connect",
+    "on-click-right": "protonvpn disconnect",
+    "on-click-middle": "protonvpn-app"
+},
   "pulseaudio": {
     "scroll-step": 2,
     "format": "volume: {volume}%",
