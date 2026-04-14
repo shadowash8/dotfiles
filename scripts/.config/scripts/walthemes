@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # 1. Get the list of all themes from ashwal and extract just the theme names
+wallpaper=$(cat ~/.cache/ashwal/ashwal)
 themes=$(ashwal --list-themes | grep '\.ashwal$' | awk '{print $1}' | sed 's/\.ashwal$//')
 
 # 2. Pipe that list into rofi
@@ -8,6 +9,6 @@ selected_theme=$(echo "$themes" | rofi -dmenu -p "Select Theme:" -l 20)
 
 # 3. If a theme was selected, apply it and run your -o script
 if [ -n "$selected_theme" ]; then
-    cwal --theme "$selected_theme" --script "walup"
+    ashwal --theme "$selected_theme" --script "walup" --img "$wallpaper"
     notify-send "ashwal" "Theme '$selected_theme' applied."
 fi
