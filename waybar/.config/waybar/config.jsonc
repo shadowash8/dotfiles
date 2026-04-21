@@ -16,7 +16,8 @@
     "pulseaudio"
   ],
   "clock": {
-    "format": "{:%H:%M}"
+    "format": "{:%H:%M}",
+    "tooltip-format": "{:%c}"
   },
   "network": {
     "interface": "wlan0",
@@ -24,19 +25,18 @@
     "format-wifi": "wifi: {signalStrength}%",
     "format-ethernet": "[E]",
     "format-disconnected": "no",
-    "tooltip-format": "{ifname} via {gwaddr} 󰊗",
-    "tooltip-format-wifi": "{essid} ({signalStrength}%) ",
-    "tooltip-format-ethernet": "{ifname} ",
+    "tooltip-format": "󰊗 {ifname} via {gwaddr}",
+    "tooltip-format-wifi": "  {essid} ({signalStrength}%)",
+    "tooltip-format-ethernet": "  {ifname}",
     "on-click": "rofi -show wifi -modi 'wifi:iwdrofimenu'"
   },
-"custom/protonvpn": {
-    "interval": 5,
+  "custom/protonvpn": {
+    "format": "[V]",
+    "exec": "echo '{\"class\": \"connected\"}'",
+    "exec-if": "test -d /proc/sys/net/ipv4/conf/protonvpn/",
     "return-type": "json",
-    "exec": "status=$(protonvpn status); if echo \"$status\" | grep -q 'Status: Connected'; then text='[V]'; else text='[X]'; fi; printf '{\"text\": \"%s\", \"tooltip\": \"%s\"}\\n' \"$text\" \"$(echo \"$status\" | sed ':a;N;$!ba;s/\\n/\\r/g')\"",
-    "on-click": "protonvpn connect",
-    "on-click-right": "protonvpn disconnect",
-    "on-click-middle": "protonvpn-app"
-},
+    "interval": 5
+  },
   "pulseaudio": {
     "scroll-step": 2,
     "format": "volume: {volume}%",
