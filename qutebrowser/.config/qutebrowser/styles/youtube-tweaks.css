@@ -46,20 +46,18 @@ a[href="/shorts/"] {
 
 /* hide video player */
 /* make video fill the remaining space */
-/* #primary { */
-/*     width: 100% !important; */
-/*     flex: 1 !important; */
-/*     max-width: none !important; */
-/* } */
+#primary {
+    width: 100% !important;
+    flex: 1 !important;
+    max-width: none !important;
+} 
 
-/* html:not(.ytd-watch-flexy) ytd-watch-flexy[flexy] #player { */
-/*     width: 100% !important; */
-/*     max-width: 1400px; */
-/*     margin: 0 auto !important; */
-/* } */
+html:not(.ytd-watch-flexy) ytd-watch-flexy[flexy] #player {
+    width: 100% !important;
+    max-width: 1400px;
+    margin: 0 auto !important;
+}
 
-
-
-/* #full-bleed-container { */
-/*     display: none !important; */
-/* } */
+#full-bleed-container, #player, .html5-video-player {
+    display: none !important;
+}
