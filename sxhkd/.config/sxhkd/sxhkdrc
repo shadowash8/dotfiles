@@ -2,7 +2,7 @@
 
 # Terminal (st)
 super + Return
-    st 
+    kitty 
 
 # Browser
 super + b

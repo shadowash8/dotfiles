@@ -1,0 +1,9 @@
+#!/bin/sh
+. ~/.shellprofile
+
+export DESKTOP_SESSION=mangowm
+export XCURSOR_SIZE=24
+export QT_QPA_PLATFORM="wayland"
+export QT_QPA_PLATFORMTHEME="qt6ct"
+
+mango

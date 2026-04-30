@@ -1,3 +1,5 @@
+include "~/.cache/ashwal/colors-sway"
+
 set $mod Mod4
 
 # Appearance
@@ -5,14 +7,12 @@ default_border pixel 2
 default_floating_border pixel 2
 
 # Autostart
-exec_always --no-startup-id sh -c 'feh --bg-fill "$(cat ~/.cache/wal/wal)"'
+exec_always --no-startup-id sh -c 'feh --bg-fill "$(cat ~/.cache/ashwal/ashwal)"'
 exec --no-startup-id picom
 exec --no-startup-id dunst
-exec --no-startup-id sxhkd 
 exec --no-startup-id setxkbmap us -variant colemak_dh
 exec --no-startup-id xrdb -override ~/.Xresources
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-
 
 # Settings
 floating_modifier $mod
@@ -20,6 +20,10 @@ tiling_drag modifier titlebar
 
 # Bindings
 bindsym $mod+q kill
+bindsym $mod+Return exec st
+bindsym $mod+w exec emacsclient -n -c emacs
+bindsym $mod+b exec helium-browser
+bindsym $mod+space exec rofi -show drun
 
 # Focus 
 bindsym $mod+m focus left
@@ -80,6 +84,15 @@ bindsym $mod+Shift+0 move container to workspace number 10
 bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 
+# Volume Keys
+bindsym XF86AudioRaiseVolume exec --no-startup-id osd volume 5%+
+bindsym XF86AudioLowerVolume exec --no-startup-id osd volume 5%-
+bindsym XF86AudioMute        exec --no-startup-id osd volume toggle
+
+# Brightness Keys
+bindsym XF86MonBrightnessUp   exec --no-startup-id osd brightness 5%+
+bindsym XF86MonBrightnessDown exec --no-startup-id osd brightness 5%-
+
 # Resize Mode
 mode "resize" {
     bindsym m resize shrink width 10 px or 10 ppt
@@ -91,30 +104,23 @@ mode "resize" {
 }
 bindsym $mod+r mode "resize"
 
-# Rules
-for_window [class="Xfce4-settings-manager"] floating enable
-for_window [class="Xfce4-appearance-settings"] floating enable
-for_window [class="Xfce4-display-settings"] floating enable
-for_window [class="Xfce4-panel"] floating enable
-for_window [class="Xfce4-about"] floating enable
-for_window [class="Xfce4-appfinder"] floating enable, border pixel 2, resize set 600 400, move position center
-for_window [class="Xfce4-session-logout"] floating enable
-for_window [class="Xfce4-clipman-history"] floating enable
-
-# Bar
+# Bar Configuration
 bar {
-    status_command    i3blocks
-    position          top
-
+    status_command i3status
+    position bottom
+    
+    # Matching your Waybar height (approx) and font
     font pango:sans 10
 
     colors {
         background #000000
-        statusline #ffffff
+        statusline #c1c1c1
+        separator  #f8f7f2
 
-        focused_workspace  #ffffff #285577
-        active_workspace   #ffffff #333333
-        inactive_workspace #888888 #222222
-        urgent_workspace   #ffffff #900000
+        #                      BORDER      BG          TEXT
+        focused_workspace     #5f8787     #5f8787     #00000
+        active_workspace      #333333     #333333     #c1c1c1
+        inactive_workspace    #000000     #000000     #888888
+        urgent_workspace      #79241f     #79241f     #c1c1c1
     }
 }

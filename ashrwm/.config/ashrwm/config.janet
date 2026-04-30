@@ -1,6 +1,6 @@
 # theming
 (put config :border-width 4)
-(put config :outer-padding 8)
+(put config :outer-padding 10)
 (put config :inner-padding 4)
 (dofile (string (os/getenv "HOME") "/.cache/ashwal/colors-ashrwm.janet") :env (curenv))
 
@@ -20,12 +20,12 @@
        [:space {:mod4 true} (action/spawn ["rofi" "-show" "drun"])]
        [:Return {:mod4 true} (action/spawn ["foot"])]
        [:v {:mod4 true} (action/spawn ["sh" "-c" "cliphist list | rofi -dmenu | cliphist decode | wl-copy"])]
-       [:b {:mod4 true} (action/spawn ["helium-browser"])]
-       [:f {:mod4 true} (action/spawn ["thunar"])]
+       [:t {:mod4 true} (action/spawn ["helium-browser"])]
+       [:e {:mod4 true} (action/spawn ["thunar"])]
        [:w {:mod4 true} (action/spawn ["emacsclient" "-c" "-a" "emacs"])]
-       [:u {:mod4 true} (action/spawn ["gtklock"])]
+       [:i {:mod4 true} (action/spawn ["gtklock"])]
        [:p {:mod4 true} (action/spawn ["sh" "-c" "connect"])]
-       [:h {:mod4 true} (action/spawn ["foot" "-e" "rmpc"])]
+       [:m {:mod4 true} (action/spawn ["foot" "-e" "rmpc"])]
        [:question {:mod4 true} (action/spawn ["rofi" "-show" "recursivebrowser"])]
        [:comma {:mod4 true} (action/spawn ["sh" "-c" "solemn"])]
        [:comma {:mod4 true :ctrl true} (action/spawn ["sh" "-c" "silly"])]
@@ -50,17 +50,17 @@
        # Window management
        [:q {:mod4 true} (action/close)]
        [:r {:mod4 true} (action/config)]
-       [:k {:mod4 true} (action/zoom)]
-       [:e {:mod4 true} (action/focus :prev)]
-       [:n {:mod4 true} (action/focus :next)]
-       [:m {:mod4 true} (action/focus-output)]
-       [:i {:mod4 true} (action/focus-output)]
+       [:n {:mod4 true} (action/zoom)]
+       [:j {:mod4 true} (action/focus :prev)]
+       [:k {:mod4 true} (action/focus :next)]
+       [:h {:mod4 true} (action/focus-output)]
+       [:l {:mod4 true} (action/focus-output)]
        [:a {:mod4 true} (action/fullscreen)]
-       [:z {:mod4 true} (action/swap-main)]
-       [:s {:mod4 true} (action/sticky)]
+       [:b {:mod4 true} (action/swap-main)]
+       [:d {:mod4 true} (action/sticky)]
        [:g {:mod4 true} (action/float)]
-       [:x {:mod4 true} (action/layout :tile)]
-       [:c {:mod4 true} (action/layout :grid)]
+       [:z {:mod4 true} (action/layout :tile)]
+       [:x {:mod4 true} (action/layout :grid)]
        [:equal {:mod4 true} (action/main-ratio 0.05)]
        [:minus {:mod4 true} (action/main-ratio -0.05)]
        [:Escape {:mod4 true :mod1 true :shift true :ctrl true} (action/passthrough)]
