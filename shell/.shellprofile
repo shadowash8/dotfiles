@@ -7,8 +7,8 @@ export TERMINAL=foot
 export EDITOR="emacsclient -n -c emacs"
 export VISUAL="emacsclient -n -c emacs"
 export BROWSER="helium-browser"
-export XKB_DEFAULT_LAYOUT=us
-export XKB_DEFAULT_VARIANT=colemak_dh
+#export XKB_DEFAULT_LAYOUT=us
+#export XKB_DEFAULT_VARIANT=colemak_dh
 
 # Alias
 alias vi="nvim"
