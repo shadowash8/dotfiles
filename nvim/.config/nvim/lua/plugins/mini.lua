@@ -12,7 +12,6 @@ return {
 
             require("mini.statusline").setup()
             require("mini.tabline").setup()
-            require("mini.files").setup()
             require("mini.snippets").setup()
             require("mini.comment").setup()
             require("mini.pairs").setup()
@@ -60,13 +59,5 @@ return {
                 },
             })
         end,
-
-        keys = {
-            {
-                "<leader>e",
-                function() require("mini.files").open(vim.uv.cwd(), true) end,
-                desc = "Explorer",
-            },
-        },
     },
 }
