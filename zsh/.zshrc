@@ -33,9 +33,11 @@ eval "$(zoxide init zsh --cmd cd)"
 eval "$(fzf --zsh)"
 
 # History
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
+if [[ -z "$HISTFILE" ]]; then
+    HISTFILE=~/.zsh_history
+    HISTSIZE=10000
+    SAVEHIST=10000
+fi
 setopt APPEND_HISTORY
 setopt SHARE_HISTORY
 setopt HIST_IGNORE_DUPS
