@@ -1,4 +1,4 @@
-@import "../../.cache/ashwal/colors-waybar.css";
+@import "../../.cache/wal/colors-waybar.css";
 
 * {
   font-family: "sans";
@@ -17,5 +17,11 @@ window#waybar {
   padding: 0px 8px 0px 8px;
   background-color: @color0;
   color: @foreground;
-  border: 1px solid @color2;
+}
+
+#custom-vpn {
+  margin-left: -4px;
+  padding: 0px 8px 0px 8px;
+  background-color: @color0;
+  color: @foreground;
 }

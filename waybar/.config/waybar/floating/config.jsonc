@@ -1,12 +1,13 @@
 {
   "layer": "top",
   "position": "top",
-  "height": 26,
+  "height": 25,
   "width": 720,
   "margin-top": 10,
   "spacing": 4,
   "modules-left": [
-    "network"
+    "network",
+    "custom/vpn"
   ],
   "modules-center": [
     "clock"
@@ -15,20 +16,30 @@
     "pulseaudio"
   ],
   "clock": {
-    "format": "{:%H:%M}"
+    "format": "{:%H:%M}",
+    "tooltip-format": "{:%A, %B %d, %Y}"
   },
   "network": {
-    "format-wifi": "wifi: {signalStrength}%",
+    "format-wifi": "[W] {signalStrength}%",
     "format-ethernet": "[E]",
     "format-disconnected": "no",
     "tooltip-format-wifi": "{essid} ({signalStrength}%)",
     "tooltip-format-ethernet": "{ifname} (Wired)",
     "on-click": "rofi -show wifi -modi 'wifi:iwdrofimenu'"
   },
+  "custom/vpn": {
+    "format": "[V]",
+    "exec": "echo '{\"class\": \"connected\"}'",
+    "exec-if": "test -d /proc/sys/net/ipv4/conf/protonvpn",
+    "return-type": "json",
+    "on-click": "pkexec wg-quick up protonvpn",
+    "on-click-right": "pkexec wg-quick down protonvpn",
+    "interval": 5
+  },
   "pulseaudio": {
     "scroll-step": 2,
-    "format": "volume: {volume}%",
-    "format-muted": "mute",
+    "format": "{volume}% [V]",
+    "format-muted": "[M]",
     "format-bluetooth": "[V]BT {volume}%",
     "on-click": "pavucontrol"
   }
