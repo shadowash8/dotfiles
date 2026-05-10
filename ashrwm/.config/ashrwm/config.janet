@@ -2,7 +2,7 @@
 (put config :border-width 4)
 (put config :outer-padding 10)
 (put config :inner-padding 4)
-(dofile (string (os/getenv "HOME") "/.cache/ashwal/colors-ashrwm.janet") :env (curenv))
+(dofile (string (os/getenv "HOME") "/.cache/wal/colors-ashrwm.janet") :env (curenv))
 
 # layout
 (put config :layout :grid)
@@ -30,7 +30,8 @@
        [:comma {:mod4 true} (action/spawn ["sh" "-c" "solemn"])]
        [:comma {:mod4 true :ctrl true} (action/spawn ["sh" "-c" "silly"])]
        [:space {:mod4 true :shift true} (action/spawn ["sh" "-c" "notes"])]
-       [:space {:mod4 true :ctrl true} (action/spawn ["waypaper"])]
+       [:space {:mod4 true :ctrl true} (action/spawn ["walmenu"])]
+       [:space {:mod4 true :ctrl true :mod1 true} (action/spawn ["swal"])]
 
        # Volume / Brightness
        [:XF86AudioRaiseVolume {} (action/spawn ["osd" "volume" "5%+"])]
@@ -61,6 +62,8 @@
        [:g {:mod4 true} (action/float)]
        [:z {:mod4 true} (action/layout :tile)]
        [:x {:mod4 true} (action/layout :grid)]
+       [:s {:mod4 true} (action/layout :scroller)]
+       [:c {:mod4 true} (action/layout :monocle)]
        [:equal {:mod4 true} (action/main-ratio 0.05)]
        [:minus {:mod4 true} (action/main-ratio -0.05)]
        [:Escape {:mod4 true :mod1 true :shift true :ctrl true} (action/passthrough)]
