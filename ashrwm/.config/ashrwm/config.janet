@@ -5,8 +5,8 @@
 (dofile (string (os/getenv "HOME") "/.cache/wal/colors-ashrwm.janet") :env (curenv))
 
 # layout
-(put config :layout :grid)
-(put config :main-ratio 0.60)
+(put config :layout :scroller)
+(put config :main-ratio 0.70)
 
 # input
 (put config :tap-to-click true)
@@ -20,7 +20,7 @@
        [:space {:mod4 true} (action/spawn ["rofi" "-show" "drun"])]
        [:Return {:mod4 true} (action/spawn ["foot"])]
        [:v {:mod4 true} (action/spawn ["sh" "-c" "cliphist list | rofi -dmenu | cliphist decode | wl-copy"])]
-       [:t {:mod4 true} (action/spawn ["helium-browser"])]
+       [:t {:mod4 true} (action/spawn ["zen-browser"])]
        [:e {:mod4 true} (action/spawn ["thunar"])]
        [:w {:mod4 true} (action/spawn ["emacsclient" "-c" "-a" "emacs"])]
        [:i {:mod4 true} (action/spawn ["gtklock"])]
