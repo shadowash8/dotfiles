@@ -42,10 +42,6 @@
   med (layer-toggle media)
   sys (layer-toggle system)
   dis (layer-switch disable)
-
-  ;; BRIGHTNESS ALIASES 
-  bru (cmd "brightnessctl" "set" "+10%") ;; Brightness Up
-  brd (cmd "brightnessctl" "set" "10%-") ;; Brightness Down
 )
 
 (deflayer base
@@ -78,8 +74,8 @@
 (deflayer system 
   XX    _    _    _    _    _    _    _    _    _    _    _    _     _       _    _
   _     _    _    _    _    _    _    _    _    _    _    _    _     _       _    _    _      _     _    _    _
-  _     _    @bru _    _    _    _    _    _    _    _    _    _     _       _    _    _      _     _    _    _
-  _     _    @brd _    _    _    _    _    _    _    _    _    _                              _     _    _
+  _     _    brup _    _    _    _    _    _    _    _    _    _     _       _    _    _      _     _    _    _
+  _     _  brdown _    _    _    _    _    _    _    _    _    _                              _     _    _
   XX    _    _    _    _    _    _    _    _    _    _    _                     _             _     _    _    _
   XX    @bse XX             -               XX    XX   XX                    _  _   _         _          _
 )
