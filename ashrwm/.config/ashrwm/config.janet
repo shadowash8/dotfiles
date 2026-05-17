@@ -14,6 +14,12 @@
 (put config :dwt true)
 (put config :focus-follows-mouse true)
 
+# rules
+(set (config :rules)
+     @[[:title "Picture-in-Picture" {:float true :sticky true}]
+       [:app-id "thunar" {:fullscreen true}]
+       [:app-id "zen" {:tag 2 :float true}]])
+
 # keybinds
 (set (config :xkb-bindings)
      @[# App launchers
