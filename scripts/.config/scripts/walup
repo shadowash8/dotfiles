@@ -15,6 +15,3 @@ dunst & disown
 
 # update qute-reload colors
 qute-reload &
-
-# wallpaper
-awww img $(cat ~/.cache/wal/wal) -t none 

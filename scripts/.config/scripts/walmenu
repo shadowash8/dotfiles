@@ -28,4 +28,5 @@ fi
 
 [ -z "$WALLPAPER" ] && exit 0
 
-wal -i "$WALLPAPER" -o "$SCRIPT" 2>/dev/null
+ashwal --img "$WALLPAPER" --script "$SCRIPT"
+awww img "$WALLPAPER" -t none
