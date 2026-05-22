@@ -2,11 +2,13 @@
 (put config :border-width 4)
 (put config :outer-padding 10)
 (put config :inner-padding 4)
-(dofile (string (os/getenv "HOME") "/.cache/wal/colors-ashrwm.janet") :env (curenv))
+(dofile (string (os/getenv "HOME") "/.cache/ashwal/colors-ashrwm.janet") :env (curenv))
 
 # layout
-(put config :layout :scroller)
+(put config :layout :grid)
 (put config :main-ratio 0.70)
+(put config :layouts @{1 :scroller
+                       2 :monocle})
 
 # input
 (put config :tap-to-click true)
@@ -16,9 +18,8 @@
 
 # rules
 (set (config :rules)
-     @[[:title "Picture-in-Picture" {:float true :sticky true}]
-       [:app-id "thunar" {:fullscreen true}]
-       [:app-id "zen" {:tag 2 :float true}]])
+     @[[:app-id "mpv" {:float true}]
+       [:title "Picture-in-Picture" {:float true :sticky true}]])
 
 # keybinds
 (set (config :xkb-bindings)
@@ -26,7 +27,7 @@
        [:space {:mod4 true} (action/spawn ["rofi" "-show" "drun"])]
        [:Return {:mod4 true} (action/spawn ["foot"])]
        [:v {:mod4 true} (action/spawn ["sh" "-c" "cliphist list | rofi -dmenu | cliphist decode | wl-copy"])]
-       [:t {:mod4 true} (action/spawn ["zen-browser"])]
+       [:t {:mod4 true} (action/spawn ["helium-browser"])]
        [:e {:mod4 true} (action/spawn ["thunar"])]
        [:w {:mod4 true} (action/spawn ["emacsclient" "-c" "-a" "emacs"])]
        [:i {:mod4 true} (action/spawn ["gtklock"])]
