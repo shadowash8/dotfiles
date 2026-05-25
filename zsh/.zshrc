@@ -19,6 +19,7 @@ fi
 source "${ZINIT_HOME}/zinit.zsh"
 
 # Add in zsh plugins
+zinit light romkatv/powerlevel10k
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
@@ -28,7 +29,7 @@ zinit light Aloxaf/fzf-tab
 autoload -Uz compinit && compinit
 
 # Shell integrations
-eval "$(starship init zsh)"
+#eval "$(starship init zsh)"
 eval "$(zoxide init zsh --cmd cd)"
 eval "$(fzf --zsh)"
 
