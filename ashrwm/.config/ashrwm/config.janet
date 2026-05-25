@@ -9,6 +9,8 @@
 (put config :main-ratio 0.70)
 (put config :layouts @{1 :scroller
                        2 :monocle})
+(put config :focus-wrap false)
+(put config :float-on-top true)
 
 # input
 (put config :tap-to-click true)
@@ -27,7 +29,7 @@
        [:space {:mod4 true} (action/spawn ["rofi" "-show" "drun"])]
        [:Return {:mod4 true} (action/spawn ["foot"])]
        [:v {:mod4 true} (action/spawn ["sh" "-c" "cliphist list | rofi -dmenu | cliphist decode | wl-copy"])]
-       [:t {:mod4 true} (action/spawn ["helium-browser"])]
+       [:t {:mod4 true} (action/spawn ["zen-browser"])]
        [:e {:mod4 true} (action/spawn ["thunar"])]
        [:w {:mod4 true} (action/spawn ["emacsclient" "-c" "-a" "emacs"])]
        [:i {:mod4 true} (action/spawn ["gtklock"])]
