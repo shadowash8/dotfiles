@@ -27,14 +27,14 @@
 (set (config :xkb-bindings)
      @[# App launchers
        [:space {:mod4 true} (action/spawn ["rofi" "-show" "drun"])]
-       [:Return {:mod4 true} (action/spawn ["foot"])]
+       [:Return {:mod4 true} (action/spawn ["kitty"])]
        [:v {:mod4 true} (action/spawn ["sh" "-c" "cliphist list | rofi -dmenu | cliphist decode | wl-copy"])]
        [:t {:mod4 true} (action/spawn ["zen-browser"])]
        [:e {:mod4 true} (action/spawn ["thunar"])]
        [:w {:mod4 true} (action/spawn ["emacsclient" "-c" "-a" "emacs"])]
        [:i {:mod4 true} (action/spawn ["gtklock"])]
        [:p {:mod4 true} (action/spawn ["sh" "-c" "connect"])]
-       [:m {:mod4 true} (action/spawn ["foot" "-e" "rmpc"])]
+       [:m {:mod4 true} (action/spawn ["kitty" "-e" "rmpc"])]
        [:question {:mod4 true} (action/spawn ["rofi" "-show" "recursivebrowser"])]
        [:comma {:mod4 true} (action/spawn ["sh" "-c" "solemn"])]
        [:comma {:mod4 true :ctrl true} (action/spawn ["sh" "-c" "silly"])]
@@ -75,6 +75,8 @@
        [:c {:mod4 true} (action/layout :monocle)]
        [:equal {:mod4 true} (action/main-ratio 0.05)]
        [:minus {:mod4 true} (action/main-ratio -0.05)]
+       [:equal {:mod4 true :shift true} (action/window-ratio 0.05)]
+       [:minus {:mod4 true :shift true} (action/window-ratio -0.05)]
        [:Escape {:mod4 true :mod1 true :shift true :ctrl true} (action/passthrough)]
        [:q {:mod4 true :shift true} (action/exit-session)]
        [:0 {:mod4 true} (action/focus-all-tags)]])
