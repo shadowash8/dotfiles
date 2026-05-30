@@ -1,35 +1,6 @@
 #!/usr/bin/env bash
 
 TMP=$(mktemp /tmp/shot.XXXXXX.png)
-
-show_help() {
-  cat <<EOF
-Usage: $(basename "$0") [OPTION]
-
-Options:
-  clip      Capture region → clipboard
-  color     Color picker → clipboard
-  full      Full screen → clipboard
-  window    Active window → clipboard
-  ocr       Capture region → OCR text → clipboard
-  (none)    Capture region → clipboard (default)
-EOF
-}
-
-capture_clipboard_only() {
-  grim -g "$(slurp)" "$TMP" &&
-    wl-copy <"$TMP" &&
-    notify-send "Clipboard" "Region copied to clipboard" -i "$TMP"
-}
-
-colorpicker() {
-  COLOR=$(hyprpicker -a) &&
-    notify-send "Color Picker" "Copied $COLOR to clipboard" -i camera-photo
-}
-
-#!/usr/bin/env bash
-
-TMP=$(mktemp /tmp/shot.XXXXXX.png)
 SAVEDIR="$HOME/pictures/screenshots/"
 mkdir -p "$SAVEDIR"
 
@@ -41,10 +12,10 @@ Options:
   clip      Capture region → clipboard only
   color     Color picker → clipboard
   full      Full screen → save to ~/Pictures/Screenshots
-  window    Active window → save to ~/Pictures/Screenshots
   ocr       Capture region → OCR text → clipboard
   (none)    Capture region → save to ~/Pictures/Screenshots (default)
 EOF2
+# window    Active window → save to ~/Pictures/Screenshots
 }
 
 capture_clipboard_only() {
