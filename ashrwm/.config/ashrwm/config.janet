@@ -53,7 +53,6 @@
        [:Print {} (action/spawn ["sh" "-c" "screenshot clip"])]
        [:Print {:mod4 true} (action/spawn ["sh" "-c" "screenshot"])]
        [:Print {:mod4 true :shift true} (action/spawn ["sh" "-c" "screenshot ocr"])]
-       [:Print {:mod4 true :ctrl true} (action/spawn ["sh" "-c" "screenshot window"])]
        [:Print {:mod4 true :mod1 true} (action/spawn ["sh" "-c" "screenshot full"])]
        [:Print {:mod4 true :ctrl true :shift true} (action/spawn ["sh" "-c" "screenshot color"])]
 
