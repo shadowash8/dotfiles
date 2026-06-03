@@ -81,10 +81,10 @@
 )
 
 (deflayer disable
-  @bse  XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX    XX      XX   XX
-  XX    XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX    XX      XX   XX   XX     XX    XX   XX   XX
-  XX    XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX    XX      XX   XX   XX     XX    XX   XX   XX
-  XX    XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX                             XX    XX   XX
-  XX    XX   XX   XX   XX   XX   XX   XX   XX   XX   XX   XX                    XX            XX    XX   XX   XX
-  XX    XX   XX             XX              XX    XX   XX                   XX  XX  XX        XX         XX
+  @bse  _    _    _    _    _    _    _    _    _    _    _    _     _       _   _ 
+  _     _    _    _    _    _    _    _    _    _    _    _    _     _       _    _    _      _     _    _   _ 
+  _     _    _    _    _    _    _    _    _    _    _    _    _     _       _    _    _      _     _    _   _ 
+  _     _    _    _    _    _    _    _    _    _    _    _    _                              _     _   _ 
+  _     _    _    _    _    _    _    _    _    _    _    _                     _             _     _    _   _ 
+  _     _    _              _               _     _    _                    _   _   _         _         _ 
 )
