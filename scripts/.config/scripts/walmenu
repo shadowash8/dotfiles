@@ -29,4 +29,5 @@ fi
 [ -z "$WALLPAPER" ] && exit 0
 
 ashwal --img "$WALLPAPER" --script "$SCRIPT"
-awww img "$WALLPAPER" -t none
+pkill swaybg
+swaybg -i $(<~/.cache/ashwal/ashwal) -m fill
