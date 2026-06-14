@@ -16,21 +16,21 @@
 # input
 (put config :tap-to-click true)
 (put config :natural-scroll true)
-(put config :dwt true)
+(put config :dwt false)
 (put config :focus-follows-mouse true)
 
 # rules
 (set (config :rules)
-     @[[:app-id "mpv" {:float true}]
-       [:title "Picture-in-Picture" {:float true :sticky true}]])
+     @[[:app-id "mpv" {:float true :position :top-right}]
+       [:title "Picture-in-Picture" {:float true :sticky true :position :top-right}]])
 
 # keybinds
 (set (config :xkb-bindings)
      @[# App launchers
-       [:space {:mod4 true} (action/spawn ["rofi" "-show" "drun"])]
+       [:space {:mod4 true} (action/spawn ["rofi" "-show" "drun" "-show-icons"])]
        [:Return {:mod4 true} (action/spawn ["kitty"])]
        [:v {:mod4 true} (action/spawn ["sh" "-c" "cliphist list | rofi -dmenu | cliphist decode | wl-copy"])]
-       [:t {:mod4 true} (action/spawn ["zen-browser"])]
+       [:t {:mod4 true} (action/spawn ["helium-browser"])]
        [:e {:mod4 true} (action/spawn ["thunar"])]
        [:w {:mod4 true} (action/spawn ["emacsclient" "-c" "-a" "emacs"])]
        [:i {:mod4 true} (action/spawn ["gtklock"])]
