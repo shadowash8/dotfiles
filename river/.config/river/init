@@ -1,0 +1,19 @@
+#!/bin/sh
+systemctl --user start river-session.target
+systemctl --user start xdg-desktop-portal-wlr xdg-desktop-portal
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+
+emacs --daemon &
+swayidle -w timeout 600 "systemctl suspend" before-sleep "gtklock" &
+dunst &
+kdeconnectd &
+dbus-launch waybar &
+#wlsunset -o eDP-1 -l 19 -L 74 -g 0.8 &
+wlsunset -o eDP-1 -g 0.8 &
+wl-paste --watch cliphist store & 
+libinput-gestures &
+xrdb -override ~/.Xresources
+swaybg -i $(<~/.cache/ashwal/ashwal) &
+yams &
+
+ashrwm > ~/.ashrwm.log 2>&1
