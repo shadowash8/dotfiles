@@ -1,4 +1,5 @@
 #!/bin/sh
+systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 systemctl --user start river-session.target
 systemctl --user start xdg-desktop-portal-wlr xdg-desktop-portal
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
