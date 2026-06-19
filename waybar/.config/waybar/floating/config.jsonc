@@ -25,7 +25,7 @@
     "format-disconnected": "no",
     "tooltip-format-wifi": "{essid} ({signalStrength}%)",
     "tooltip-format-ethernet": "{ifname} (Wired)",
-    "on-click": "rofi -show wifi -modi 'wifi:iwdrofimenu'"
+    "on-click": "$TERMINAL impala"
   },
   "custom/vpn": {
     "format": "[V]",
