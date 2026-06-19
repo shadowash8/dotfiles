@@ -5,10 +5,10 @@
 (dofile (string (os/getenv "HOME") "/.cache/ashwal/colors-ashrwm.janet") :env (curenv))
 
 # layout
-(put config :layout :grid)
+(put config :layout :scroller)
 (put config :main-ratio 0.70)
-(put config :layouts @{1 :scroller
-                       2 :monocle})
+(put config :layouts @{2 :monocle
+                       4 :monocle})
 (put config :focus-wrap false)
 (put config :float-on-top true)
 (put config :new-window-position :end)
@@ -21,8 +21,10 @@
 
 # rules
 (set (config :rules)
-     @[[:app-id "mpv" {:float true :position :top-right}]
-       [:title "Picture-in-Picture" {:float true :sticky true :position :top-right}]])
+     @[[:app-id "mpv" {:float true}]
+       [:app-id "org.twosheds.iwgtk" {:float true}]
+       [:title "impala" {:float true}]
+       [:title "Picture-in-Picture" {:float true :sticky true}]])
 
 # keybinds
 (set (config :xkb-bindings)
@@ -30,7 +32,7 @@
        [:space {:mod4 true} (action/spawn ["rofi" "-show" "drun" "-show-icons"])]
        [:Return {:mod4 true} (action/spawn ["kitty"])]
        [:v {:mod4 true} (action/spawn ["sh" "-c" "cliphist list | rofi -dmenu | cliphist decode | wl-copy"])]
-       [:t {:mod4 true} (action/spawn ["helium-browser"])]
+       [:t {:mod4 true} (action/spawn ["zen-browser-twilight"])]
        [:e {:mod4 true} (action/spawn ["thunar"])]
        [:w {:mod4 true} (action/spawn ["emacsclient" "-c" "-a" "emacs"])]
        [:i {:mod4 true} (action/spawn ["gtklock"])]
@@ -42,6 +44,7 @@
        [:space {:mod4 true :shift true} (action/spawn ["sh" "-c" "notes"])]
        [:space {:mod4 true :ctrl true} (action/spawn ["walmenu"])]
        [:space {:mod4 true :ctrl true :mod1 true} (action/spawn ["swal"])]
+       #[:Tab {:mod4 true} (action/toggle-overview)]
 
        # Volume / Brightness
        [:XF86AudioRaiseVolume {} (action/spawn ["osd" "volume" "5%+"])]
