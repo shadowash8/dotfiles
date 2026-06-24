@@ -6,7 +6,7 @@
 
 # layout
 (put config :layout :scroller)
-(put config :main-ratio 0.70)
+(put config :main-ratio 0.75)
 (put config :layouts @{2 :monocle
                        4 :monocle})
 (put config :focus-wrap false)
