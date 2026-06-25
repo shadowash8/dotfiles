@@ -4,15 +4,34 @@
 
 # Function to handle Brightness
 brightness() {
-    # $2 is the value (e.g., 5%+)
-    brightnessctl set "$2" > /dev/null
+    # Get current value BEFORE changing it (e.g., 5)
+    local current_val=$(brightnessctl -m | cut -d, -f4 | tr -d '%')
+    
+    # Check if we are trying to decrease ($2 contains '-')
+    if [[ "$2" == *"-"* ]]; then
+        # Extract the number from the argument (e.g., "5%-" becomes "5")
+        local step=$(echo "$2" | tr -d '%-')
+        # Calculate what the new value WOULD be
+        local target=$((current_val - step))
+        
+        # SAFETY CHECK: If the target drops below 1%, force it to lock at 1%
+        if [ "$target" -lt 1 ]; then
+            brightnessctl set 1% > /dev/null
+            current_val=1
+            
+            # Send notification and exit function early without dropping to 0
+            notify-send -h string:x-dunst-stack-tag:bri -h int:value:"$current_val" "Brightness: $current_val%"
+            return
+        fi
+    fi
 
-    # Get current value (e.g., 55)
-    current=$(brightnessctl -m | cut -d, -f4 | tr -d '%')
+    # If it's safe to change (or if we are increasing), execute standard change
+    brightnessctl set "$2" > /dev/null
+    local final_val=$(brightnessctl -m | cut -d, -f4 | tr -d '%')
     
     notify-send -h string:x-dunst-stack-tag:bri \
-                -h int:value:"$current" \
-                "Brightness: $current%"
+                -h int:value:"$final_val" \
+                "Brightness: $final_val%"
 }
 
 # Function to handle Volume
