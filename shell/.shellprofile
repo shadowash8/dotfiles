@@ -3,12 +3,14 @@ export LANG=en_US.UTF-8
 export PATH="$HOME/.local/bin:$HOME/.config/scripts:$HOME/.wakatime:$PATH"
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export XDG_DATA_DIRS="$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 export TERMINAL=kitty
 export EDITOR="emacsclient -n -c emacs"
 export VISUAL="emacsclient -n -c emacs"
 export BROWSER="helium-browser"
 #export XKB_DEFAULT_LAYOUT=us
 #export XKB_DEFAULT_VARIANT=colemak_dh
+export QT_QPA_PLATFORMTHEME=qt6ct
 export XMODIFIERS=@im=fcitx
 export GTK_IM_MODULE=fcitx
 export QT_IM_MODULE=fcitx
