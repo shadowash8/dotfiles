@@ -13,7 +13,7 @@ window#waybar {
 
 #clock,
 #network,
-#pulseaudio {
+#battery {
   padding: 0px 8px 0px 8px;
   background-color: @color0;
   color: @foreground;
@@ -25,3 +25,12 @@ window#waybar {
   background-color: @color0;
   color: @foreground;
 }
+
+#pulseaudio {
+  margin-left: -4px;
+  padding: 0px 8px 0px 8px;
+  background-color: @color0;
+  color: @foreground;
+}
+
+

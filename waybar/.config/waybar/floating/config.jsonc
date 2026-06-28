@@ -13,6 +13,7 @@
     "clock"
   ],
   "modules-right": [
+    "battery",
     "pulseaudio"
   ],
   "clock": {
@@ -42,5 +43,25 @@
     "format-muted": "[M]",
     "format-bluetooth": "[V]BT {volume}%",
     "on-click": "pavucontrol"
+  },
+  "battery": {
+    "interval": 1,
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 20
+    },
+    "format": "[B] {capacity}%",
+    "format-charging": "[B]! {capacity}%",
+    "format-plugged": "[B]! {capacity}%",
+    "format-alt": "{icon} {time}",
+    "format-icons": [
+      "󰁻",
+      "󰁼",
+      "󰁾",
+      "󰂀",
+      "󰂂",
+      "󰁹"
+    ]
   }
 }

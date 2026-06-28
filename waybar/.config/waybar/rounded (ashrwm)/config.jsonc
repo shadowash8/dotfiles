@@ -9,18 +9,17 @@
   "reload_style_on_change": true,
   "modules-left": [
     "custom/user-menu",
-    "ext/workspaces",
-    "dwl/window"
+    "group/ashrwm-tags",
+    "custom/ashrwm-window"
   ],
   "modules-center": [
-    "custom/org-clock"
   ],
   "modules-right": [
     "group/expand",
     "power-profiles-daemon",
-    "battery",
     "backlight",
     "pulseaudio",
+    "battery",
     "network",
     "clock"
   ],
@@ -43,29 +42,30 @@
       "suspend": "systemctl suspend"
     }
   },
-  "ext/workspaces": {
-    "format": "{icon}",
-    "ignore-hidden": true,
-    "on-click": "activate",
-    "on-click-right": "deactivate",
-    "sort-by-id": true
-  },
-  "dwl/window": {
-    "format": "[{layout}] {title}"
-  },
-  "hyprland/workspaces": {
-    "format": "{icon}",
-    "on-click": "activate",
-    "format-icons": {
-      "active": "",
-      "default": ""
-    },
-    "sort-by-number": true
-  },
-  "hyprland/window": {
-    "format": "{}",
-    "separate-outputs": true
-  },
+"group/ashrwm-tags": {
+    "orientation": "horizontal",
+    "modules": [
+        "custom/tag-1", "custom/tag-2", "custom/tag-3",
+        "custom/tag-4", "custom/tag-5", "custom/tag-6",
+        "custom/tag-7", "custom/tag-8", "custom/tag-9"
+    ]
+},
+"custom/tag-1": { "exec": "/home/ashwin/downloads/ashrwm-waybar-tags.janet 1", "return-type": "json", "on-click": "ashrwm-msg '(action/focus-tag 1)'" },
+"custom/tag-2": { "exec": "/home/ashwin/downloads/ashrwm-waybar-tags.janet 2", "return-type": "json", "on-click": "ashrwm-msg '(action/focus-tag 2)'" },
+"custom/tag-3": { "exec": "/home/ashwin/downloads/ashrwm-waybar-tags.janet 3", "return-type": "json", "on-click": "ashrwm-msg '(action/focus-tag 3)'" },
+"custom/tag-4": { "exec": "/home/ashwin/downloads/ashrwm-waybar-tags.janet 4", "return-type": "json", "on-click": "ashrwm-msg '(action/focus-tag 4)'" },
+"custom/tag-5": { "exec": "/home/ashwin/downloads/ashrwm-waybar-tags.janet 5", "return-type": "json", "on-click": "ashrwm-msg '(action/focus-tag 5)'" },
+"custom/tag-6": { "exec": "/home/ashwin/downloads/ashrwm-waybar-tags.janet 6", "return-type": "json", "on-click": "ashrwm-msg '(action/focus-tag 6)'" },
+"custom/tag-7": { "exec": "/home/ashwin/downloads/ashrwm-waybar-tags.janet 7", "return-type": "json", "on-click": "ashrwm-msg '(action/focus-tag 7)'" },
+"custom/tag-8": { "exec": "/home/ashwin/downloads/ashrwm-waybar-tags.janet 8", "return-type": "json", "on-click": "ashrwm-msg '(action/focus-tag 8)'" },
+"custom/tag-9": { "exec": "/home/ashwin/downloads/ashrwm-waybar-tags.janet 9", "return-type": "json", "on-click": "ashrwm-msg '(action/focus-tag 9)'" },
+"custom/ashrwm-window": {
+    "exec": "/home/ashwin/downloads/ashrwm-waybar-window.janet",
+    "return-type": "json",
+    "escape": true,
+    "max-length": 60
+},
+
   "power-profiles-daemon": {
     "format": "{icon}",
     "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
