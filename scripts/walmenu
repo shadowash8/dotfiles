@@ -9,9 +9,9 @@ list_wallpapers_for_rofi() {
     done
 }
 
-if command -v nsxiv >/dev/null; then 
-    WALLPAPER=$(nsxiv -otb "$FOLDER"/*)
-else 
+# if command -v nsxiv >/dev/null; then 
+#     WALLPAPER=$(nsxiv -otb "$FOLDER"/*)
+# else 
 
     CHOICE=$(list_wallpapers_for_rofi | rofi -dmenu -i -p "Wallpaper" \
         -show-icons \
@@ -24,10 +24,10 @@ else
     [ -z "$CHOICE" ] && exit 0
 
     WALLPAPER="$FOLDER/$CHOICE"
-fi
+# fi
 
 [ -z "$WALLPAPER" ] && exit 0
 
 ashwal --img "$WALLPAPER" --script "$SCRIPT"
 pkill swaybg
-swaybg -i $(<~/.cache/ashwal/ashwal) -m fill
+swaybg -i $(<~/.cache/ashwal/ashwal) -m fill & disown
