@@ -32,7 +32,7 @@
        [:space {:mod4 true} (action/spawn ["rofi" "-show" "drun" "-show-icons"])]
        [:Return {:mod4 true} (action/spawn ["kitty"])]
        [:v {:mod4 true} (action/spawn ["sh" "-c" "cliphist list | rofi -dmenu | cliphist decode | wl-copy"])]
-       [:t {:mod4 true} (action/spawn ["helium-browser"])]
+       [:t {:mod4 true} (action/spawn ["flatpak" "run" "app.zen_browser.zen"])]
        [:e {:mod4 true} (action/spawn ["thunar"])]
        [:w {:mod4 true} (action/spawn ["emacsclient" "-c" "-a" "emacs"])]
        [:i {:mod4 true} (action/spawn ["gtklock"])]
@@ -43,15 +43,14 @@
        [:comma {:mod4 true :ctrl true} (action/spawn ["sh" "-c" "silly"])]
        [:space {:mod4 true :shift true} (action/spawn ["sh" "-c" "notes"])]
        [:space {:mod4 true :ctrl true} (action/spawn ["walmenu"])]
-       [:space {:mod4 true :ctrl true :mod1 true} (action/spawn ["swal"])]
        #[:Tab {:mod4 true} (action/toggle-overview)]
 
        # Volume / Brightness
-       [:XF86AudioRaiseVolume {} (action/spawn ["osd" "volume" "5%+"])]
-       [:XF86AudioLowerVolume {} (action/spawn ["osd" "volume" "5%-"])]
-       [:XF86AudioMute {} (action/spawn ["osd" "volume" "toggle"])]
-       [:XF86MonBrightnessUp {} (action/spawn ["osd" "brightness" "10%+"])]
-       [:XF86MonBrightnessDown {} (action/spawn ["osd" "brightness" "10%-"])]
+       [:XF86AudioRaiseVolume {} (action/spawn ["bash" "-c" "osd volume 5%+"])]
+       [:XF86AudioLowerVolume {} (action/spawn ["bash" "-c" "osd volume 5%-"])]
+       [:XF86AudioMute {} (action/spawn ["bash" "-c" "osd volume toggle"])]
+       [:XF86MonBrightnessUp {} (action/spawn ["bash" "-c" "osd brightness 10%+"])]
+       [:XF86MonBrightnessDown {} (action/spawn ["bash" "-c" "osd brightness 10%-"])]
 
        # Screenshots
        [:Print {} (action/spawn ["sh" "-c" "screenshot clip"])]
