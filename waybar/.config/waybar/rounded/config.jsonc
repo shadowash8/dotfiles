@@ -8,9 +8,9 @@
   "margin-bottom": 0,
   "reload_style_on_change": true,
   "modules-left": [
-    "custom/user-menu",
-    "ext/workspaces",
-    "dwl/window"
+    "custom/user-menu"
+//    "ext/workspaces",
+//    "dwl/window"
   ],
   "modules-center": [
     "custom/org-clock"
