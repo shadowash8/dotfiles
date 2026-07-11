@@ -8,6 +8,8 @@
 (put config :layout :scroller)
 (put config :main-ratio 0.75)
 (put config :layouts @{2 :monocle
+                       3 :floating
+
                        4 :monocle})
 (put config :focus-wrap false)
 (put config :float-on-top true)
@@ -75,6 +77,7 @@
        [:x {:mod4 true} (action/layout :grid)]
        [:s {:mod4 true} (action/layout :scroller)]
        [:c {:mod4 true} (action/layout :monocle)]
+       [:f {:mod4 true} (action/layout :floating)]
        [:l {:mod4 true :shift true} (action/view-tag :next)]
        [:h {:mod4 true :shift true} (action/view-tag :prev)]
        [:equal {:mod4 true} (action/main-ratio 0.05)]
