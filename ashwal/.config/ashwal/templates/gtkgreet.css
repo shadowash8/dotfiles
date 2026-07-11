@@ -1,0 +1,16 @@
+window {
+  background-image: url("{wallpaper}");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: black;
+}
+
+#window-box,
+box#body {
+  padding: 64px;
+  border: 1px solid {color2};
+  border-radius: 4px;
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 4px 12px;
+  background-color: {background};
+}
