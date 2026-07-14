@@ -6,6 +6,7 @@
   "margin-top": 10,
   "spacing": 4,
   "modules-left": [
+    "ext/workspaces",  
     "network",
     "custom/vpn"
   ],
@@ -16,6 +17,19 @@
     "battery",
     "pulseaudio"
   ],
+"ext/workspaces": {
+	"format": "{name}: {icon}",
+	"on-click": "activate",
+	"format-icons": {
+		"Workspace 1": "",
+		"Workspace 2": "",
+		"Workspace 3": "",
+		"Workspace 4": "",
+		"active": "",
+		"default": ""
+	},
+	"sort-by-id": true
+},
   "clock": {
     "format": "{:%H:%M}",
     "tooltip-format": "{:%A, %B %d, %Y}"

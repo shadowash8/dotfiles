@@ -1,18 +1,11 @@
 {
   "layer": "top",
-  "position": "top",
-  "height": 30,
-  "margin-top": 8,
-  "margin-left": 4,
-  "margin-right": 4,
-  "margin-bottom": 0,
+  "position": "bottom",
+  "height": 40,
   "reload_style_on_change": true,
   "modules-left": [
     "custom/user-menu",
     "ext/workspaces"
-  ],
-  "modules-center": [
-    "custom/org-clock"
   ],
   "modules-right": [
     "group/expand",
