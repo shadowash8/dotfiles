@@ -12,7 +12,7 @@ if [ -n "$DISPLAY" ] || [ -n "$WAYLAND_DISPLAY" ]; then
     id=${id##* }
     wm=$(xprop -id "$id" -notype -len 100 -f _NET_WM_NAME 8t 2>/dev/null |
         grep '^_NET_WM_NAME' | cut -d\" -f 2)
-    [ -z "$wm" ] && wm="unknown"
+    [ -z "$wm" ] && wm="ashwc"
 else
     wm="tty"
 fi

@@ -16,7 +16,10 @@ TEMP_FILE="$HWMON_DIR/temp1_input"
 # 2. TARGETED: Fixed Iris Xe GPU Path
 GPU_FREQ_FILE="/sys/class/drm/card1/gt/gt0/rps_cur_freq_mhz"
 
-# 3. Battery Paths Auto-Sense
+# 3. CPU Frequency Path (Core 0 as baseline)
+CPU_FREQ_FILE="/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq"
+
+# 4. Battery Paths Auto-Sense
 BAT_DIR=$(ls -d /sys/class/power_supply/BAT* 2>/dev/null | head -n1)
 
 # Baseline deltas tracking
@@ -25,8 +28,8 @@ LAST_TIME=$(date +%s.%N)
 PREV_TOTAL=0
 PREV_IDLE=0
 
-# Clean CSV headers matching new columns
-echo "Timestamp,CPU_Usage(%),GPU_Freq(MHz),Temp(C),Wattage(W),RAM_Used(GB),Battery(%),Status" > "$LOG_FILE"
+# Clean CSV headers matching new columns (Added CPU_Freq)
+echo "Timestamp,CPU_Usage(%),CPU_Freq(MHz),GPU_Freq(MHz),Temp(C),Wattage(W),RAM_Used(GB),Battery(%),Status" > "$LOG_FILE"
 echo "Logging metrics to $LOG_FILE... Press [CTRL+C] to stop."
 
 while true; do
@@ -51,11 +54,13 @@ while true; do
     WATT=$(echo "scale=2; $ENERGY_DELTA / $TIME_DELTA / 1000000" | bc -l)
 
     # Gather Metrics
+    CPU_FREQ_KHZ=$(cat "$CPU_FREQ_FILE" 2>/dev/null || echo "0")
+    CPU_FREQ=$(echo "$CPU_FREQ_KHZ / 1000" | bc 2>/dev/null || echo "0")
     GPU_FREQ=$(cat "$GPU_FREQ_FILE" 2>/dev/null || echo "0")
     TEMP=$(awk '{print $1/1000}' "$TEMP_FILE" 2>/dev/null || echo "0")
     TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
 
-    # NEW: Memory Usage Calculation (Reads directly from /proc/meminfo)
+    # Memory Usage Calculation (Reads directly from /proc/meminfo)
     MEM_TOTAL=$(grep "MemTotal" /proc/meminfo | awk '{print $2}')
     MEM_AVAIL=$(grep "MemAvailable" /proc/meminfo | awk '{print $2}')
     RAM=$(echo "scale=2; ($MEM_TOTAL - $MEM_AVAIL) / 1024 / 1024" | bc)
@@ -74,9 +79,9 @@ while true; do
     LAST_TIME=$CURRENT_TIME
 
     # Format Display Columns
-    printf "%s | CPU: %5s%% | GPU: %4s MHz | Temp: %2s°C | Pwr: %5sW | RAM: %4sGB | Bat: %3s%% [%s]\n" \
-        "$TIMESTAMP" "$CPU" "$GPU_FREQ" "$TEMP" "$WATT" "$RAM" "$BAT_PCT" "$BAT_STAT"
+    printf "%s | CPU: %5s%% @ %4s MHz | GPU: %4s MHz | Temp: %2s°C | Pwr: %5sW | RAM: %4sGB | Bat: %3s%% [%s]\n" \
+        "$TIMESTAMP" "$CPU" "$CPU_FREQ" "$GPU_FREQ" "$TEMP" "$WATT" "$RAM" "$BAT_PCT" "$BAT_STAT"
         
     # Append to CSV
-    echo "$TIMESTAMP,$CPU,$GPU_FREQ,$TEMP,$WATT,$RAM,$BAT_PCT,$BAT_STAT" >> "$LOG_FILE"
+    echo "$TIMESTAMP,$CPU,$CPU_FREQ,$GPU_FREQ,$TEMP,$WATT,$RAM,$BAT_PCT,$BAT_STAT" >> "$LOG_FILE"
 done
