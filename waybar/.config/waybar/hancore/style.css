@@ -1,0 +1,173 @@
+@import "../../.cache/ashwal/colors-waybar.css";
+
+/* =========================
+   GENERAL
+   ========================= */
+* {
+  font-family: "sans", "Symbols Nerd Font Mono";
+}
+
+/* =========================
+   WAYBAR WINDOW
+   ========================= */
+window#waybar {
+  background-color: transparent;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+}
+
+window#waybar.hidden {
+  opacity: 0.2;
+}
+
+window#waybar.empty #window {
+  background-color: transparent;
+  padding: 0;
+}
+
+.modules-center {
+  border-radius: 3px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 1px 4px 2px 4px;
+  background-color: @background;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 1);
+  min-height: 15px;
+  transition-property: background-color;
+  transition-duration: 0.5s;
+}
+
+/* =========================
+   TOOLTIP
+   ========================= */
+tooltip {
+  background: @background;
+  color: @foreground;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+/* =========================
+   MODULE CONTAINERS
+   ========================= */
+button {
+  box-shadow: inset 0 -3px transparent;
+  border: none;
+  border-radius: 0;
+  transition: 0.3s ease-in-out;
+}
+
+button:hover {
+  background: inherit;
+}
+
+#workspaces {
+  background-color: @background;
+  margin: 5px;
+  padding: 0px;
+  border-radius: 3px;
+}
+
+#workspaces button {
+  color: @foreground;
+  background-color: @background;
+  padding: 0px 4px;
+  margin: 1px 1px;
+  border-radius: 2px;
+}
+
+#workspaces button.active {
+  background-color: @foreground;
+  color: @background;
+}
+
+#workspaces button.empty {
+  color: @foreground;
+  background: @background;
+  opacity: 0.35;
+}
+
+#workspaces button.empty.active {
+  color: @background;
+  background: @foreground;
+  opacity: 1;
+}
+
+#workspaces button:hover {
+  background-color: @foreground;
+  color: @background;
+  opacity: 1;
+}
+
+#tray,
+#mpris,
+#memory,
+#cpu,
+#battery,
+#network,
+#backlight,
+#bluetooth,
+#pulseaudio,
+#custom-idle-indicator,
+#custom-notification-silencing-indicator,
+#custom-updatespacman,
+#custom-update,
+#custom-screenrecording-indicator,
+#clock {
+  min-width: 14px;
+  padding-left: 3px;
+  padding-right: 3px;
+  margin: 0 2px 0 2px;
+}
+
+#tray {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+#backlight {
+  padding-right: 0px;
+  padding-left: 6px;
+}
+
+#bluetooth {
+  padding-left: 0px;
+}
+
+#bluetooth,
+#mpris,
+#memory,
+#cpu,
+#battery,
+#network,
+#backlight,
+#bluetooth,
+#pulseaudio {
+  border-radius: 3px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 1px 2px 2px 2px;
+  padding: 0 6px;
+  background-color: @background;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 1);
+  transition-property: background-color;
+  transition-duration: 0.5s;
+}
+
+#memory,
+#cpu {
+  min-width: 45px;
+}
+
+tooltip {
+  padding: 2px;
+}
+
+tooltip {
+  padding: 4px;
+  background: @background;
+  border: 2px solid alpha(@foreground, 0.2);
+  border-radius: 5px;
+}
+tooltip label {
+  color: @foreground;
+  font-weight: bold;
+}
