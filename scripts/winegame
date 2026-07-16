@@ -1,0 +1,243 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="${WINEGAME_ROOT:-$HOME/games}"
+
+usage() {
+cat <<EOF
+winegame
+
+Usage:
+  winegame new <game>
+  winegame install <game> <setup.exe>
+  winegame run [-s|--select] <game>
+  winegame tricks <game> [args...]
+  winegame cfg <game>
+  winegame regedit <game>
+  winegame shell <game>
+  winegame launch
+  winegame ls
+
+Environment:
+  WINEGAME_ROOT=$ROOT
+EOF
+}
+
+game_dir() {
+    printf "%s/%s" "$ROOT" "$1"
+}
+
+prefix() {
+    printf "%s/prefix" "$(game_dir "$1")"
+}
+
+ensure() {
+    local dir
+    dir="$(game_dir "$1")"
+
+    if [[ ! -d "$dir" ]]; then
+        echo "winegame: '$1' does not exist."
+        exit 1
+    fi
+
+    export WINEPREFIX="$(prefix "$1")"
+}
+
+pick_exe() {
+    local game="$1"
+
+    find "$ROOT/$game/files" \
+        -type f \
+        -iname "*.exe" \
+        ! -iname "unins*.exe" \
+        | sort \
+        | fzf --prompt="Run> "
+}
+
+cmd_new() {
+    local game="$1"
+
+    mkdir -p \
+        "$ROOT/$game/prefix" \
+        "$ROOT/$game/files" \
+        "$ROOT/$game/cache" \
+        "$ROOT/$game/logs"
+
+    export WINEPREFIX="$ROOT/$game/prefix"
+
+    wineboot -i
+
+    echo "Created prefix:"
+    echo "  $ROOT/$game"
+}
+
+cmd_install() {
+    local game="$1"
+    local installer
+
+    installer="$(realpath "$2")"
+
+    ensure "$game"
+
+    echo "Launching installer..."
+    echo
+    echo "Install your game somewhere under:"
+    echo "  C:\\games\\$game"
+    echo
+
+    wine "$installer"
+}
+
+cmd_run() {
+    local select=0
+
+    # 1. Handle script flags
+    if [[ "${1:-}" == "-s" || "${1:-}" == "--select" ]]; then
+        select=1
+        shift
+    fi
+
+    if [[ -z "${1:-}" ]]; then
+        echo "Error: No game specified."
+        usage
+        exit 1
+    fi
+
+    local game="$1"
+    shift # Shift the game name out
+
+    # 2. Check if the next argument is the "--" separator
+    if [[ "${1:-}" == "--" ]]; then
+        shift # Shift out "--", leaving only the game's arguments in "$@"
+    fi
+
+    ensure "$game"
+
+    local last="$ROOT/$game/.last-exe"
+    local exe=""
+
+    if [[ $select -eq 0 && -f "$last" ]]; then
+        exe="$(cat "$last")"
+
+        if [[ ! -f "$exe" ]]; then
+            exe=""
+        fi
+    fi
+
+    if [[ -z "$exe" ]]; then
+        exe="$(pick_exe "$game")"
+
+        [[ -z "$exe" ]] && exit 0
+
+        printf "%s" "$exe" > "$last"
+    fi
+
+    cd "$(dirname "$exe")"
+    exec wine "$(basename "$exe")" "$@"
+}
+
+cmd_tricks() {
+    local game="$1"
+    shift
+
+    ensure "$game"
+
+    exec winetricks "$@"
+}
+
+cmd_cfg() {
+    ensure "$1"
+    exec winecfg
+}
+
+cmd_regedit() {
+    ensure "$1"
+    exec regedit
+}
+
+cmd_shell() {
+    local game="$1"
+
+    ensure "$game"
+
+    export PS1="(wine:$game) $PS1"
+
+    exec "$SHELL"
+}
+
+cmd_launch() {
+    local game
+
+    game=$(
+        find "$ROOT" \
+            -mindepth 1 \
+            -maxdepth 1 \
+            -type d \
+            | xargs -n1 basename \
+            | sort \
+            | fzf --prompt="Game> "
+    )
+
+    [[ -z "$game" ]] && exit 0
+
+    exec "$0" run "$game"
+}
+
+cmd_ls() {
+    find "$ROOT" \
+        -mindepth 1 \
+        -maxdepth 1 \
+        -type d \
+        | xargs -n1 basename \
+        | sort
+}
+
+case "${1:-}" in
+    new)
+        [[ $# -eq 2 ]] || usage
+        cmd_new "$2"
+        ;;
+
+    install)
+        [[ $# -eq 3 ]] || usage
+        cmd_install "$2" "$3"
+        ;;
+
+    run)
+        shift
+        cmd_run "$@"
+        ;;
+
+    tricks)
+        game="$2"
+        shift 2
+        cmd_tricks "$game" "$@"
+        ;;
+
+    cfg)
+        [[ $# -eq 2 ]] || usage
+        cmd_cfg "$2"
+        ;;
+
+    regedit)
+        [[ $# -eq 2 ]] || usage
+        cmd_regedit "$2"
+        ;;
+
+    shell)
+        [[ $# -eq 2 ]] || usage
+        cmd_shell "$2"
+        ;;
+
+    launch)
+        cmd_launch
+        ;;
+
+    ls)
+        cmd_ls
+        ;;
+
+    *)
+        usage
+        ;;
+esac
