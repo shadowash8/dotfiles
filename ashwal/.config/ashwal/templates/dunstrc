@@ -17,7 +17,7 @@
     frame_color = "{color2}"
     
     font = sans:11
-    corner_radius = 12
+    corner_radius = 0
     min_icon_size = 32
     max_icon_size = 32
     format = "<b>%s</b>\n%b"
