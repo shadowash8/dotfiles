@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-FOLDER=~/pictures/wallpapers
+FOLDER=~/Pictures/Wallpapers
 SCRIPT=walup
 
 list_wallpapers_for_rofi() {

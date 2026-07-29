@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # 1. Ensure this path matches exactly where your .org files live
-folder="$HOME/org/"
+folder="$HOME/Org/"
 
 # Check for menu flag
 while [[ $# -gt 0 ]]; do

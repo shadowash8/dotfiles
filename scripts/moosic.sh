@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Configuration
-SOURCE_DIR="/home/ashwin/moosic"
-MIRROR_DIR="/home/ashwin/documents/moosic"
+SOURCE_DIR="/home/ashwin/Music"
+MIRROR_DIR="/home/ashwin/Documents/Music"
 
 # Ensure the source exists so we don't do something stupid
 if [ ! -d "$SOURCE_DIR" ]; then

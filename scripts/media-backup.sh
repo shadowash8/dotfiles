@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-SOURCE="/home/ashwin/documents/media/"
+SOURCE="/home/ashwin/Documents/Media/"
 DEST="/run/media/ashwin/HDD/Media/"
 
 # Verify source exists
