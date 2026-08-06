@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 
-systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=ashwc
-systemctl start --user ashwc-session.target
-/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 & 
-systemctl --user start xdg-desktop-portal-wlr xdg-desktop-portal
+export XDG_CURRENT_DESKTOP=ashwc
+
+dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE
+
+systemctl --user restart \
+    xdg-desktop-portal \
+    xdg-desktop-portal-wlr \
+    hypr-kdeconnect-portal
+
+systemctl --user start ashwc-session.target
+
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
