@@ -1,0 +1,5 @@
+[config]
+
+[templates.ashwc]
+input_path = "~/.config/matugen/templates/colors-ashwc.conf"
+output_path = "~/.config/ashwc/colors.conf"
