@@ -21,5 +21,7 @@ hypr/.config/hypr/hyprland.conf.*
 qutebrowser/.config/qutebrowser/quickmarks
 qutebrowser/.config/qutebrowser/bookmarks
 qutebrowser/.config/qutebrowser/bookmarks
+waybar/.config/waybar/config.jsonc
+waybar/.config/waybar/style.css
 
 glide/.config/glide/glide
