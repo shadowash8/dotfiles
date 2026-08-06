@@ -8,6 +8,7 @@
   "margin-bottom": 0,
   "reload_style_on_change": true,
   "modules-center": [
+      "custom/menu",
     "clock",
     "tray",
     "ext/workspaces",
@@ -26,8 +27,9 @@
     "cpu"
   ]
   },
-  "custom/separator": {
-      "format": "|", 
+  "custom/menu": {
+      "format": "", 
+      "on-click": "vicinae toggle",
       "tooltip": false
   },
   "ext/workspaces": {
@@ -40,7 +42,7 @@
   "cpu": {
     "interval": 2,
     "format": "<span size='10pt'></span> {icon} {usage}%",
-    "on-click": "kitty btop",
+    "on-click": "cosmic-monitor",
       "format-icons": [
       "<span size='8pt'>━━━━━━━━━━</span>",
       "<span size='8pt'>■━━━━━━━━━</span>",
@@ -58,7 +60,7 @@
   "memory": {
     "interval": 2,
     "format": "<span size='10pt'></span> {icon} {used:0.1f}G",
-    "on-click": "kitty btop",
+    "on-click": "cosmic-monitor",
       "format-icons": [
       "<span size='8pt'>━━━━━━━━━━</span>",
       "<span size='8pt'>■━━━━━━━━━</span>",
@@ -99,7 +101,7 @@
     "tooltip-format-disconnected": "Disconnected",
     "interval": 3,
     "spacing": 1,
-    "on-click": "kitty impala"
+    "on-click": "cosmic-settings network"
   },
   "battery": {
     "format": "{icon} {capacity}%",
@@ -151,12 +153,11 @@
     "format-disabled": "󰂲 {status}",
     "format-connected": "󰂱 {num_connections}",
     "tooltip-format": "Devices connected: {num_connections}",
-    "on-click": "kitty bluetoothctl"
+    "on-click": "cosmic-settings bluetooth"
   },
   "pulseaudio": {
     "format": "{icon} {volume}%",
-    "on-click": "pavucontrol",
-    "on-click-right": "pamixer -t",
+    "on-click": "cosmic-settings sound",
     "tooltip-format": "Playing at {volume}%",
     "scroll-step": 5,
     "format-muted": "",

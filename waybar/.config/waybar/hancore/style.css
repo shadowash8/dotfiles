@@ -106,7 +106,8 @@ button:hover {
 #custom-updatespacman,
 #custom-update,
 #custom-screenrecording-indicator,
-#clock {
+#clock,
+#custom-menu {
   min-width: 14px;
   padding-left: 3px;
   padding-right: 3px;
@@ -131,6 +132,7 @@ button:hover {
 #backlight,
 #bluetooth,
 #clock,
+#custom-menu,
 #pulseaudio {
   border-radius: 3px;
   padding: 0 6px;
