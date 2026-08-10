@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 TMP=$(mktemp /tmp/shot.XXXXXX.png)
-SAVEDIR="$HOME/pictures/screenshots/"
+SAVEDIR="$HOME/Pictures/Screenshots/"
 mkdir -p "$SAVEDIR"
 
 show_help() {
