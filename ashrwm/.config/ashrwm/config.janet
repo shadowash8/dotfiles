@@ -31,21 +31,21 @@
 # keybinds
 (set (config :xkb-bindings)
      @[# App launchers
-       [:space {:mod4 true} (action/spawn ["rofi" "-show" "drun" "-show-icons"])]
-       [:Return {:mod4 true} (action/spawn ["kitty"])]
-       [:v {:mod4 true} (action/spawn ["sh" "-c" "cliphist list | rofi -dmenu | cliphist decode | wl-copy"])]
-       [:t {:mod4 true} (action/spawn ["flatpak" "run" "app.zen_browser.zen"])]
-       [:e {:mod4 true} (action/spawn ["thunar"])]
-       [:w {:mod4 true} (action/spawn ["emacsclient" "-c" "-a" "emacs"])]
-       [:i {:mod4 true} (action/spawn ["gtklock"])]
-       [:p {:mod4 true} (action/spawn ["sh" "-c" "connect"])]
-       [:m {:mod4 true} (action/spawn ["kitty" "-e" "rmpc"])]
-       [:question {:mod4 true} (action/spawn ["rofi" "-show" "recursivebrowser"])]
-       [:comma {:mod4 true} (action/spawn ["sh" "-c" "solemn"])]
-       [:comma {:mod4 true :ctrl true} (action/spawn ["sh" "-c" "silly"])]
-       [:space {:mod4 true :shift true} (action/spawn ["sh" "-c" "notes"])]
-       [:space {:mod4 true :ctrl true} (action/spawn ["walmenu"])]
-       #[:Tab {:mod4 true} (action/toggle-overview)]
+       [:space {:mod1 true} (action/spawn ["rofi" "-show" "drun" "-show-icons"])]
+       [:Return {:mod1 true} (action/spawn ["kitty"])]
+       [:v {:mod1 true} (action/spawn ["sh" "-c" "cliphist list | rofi -dmenu | cliphist decode | wl-copy"])]
+       [:t {:mod1 true} (action/spawn ["flatpak" "run" "app.zen_browser.zen"])]
+       [:e {:mod1 true} (action/spawn ["thunar"])]
+       [:w {:mod1 true} (action/spawn ["emacsclient" "-c" "-a" "emacs"])]
+       [:i {:mod1 true} (action/spawn ["gtklock"])]
+       [:p {:mod1 true} (action/spawn ["sh" "-c" "connect"])]
+       [:m {:mod1 true} (action/spawn ["kitty" "-e" "rmpc"])]
+       [:question {:mod1 true} (action/spawn ["rofi" "-show" "recursivebrowser"])]
+       [:comma {:mod1 true} (action/spawn ["sh" "-c" "solemn"])]
+       [:comma {:mod1 true :ctrl true} (action/spawn ["sh" "-c" "silly"])]
+       [:space {:mod1 true :shift true} (action/spawn ["sh" "-c" "notes"])]
+       [:space {:mod1 true :ctrl true} (action/spawn ["walmenu"])]
+       #[:Tab {:mod1 true} (action/toggle-overview)]
 
        # Volume / Brightness
        [:XF86AudioRaiseVolume {} (action/spawn ["bash" "-c" "osd volume 5%+"])]
@@ -56,43 +56,43 @@
 
        # Screenshots
        [:Print {} (action/spawn ["sh" "-c" "screenshot clip"])]
-       [:Print {:mod4 true} (action/spawn ["sh" "-c" "screenshot"])]
-       [:Print {:mod4 true :shift true} (action/spawn ["sh" "-c" "screenshot ocr"])]
-       [:Print {:mod4 true :mod1 true} (action/spawn ["sh" "-c" "screenshot full"])]
-       [:Print {:mod4 true :ctrl true :shift true} (action/spawn ["sh" "-c" "screenshot color"])]
+       [:Print {:mod1 true} (action/spawn ["sh" "-c" "screenshot"])]
+       [:Print {:mod1 true :shift true} (action/spawn ["sh" "-c" "screenshot ocr"])]
+       [:Print {:mod1 true :mod1 true} (action/spawn ["sh" "-c" "screenshot full"])]
+       [:Print {:mod1 true :ctrl true :shift true} (action/spawn ["sh" "-c" "screenshot color"])]
 
        # Window management
-       [:q {:mod4 true} (action/close)]
-       [:r {:mod4 true} (action/config)]
-       [:n {:mod4 true} (action/zoom)]
-       [:j {:mod4 true} (action/focus :prev)]
-       [:k {:mod4 true} (action/focus :next)]
-       [:h {:mod4 true} (action/focus-output)]
-       [:l {:mod4 true} (action/focus-output)]
-       [:a {:mod4 true} (action/fullscreen)]
-       [:b {:mod4 true} (action/swap-main)]
-       [:d {:mod4 true} (action/sticky)]
-       [:g {:mod4 true} (action/float)]
-       [:z {:mod4 true} (action/layout :tile)]
-       [:x {:mod4 true} (action/layout :grid)]
-       [:s {:mod4 true} (action/layout :scroller)]
-       [:c {:mod4 true} (action/layout :monocle)]
-       [:f {:mod4 true} (action/layout :floating)]
-       [:l {:mod4 true :shift true} (action/view-tag :next)]
-       [:h {:mod4 true :shift true} (action/view-tag :prev)]
-       [:equal {:mod4 true} (action/main-ratio 0.05)]
-       [:minus {:mod4 true} (action/main-ratio -0.05)]
-       [:equal {:mod4 true :shift true} (action/window-ratio 0.05)]
-       [:minus {:mod4 true :shift true} (action/window-ratio -0.05)]
-       [:Escape {:mod4 true :mod1 true :shift true :ctrl true} (action/passthrough)]
-       [:q {:mod4 true :shift true} (action/exit-session)]
-       [:0 {:mod4 true} (action/focus-all-tags)]])
+       [:q {:mod1 true} (action/close)]
+       [:r {:mod1 true} (action/config)]
+       [:n {:mod1 true} (action/zoom)]
+       [:j {:mod1 true} (action/focus :prev)]
+       [:k {:mod1 true} (action/focus :next)]
+       [:h {:mod1 true} (action/focus-output)]
+       [:l {:mod1 true} (action/focus-output)]
+       [:a {:mod1 true} (action/fullscreen)]
+       [:b {:mod1 true} (action/swap-main)]
+       [:d {:mod1 true} (action/sticky)]
+       [:g {:mod1 true} (action/float)]
+       [:z {:mod1 true} (action/layout :tile)]
+       [:x {:mod1 true} (action/layout :grid)]
+       [:s {:mod1 true} (action/layout :scroller)]
+       [:c {:mod1 true} (action/layout :monocle)]
+       [:f {:mod1 true} (action/layout :floating)]
+       [:l {:mod1 true :shift true} (action/view-tag :next)]
+       [:h {:mod1 true :shift true} (action/view-tag :prev)]
+       [:equal {:mod1 true} (action/main-ratio 0.05)]
+       [:minus {:mod1 true} (action/main-ratio -0.05)]
+       [:equal {:mod1 true :shift true} (action/window-ratio 0.05)]
+       [:minus {:mod1 true :shift true} (action/window-ratio -0.05)]
+       [:Escape {:mod1 true :mod1 true :shift true :ctrl true} (action/passthrough)]
+       [:q {:mod1 true :shift true} (action/exit-session)]
+       [:0 {:mod1 true} (action/focus-all-tags)]])
 
 (for i 1 10
   (let [keysym (keyword i)]
-    (array/push (config :xkb-bindings) [keysym {:mod4 true} (action/focus-tag i)])
-    (array/push (config :xkb-bindings) [keysym {:mod4 true :shift true} (action/set-tag i)])))
+    (array/push (config :xkb-bindings) [keysym {:mod1 true} (action/focus-tag i)])
+    (array/push (config :xkb-bindings) [keysym {:mod1 true :shift true} (action/set-tag i)])))
 
 (set (config :pointer-bindings)
-     @[[:left {:mod4 true} (action/pointer-move)]
-       [:right {:mod4 true} (action/pointer-resize)]])
+     @[[:left {:mod1 true} (action/pointer-move)]
+       [:right {:mod1 true} (action/pointer-resize)]])
