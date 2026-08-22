@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="${WINEGAME_ROOT:-$HOME/games}"
+ROOT="${WINEGAME_ROOT:-$HOME/Games}"
 
 usage() {
 cat <<EOF

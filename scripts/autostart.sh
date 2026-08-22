@@ -7,7 +7,7 @@ swayidle -w \
       before-sleep "gtklock" &
 kdeconnectd &
 wlsunset -o eDP-1 -l 19 -L 74 -g 0.8 &
-
-# Clipboard stuff
 wl-paste --watch cliphist store &
+waybar &
+swaybg -i $(<~/.cache/ashwal/ashwal) -m fill &
 
