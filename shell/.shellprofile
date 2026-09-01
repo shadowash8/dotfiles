@@ -1,17 +1,17 @@
 # Vars
 export LANG=en_US.UTF-8
-export PATH="$HOME/.local/bin:$HOME/.wakatime:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 export XDG_DATA_DIRS="$HOME/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:${XDG_DATA_DIRS:-/usr/local/share:/usr/share}"
 export TERMINAL=kitty
 export EDITOR="emacsclient -n -c emacs"
 export VISUAL="emacsclient -n -c emacs"
-export XCURSOR_THEME=JuxCursor
+export XCURSOR_THEME=macOS
 export XCURSOR_SIZE=24
 export BROWSER="helium-browser"
-#export XKB_DEFAULT_LAYOUT=us
-#export XKB_DEFAULT_VARIANT=colemak_dh
+export XKB_DEFAULT_LAYOUT=us
+export XKB_DEFAULT_VARIANT=colemak_dh
 export QT_QPA_PLATFORMTHEME=qt6ct
 export XMODIFIERS=@im=fcitx
 export GTK_IM_MODULE=fcitx
@@ -22,6 +22,8 @@ export ANDROID_SDK_ROOT=~/.android
 export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$ANDROID_HOME/emulator
+
+export QT_QPA_PLATFORMTHEME=qt6ct
 
 # Alias
 alias vi="nvim"
