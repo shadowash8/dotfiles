@@ -1,5 +1,5 @@
 # ----------------------------------------
-# System generated files 
+# System generated files
 # ----------------------------------------
 *~
 *#
@@ -17,6 +17,7 @@ mango/.config/mango/dms
 mango/.config/mango/config.conf.*
 hypr/.config/hypr/dms
 hypr/.config/hypr/hyprland.conf.*
+nauka/.config/nauka/noctalia.conf
 
 qutebrowser/.config/qutebrowser/quickmarks
 qutebrowser/.config/qutebrowser/bookmarks
