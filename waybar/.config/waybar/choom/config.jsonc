@@ -1,0 +1,92 @@
+{
+  "layer": "top",
+  "position": "top",
+
+  "modules-left": ["ext/workspaces"],
+    
+  "modules-center": [
+    "custom/date",
+    "custom/time"
+  ],
+
+  "modules-right": [
+    "custom/power_mode",
+    "cpu",
+    "memory",
+    "battery",
+    "backlight",
+    "pulseaudio",
+    "network",
+    "tray"
+  ],
+
+  "custom/date": {
+    "exec": "date '+%d %b'",
+    "interval": 3600,
+    "format": "{}",
+    "tooltip": false
+  },
+
+  "custom/time": {
+    "exec": "date '+%H:%M'",
+    "interval": 30,
+    "format": "{}",
+    "tooltip": false
+  },
+
+  "cpu": {
+    "format": "CPU {usage}%",
+    "interval": 2,
+    "tooltip": true
+  },
+
+  "memory": {
+    "format": "MEM {used:0.1f}G",
+    "interval": 2
+  },
+
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "BAT {capacity}%",
+    "format-charging": "BAT +{capacity}%",
+    "format-plugged": "AC",
+    "format-full": "100%"
+  },
+
+  "backlight": {
+    "device": "intel_backlight",
+    "rotate": 0,
+    "format": "BRI {percent}%",
+    "tooltip-format": "Brightness {percent}%"
+  },
+
+  "pulseaudio": {
+    "format": "VOL {volume}%",
+    "format-muted": "--",
+    "scroll-step": 5,
+    "on-click": "pavucontrol"
+  },
+
+  "network": {
+    "format-wifi": "WLAN",
+    "format-ethernet": "LAN",
+    "format-disconnected": "OFF",
+    "tooltip-format-wifi": "{essid}"
+  },
+
+  "tray": {
+    "icon-size": 16,
+    "spacing": 6
+  },
+
+  "custom/power_mode": {
+    "exec": "powerprofilesctl get | sed 's/power-saver/{\"text\":\"P3\",\"class\":\"power-saver\"}/; s/balanced/{\"text\":\"P2\",\"class\":\"balanced\"}/; s/performance/{\"text\":\"P1\",\"class\":\"performance\"}/'",
+    "return-type": "json",
+    "interval": 5,
+    "signal": 1,
+    "on-click": "profile=$(powerprofilesctl get); case $profile in power-saver) powerprofilesctl set balanced ;; balanced) powerprofilesctl set performance ;; *) powerprofilesctl set power-saver ;; esac && pkill -SIGRTMIN+1 waybar"
+  }
+}

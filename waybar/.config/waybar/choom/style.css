@@ -1,0 +1,116 @@
+@import "../../.cache/ashwal/colors-waybar.css";
+
+* {
+  font-family: "sans";
+  font-size: 14px;
+  min-height: 0;
+  border: none;
+  border-radius: 0;
+}
+
+window#waybar {
+  background: @background;
+  color: @foreground;
+  border-bottom: 1px solid @color8;
+}
+
+/* Shared module style */
+#custom-date,
+#custom-time,
+#custom-dnd,
+#cpu,
+#memory,
+#battery,
+#pulseaudio,
+#backlight,
+#network,
+#tray,
+#custom-power_mode {
+  background: @color0;
+  margin: 3px 2px;
+  padding: 0 8px;
+  min-height: 24px;
+  font-weight: bold;
+}
+
+/* Blue accent */
+#custom-date,
+#cpu,
+#memory,
+#battery,
+#backlight,
+#custom-dnd.dnd-off,
+#custom-power_mode.power-saver {
+  color: @color12;
+  border: 1px solid @color12;
+}
+
+/* Teal accent */
+#custom-time,
+#pulseaudio,
+#network,
+#tray,
+#custom-dnd.dnd-on {
+  color: @color10;
+  border: 1px solid @color10;
+}
+
+#custom-dnd.dnd-on {
+  background: @background;
+}
+
+/* Workspaces */
+#workspaces button {
+  padding: 0 10px;
+  margin: 3px 2px;
+  background: @color0;
+  color: @color12;
+  border: 1px solid @color12;
+}
+
+#workspaces button.active {
+  background: @background;
+  color: @color10;
+  border: 1px solid @color10;
+}
+
+#workspaces button:hover {
+  background: @color10;
+  color: @background;
+}
+
+/* Clock */
+#clock {
+  font-size: 15px;
+  font-weight: bold;
+  color: @color12;
+}
+
+/* Audio */
+#pulseaudio.muted {
+  color: @color8;
+  border: 1px solid @color8;
+}
+
+/* Battery states */
+#battery.warning,
+#custom-power_mode.balanced {
+  color: @color11;
+  border: 1px solid @color11;
+}
+
+#battery.critical,
+#custom-power_mode.performance {
+  color: @color9;
+  border: 1px solid @color9;
+}
+
+/* Tray */
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  background: @color10;
+  color: @background;
+}
