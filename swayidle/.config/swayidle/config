@@ -1,0 +1,5 @@
+timeout 300 'systemctl suspend'
+
+timeout 600 'systemctl hibernate'
+
+before-sleep 'gtklock'
