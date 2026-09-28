@@ -1,7 +1,7 @@
 @import "../../.cache/ashwal/colors-waybar.css";
 
 * {
-  font-family: "sans";
+  font-family: "monospace";
   font-size: 14px;
   min-height: 0;
   border: none;
@@ -9,9 +9,8 @@
 }
 
 window#waybar {
-  background: @background;
+  background: transparent;
   color: @foreground;
-  border-bottom: 1px solid @color8;
 }
 
 /* Shared module style */
