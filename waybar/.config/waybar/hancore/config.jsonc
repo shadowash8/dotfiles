@@ -8,7 +8,7 @@
   "margin-bottom": 0,
   "reload_style_on_change": true,
   "modules-center": [
-      "custom/menu",
+    "custom/menu",
     "clock",
     "tray",
     "ext/workspaces",
@@ -22,6 +22,7 @@
     "bluetooth",
     "network",
     "pulseaudio",
+    "custom/notification",
     "battery",
     "memory",
     "cpu"
@@ -196,5 +197,9 @@
       "paused": "󰝛"
     },
     "ignored-players": ["firefox", "chromium", "brave"]
+  },
+  "custom/notification": {
+	"format": "",
+	"on-click": "swaync-client --open-panel"
   }
 }

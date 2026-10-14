@@ -104,7 +104,7 @@ button:hover {
 #custom-idle-indicator,
 #custom-notification-silencing-indicator,
 #custom-updatespacman,
-#custom-update,
+#custom-notification,
 #custom-screenrecording-indicator,
 #clock,
 #custom-menu {
@@ -133,6 +133,7 @@ button:hover {
 #bluetooth,
 #clock,
 #custom-menu,
+#custom-notification,
 #pulseaudio {
   border-radius: 3px;
   padding: 0 6px;
