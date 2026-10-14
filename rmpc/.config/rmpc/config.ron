@@ -64,6 +64,7 @@
             "2":          SwitchToTab("Albums"),
             "3":          SwitchToTab("Artists"),
             "4":          SwitchToTab("Search"),
+            "5":          SwitchToTab("Playlists"),
             "u":          Update,
             "U":          Rescan,
             "R":          AddRandom,
@@ -245,6 +246,16 @@
                 size: "100%",
                 direction: Vertical,
                 panes: [(pane: Pane(Search), size: "100%", borders: "ALL", border_symbols: Rounded)],
+            )
+        ),
+        (
+            name: "Playlists",
+            borders: "ALL",
+            border_symbols: Rounded,
+            pane: Split(
+                size: "100%",
+                direction: Vertical,
+                panes: [(pane: Pane(Playlists), size: "100%", borders: "ALL", border_symbols: Rounded)],
             )
         ),
     ],
