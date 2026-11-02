@@ -1,6 +1,10 @@
 {
   "layer": "top",
   "position": "bottom",
+  "margin-bottom": 0,
+  "margin-left": 4,
+  "margin-right": 4,
+  "margin-top": 0,
 
   "modules-left": ["ext/workspaces"],
     
