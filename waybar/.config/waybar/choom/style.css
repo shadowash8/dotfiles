@@ -27,9 +27,10 @@ window#waybar {
 #custom-power_mode {
   background: @color0;
   margin: 3px 2px;
-  padding: 0 8px;
+  padding: 0 10px;
   min-height: 24px;
   font-weight: bold;
+  border-radius: 16px;
 }
 
 /* Blue accent */
@@ -42,6 +43,7 @@ window#waybar {
 #custom-power_mode.power-saver {
   color: @color12;
   border: 1px solid @color12;
+  border-radius: 16px;
 }
 
 /* Teal accent */
@@ -65,6 +67,8 @@ window#waybar {
   background: @color0;
   color: @color12;
   border: 1px solid @color12;
+
+  border-radius: 16px;
 }
 
 #workspaces button.active {
