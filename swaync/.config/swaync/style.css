@@ -19,7 +19,7 @@ notificationwindow,
 
 .notification {
   background: @background;
-  border-radius: 8px;
+  border-radius: 0px;
   border: 1px solid @color4;
   padding: 10px 12px;
   color: @foreground;
@@ -53,7 +53,7 @@ button {
 /* Close button */
 .close-button {
   background: rgba(255, 255, 255, 0.08);
-  border-radius: 999px;
+  border-radius: 0px;
   min-width: 26px;
   min-height: 26px;
 }
@@ -65,7 +65,7 @@ button {
 /* Control center */
 .control-center {
   background: @background;
-  border-radius: 8px;
+  border-radius: 0px;
   border: 1px solid @color4;
   padding: 8px;
 }
@@ -73,7 +73,7 @@ button {
 /* Widgets */
 .widget {
   background: rgba(255, 255, 255, 0.04);
-  border-radius: 8px;
+  border-radius: 0px;
   padding: 10px 12px;
   margin: 8px;
 }
@@ -117,7 +117,7 @@ button {
 
 /* MPRIS */
 .widget-mpris-player {
-  border-radius: 8px;
+  border-radius: 0px;
 }
 
 .widget-mpris-player .mpris-overlay {
