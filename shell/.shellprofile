@@ -9,21 +9,13 @@ export EDITOR="emacsclient -n -c emacs"
 export VISUAL="emacsclient -n -c emacs"
 export XCURSOR_THEME=macOS
 export XCURSOR_SIZE=24
-export BROWSER="helium-browser"
 export XKB_DEFAULT_LAYOUT=us
 export XKB_DEFAULT_VARIANT=colemak_dh
-export QT_QPA_PLATFORMTHEME=qt6ct
-export XMODIFIERS=@im=fcitx
-export GTK_IM_MODULE=fcitx
-export QT_IM_MODULE=fcitx
-export SDL_IM_MODULE=fcitx
 export ANDROID_HOME=~/.android
 export ANDROID_SDK_ROOT=~/.android
 export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$ANDROID_HOME/emulator
-
-export QT_QPA_PLATFORMTHEME=qt6ct
 
 # Alias
 alias vi="nvim"
